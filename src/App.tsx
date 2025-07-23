@@ -1,8 +1,10 @@
 
 import React, { useState } from "react"
+import { Button } from '@heroui/react';
 
 // import {checkApiHealth,} from"./apiServices/userAuth"
 import { registerUser, type RegisterType } from "./apiServices/userAuth"
+import RegisterForm from "./components/auth/registerForm"
 
 function App() {
   const [file, setFile] = useState('');
@@ -41,7 +43,11 @@ function App() {
         onChange={handleChange}
 
       ></input>
-    </>
+       <Button>Click me</Button>;
+         <RegisterForm/>
+      </> 
+
+  
   )
 }
 
