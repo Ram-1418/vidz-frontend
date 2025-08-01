@@ -2,7 +2,7 @@
 import {  z } from 'zod/v4';
 const registerSchema = z.object({
     username: z.string().min(3, { message: 'Username is required' }),
-    email: z.string().email({ message: 'Email is required and must be valid' }),
+    email: z.email({ message: 'Email is required and must be valid' }),
     fullName: z.string().min(1, { message: 'Full name is required' }),
      avatar: z
     .instanceof(File, { message: 'Avatar is required and must be a file' })

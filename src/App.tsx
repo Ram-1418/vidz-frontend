@@ -5,6 +5,7 @@ import { Button } from '@heroui/react';
 // import {checkApiHealth,} from"./apiServices/userAuth"
 import { registerUser, type RegisterType } from "./apiServices/userAuth"
 import RegisterForm from "./components/auth/registerForm"
+import LoginWithUsername from "./components/loginwithusername";
 
 function App() {
   const [file, setFile] = useState('');
@@ -45,6 +46,7 @@ function App() {
       ></input>
        <Button>Click me</Button>;
          <RegisterForm/>
+         <LoginWithUsername/>
       </> 
 
   

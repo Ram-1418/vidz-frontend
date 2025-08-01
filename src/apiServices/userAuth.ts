@@ -1,4 +1,4 @@
-import { form } from "framer-motion/client"
+
 import { apiBaseUrl } from "../lib/constsants"
 import axios from "axios"
 
@@ -73,4 +73,19 @@ async function registerUser(userData: RegisterType) {
    }
 
 }
-export { checkApiHealth, registerUser }
+
+   async function loginWithUsername(username:string,password:string) {
+      try {
+         const response= await axios.post(`${apiBaseUrl}/users/login`,{
+            username,
+            password,
+              
+         }, {  withCredentials: true})
+         console.log("Login Success",response.data)
+      } catch (error) {
+         console.error("Login Failed",error)
+         throw error
+      }
+      
+   }
+export { checkApiHealth, registerUser,loginWithUsername }
