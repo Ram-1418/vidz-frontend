@@ -88,4 +88,15 @@ async function registerUser(userData: RegisterType) {
       }
       
    }
-export { checkApiHealth, registerUser,loginWithUsername }
+
+   async function getCurrentUser() {
+      try {
+         const response =await axios.get(`${apiBaseUrl}/users/current-user`,{withCredentials:true})
+         console.log("getCurrent users",response.data)
+      } catch (error) {
+         console.log("getCurrent user sucessfuly",)
+         
+      }
+      
+   }
+export { checkApiHealth, registerUser,loginWithUsername,getCurrentUser }

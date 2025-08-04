@@ -47,6 +47,7 @@ const RegisterForm = () => {
       {errors.password && <p style={{ color: 'red' }}>{errors.password.message}</p>}
 
       <button type="submit">Submit</button>
+     
     </form>
   );
 };

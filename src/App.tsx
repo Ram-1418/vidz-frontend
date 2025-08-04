@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import { Button } from '@heroui/react';
 
 // import {checkApiHealth,} from"./apiServices/userAuth"
-import { registerUser, type RegisterType } from "./apiServices/userAuth"
+import { getCurrentUser, registerUser, type RegisterType } from "./apiServices/userAuth"
 import RegisterForm from "./components/auth/registerForm"
 import LoginWithUsername from "./components/loginwithusername";
 
@@ -44,6 +44,9 @@ function App() {
         onChange={handleChange}
 
       ></input>
+
+
+       <button onClick={getCurrentUser}>get</button>
        <Button>Click me</Button>;
          <RegisterForm/>
          <LoginWithUsername/>
