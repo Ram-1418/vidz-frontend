@@ -1,11 +1,12 @@
 
 import React, { useState } from "react"
-import { Button } from '@heroui/react';
+
 
 // import {checkApiHealth,} from"./apiServices/userAuth"
 import { getCurrentUser, registerUser, type RegisterType } from "./apiServices/userAuth"
 import RegisterForm from "./components/auth/registerForm"
 import LoginWithUsername from "./components/loginwithusername";
+import { getVideoUploadSignature } from "./apiServices/videoService";
 
 function App() {
   const [file, setFile] = useState('');
@@ -47,9 +48,10 @@ function App() {
 
 
        <button onClick={getCurrentUser}>get</button>
-       <Button>Click me</Button>;
+    <button onClick={getVideoUploadSignature}>getsign</button>
          <RegisterForm/>
          <LoginWithUsername/>
+
       </> 
 
   
