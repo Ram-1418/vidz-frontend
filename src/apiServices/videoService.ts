@@ -1,6 +1,14 @@
-import axios from "axios";
+import axios, { Axios, formToJSON } from "axios";
 import { apiBaseUrl } from "../lib/constsants";
-import errorsToRecord from "@hookform/resolvers/io-ts/dist/errorsToRecord.js";
+ 
+
+type SignatueType={
+  apiKey:string,
+  cloudName:string,
+  signature:string,
+  folder:string,
+  timestamp:string,
+}
 
 
 async function getVideoUploadSignature() {
@@ -15,7 +23,34 @@ async function getVideoUploadSignature() {
    }
     
 }
+async function  uploadVideoToCloudinary(
+  videoFile: File,
+  {apiKey,cloudName,signature,folder,timestamp}:SignatueType
+) {
+  try {
+    const formData= new FormData();
+    formData.append("file",videoFile)
+    formData.append("api_key",apiKey)
+    formData.append("timestamp",timestamp)
+    formData.append("signature",signature);
 
+    if(folder) formData.append("folder",folder)
+
+
+ const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${cloudName}/video/upload`;
+
+
+ const response= await axios.post(cloudinaryUrl,formData,{
+    onUploadProgress:(progressEvent)=>{
+      console.log(Number(progressEvent.progress) * 100)
+    }
+ })
+    return response.data
+  } catch (error) {
+    console.log(` error while uploadin on clodniary${error}`)
+    return error
+  }
+}
 async function uploadVideo() {
     try {
         const signature=getVideoUploadSignature();
@@ -24,9 +59,9 @@ async function uploadVideo() {
         }
         
     } catch (error) {
-        
+        console.log(error)
     }
     
 }
 
-export {getVideoUploadSignature}
+export {getVideoUploadSignature,uploadVideoToCloudinary}

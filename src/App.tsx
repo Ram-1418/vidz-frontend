@@ -6,7 +6,8 @@ import React, { useState } from "react"
 import { getCurrentUser, registerUser, type RegisterType } from "./apiServices/userAuth"
 import RegisterForm from "./components/auth/registerForm"
 import LoginWithUsername from "./components/loginwithusername";
-import { getVideoUploadSignature } from "./apiServices/videoService";
+import { getVideoUploadSignature, uploadVideoToCloudinary } from "./apiServices/videoService";
+
 
 function App() {
   const [file, setFile] = useState('');
@@ -36,10 +37,23 @@ function App() {
   }
 
 
+  const handleViddeoUpload=async(e:React.ChangeEvent<HTMLInputElement>)=>{
+     const file=e.target.files?.[0];
+     if(!file){
+      return Error('file doesnot upload')
+     }
+     const signeture= await getVideoUploadSignature();
+     await uploadVideoToCloudinary(file,signeture)
+
+
+
+  }
+
+
 
   return (
     <>
-      <button onClick={handle}>clcick me</button>
+       <button onClick={handle}>clcick me</button>
       <input
         type="file"
         onChange={handleChange}
@@ -49,8 +63,14 @@ function App() {
 
        <button onClick={getCurrentUser}>get</button>
     <button onClick={getVideoUploadSignature}>getsign</button>
+
          <RegisterForm/>
-         <LoginWithUsername/>
+         <LoginWithUsername/> 
+
+
+         <form>
+          <input onChange={handleViddeoUpload} type="file" name="file " />
+         </form>
 
       </> 
 
