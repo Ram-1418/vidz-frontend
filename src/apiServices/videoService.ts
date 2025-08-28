@@ -53,10 +53,12 @@ async function  uploadVideoToCloudinary(
 }
 async function uploadVideo() {
     try {
-        const signature=getVideoUploadSignature();
+        const signature=await getVideoUploadSignature();
         if (!signature) {
             throw new Error("Failed to generate signatue")
         }
+
+        
         
     } catch (error) {
         console.log(error)

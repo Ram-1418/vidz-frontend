@@ -1,13 +1,12 @@
-
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./node_modules/@heroui/theme/dist/components/(button|ripple|spinner).js",
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {},
   },
-  darkMode: "class",
-
+  darkMode: "class", // you can also set 'media' if you prefer
+  plugins: [],
 };
