@@ -29,7 +29,8 @@ const LoginWithUsername = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}
+    className='max-w-md mx-auto bg-white dark:bg-neutral-900 p-6 rounded-2xl  shadow-md space-y-4'>
       <input {...register('username')} placeholder="Enter username" />
       {errors.username && <p style={{ color: 'red' }}>{errors.username.message}</p>}
 
