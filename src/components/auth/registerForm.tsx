@@ -25,7 +25,9 @@ const RegisterForm = () => {
       onSubmit={handleSubmit(onsubmit)}
       className="max-w-md mx-auto bg-white dark:bg-neutral-900 p-6 rounded-2xl shadow-md space-y-4"
     >
-      <h2 className="text-2xl font-semibold text-center mb-4">Create Account</h2>
+      <h2 className="text-2xl font-semibold text-center mb-4">
+        Create Account
+      </h2>
 
       {/* Username */}
       <div>

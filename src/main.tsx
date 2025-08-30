@@ -1,11 +1,32 @@
-
 import { createRoot } from 'react-dom/client'
-
 import './index.css'
-import App from './App.tsx'
+import React from 'react'
 
+import { 
+  Route, 
+  RouterProvider, 
+  createBrowserRouter, 
+  createRoutesFromElements 
+} from 'react-router-dom'
+
+import RegisterForm from './components/auth/registerForm.tsx'
+import LoginWithUsername from './components/loginwithusername.tsx'
+
+// ✅ Create router
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    
+    <Route path='/'>
+      <Route path="" element={<RegisterForm />} />
+      <Route path="login" element={<LoginWithUsername />} />
+        
+    </Route>
+  )
+)
+
+// ✅ Render app
 createRoot(document.getElementById('root')!).render(
-
-    <App />
-
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
 )

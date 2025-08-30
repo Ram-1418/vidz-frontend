@@ -81,6 +81,22 @@ async function loginWithUsername(username: string, password: string) {
     throw error;
   }
 }
+async function loginWithEmail(email: string, password: string) {
+  try {
+    const response = await axios.post(
+      `${apiBaseUrl}/users/login`,
+      {
+        email,
+        password,
+      },
+      { withCredentials: true }
+    );
+    console.log("Login Success", response.data);
+  } catch (error) {
+    console.error("Login Failed", error);
+    throw error;
+  }
+}
 
 async function getCurrentUser() {
   try {
@@ -92,4 +108,4 @@ async function getCurrentUser() {
     console.log("getCurrent user sucessfuly");
   }
 }
-export { checkApiHealth, registerUser, loginWithUsername, getCurrentUser };
+export { checkApiHealth, registerUser, loginWithUsername, getCurrentUser ,loginWithEmail};

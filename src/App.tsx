@@ -1,14 +1,15 @@
 import React, { useEffect } from "react";
 import RegisterForm from "./components/auth/registerForm";
-import LoginWithEmail from "./components/logainwithEmail";
+
 import LoginWithUsername from "./components/loginwithusername";
-import { getCurrentUser } from "./apiServices/userAuth";
-import { Button } from "./components/ui/button";
+import { getCurrentUser, registerUser } from "./apiServices/userAuth";
+
+
 
 const App = () => {
   useEffect(() => {
     handleClick();
-  });
+  }, []);
 
   function handleClick() {
     getCurrentUser();
@@ -16,8 +17,6 @@ const App = () => {
   return (
     <div>
       <RegisterForm />
-      <LoginWithUsername />
-      <LoginWithEmail />
     </div>
   );
 };
