@@ -1,83 +1,28 @@
-import React from 'react'
-import RegisterForm from './components/auth/registerForm'
-import LoginWithEmail from './components/logainwithEmail'
-import LoginWithUsername from './components/loginwithusername'
+import React, { useEffect } from "react";
+import RegisterForm from "./components/auth/registerForm";
+import LoginWithEmail from "./components/logainwithEmail";
+import LoginWithUsername from "./components/loginwithusername";
+import { getCurrentUser } from "./apiServices/userAuth";
+import { Button } from "./components/ui/button";
 
 const App = () => {
+  useEffect(() => {
+    handleClick();
+  });
+
+  function handleClick() {
+    getCurrentUser();
+  }
   return (
     <div>
-      <RegisterForm/>
-      <LoginWithUsername/>
-      <LoginWithEmail/>
-
+      <RegisterForm />
+      <LoginWithUsername />
+      <LoginWithEmail />
     </div>
-  )
-}
+  );
+};
 
-export default App
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default App;
 
 // import React, { useState } from "react";
 
