@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import RegisterForm from "./components/auth/registerForm";
 
-import LoginWithUsername from "./components/loginwithusername";
+
 import { getCurrentUser, registerUser } from "./apiServices/userAuth";
 
 
@@ -15,7 +15,7 @@ const App = () => {
     getCurrentUser();
   }
   return (
-    <div>
+    <div className="bg-black text-white min-h-screen">
       <RegisterForm />
     </div>
   );

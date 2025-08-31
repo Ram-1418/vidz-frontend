@@ -108,4 +108,27 @@ async function getCurrentUser() {
     console.log("getCurrent user sucessfuly");
   }
 }
-export { checkApiHealth, registerUser, loginWithUsername, getCurrentUser ,loginWithEmail};
+
+
+
+// const apiBaseUrl = "http://localhost:8000/api/v1"; // adjust if needed
+
+async function logoutUser() {
+  try {
+    const response = await axios.post(
+      `${apiBaseUrl}/users/logout`,
+      {},
+      { withCredentials: true } // ✅ ensures cookies (accessToken) are sent
+    );
+    return response.data;
+  } catch (error: any) {
+    console.error("Logout failed:", error.response?.data || error.message);
+    throw error;
+  }
+}
+
+
+
+  
+
+export { checkApiHealth, registerUser, loginWithUsername, getCurrentUser ,loginWithEmail,logoutUser};

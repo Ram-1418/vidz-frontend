@@ -23,7 +23,7 @@ const RegisterForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onsubmit)}
-      className="max-w-md mx-auto bg-white dark:bg-neutral-900 p-6 rounded-2xl shadow-md space-y-4"
+      className="max-w-md mx-auto bg-white dark:bg-neutral-900 p-6 rounded-2xl shadow-md space-y-4 mt-9"
     >
       <h2 className="text-2xl font-semibold text-center mb-4">
         Create Account
