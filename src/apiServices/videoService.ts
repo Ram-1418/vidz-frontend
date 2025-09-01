@@ -1,5 +1,6 @@
 import axios, { Axios, formToJSON } from "axios";
 import { apiBaseUrl } from "../lib/constsants";
+import { string } from "zod";
  
 
 type SignatueType={
@@ -51,19 +52,34 @@ async function  uploadVideoToCloudinary(
     return error
   }
 }
-async function uploadVideo() {
-    try {
-        const signature=await getVideoUploadSignature();
-        if (!signature) {
-            throw new Error("Failed to generate signatue")
-        }
+ async function uploadVideo(videoFile: File, title: string) {
+  try {
+    const signature = await getVideoUploadSignature();
+    if (!signature) throw new Error("Failed to generate signature");
 
-        
-        
-    } catch (error) {
-        console.log(error)
-    }
-    
+    // Upload to Cloudinary
+    const uploadedVideo = await uploadVideoToCloudinary(videoFile, signature);
+
+    // Save video details in backend
+    const response = await axios.post(
+      `${apiBaseUrl}/videos`,
+      {
+        title, // ✅ send title
+        videoUrl: uploadedVideo.secure_url,
+        publicId: uploadedVideo.public_id,
+        duration: uploadedVideo.duration,
+      },
+      { withCredentials: true }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error in uploadVideo:", error);
+    throw error;
+  }
 }
 
-export {getVideoUploadSignature,uploadVideoToCloudinary}
+
+  
+
+export {getVideoUploadSignature,uploadVideoToCloudinary,uploadVideo}

@@ -12,6 +12,7 @@ import {
 import RegisterForm from './components/auth/registerForm.tsx'
 import LoginWithUsername from './components/loginwithusername.tsx'
 import LogoutButton from './components/LogoutButton.tsx'
+import VideoUpload from './components/VideoUpload.tsx'
 
 // ✅ Create router
 const router = createBrowserRouter(
@@ -21,6 +22,7 @@ const router = createBrowserRouter(
       <Route path="" element={<RegisterForm />} />
       <Route path="login" element={<LoginWithUsername />} />
       <Route path='logout' element={<LogoutButton/>}/>
+      <Route path='fileupload' element={<VideoUpload/>}/>
         
     </Route>
   )
