@@ -5,6 +5,7 @@ const VideoUpload = () => {
   const [file, setFile] = useState<File | null>(null);
   const [title, setTitle] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [description, setDescription] = useState<string>("");
 
   const handleUpload = async () => {
     if (!file) {
@@ -15,17 +16,22 @@ const VideoUpload = () => {
       alert("Please enter a title");
       return;
     }
+    if (!description.trim()) {
+      alert("Please enter a description");
+      return;
+    }
 
     try {
       setLoading(true);
-      const response = await uploadVideo(file, title);
+      const response = await uploadVideo(file, title, description);
       console.log("Uploaded Video Response:", response);
       alert("✅ Video uploaded successfully!");
       setTitle("");
       setFile(null);
+      setDescription("");
     } catch (error) {
       console.error("Upload failed", error);
-      alert("❌ Upload failed. Check console.");
+    
     } finally {
       setLoading(false);
     }
@@ -44,6 +50,15 @@ const VideoUpload = () => {
           placeholder="Enter video title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+
+        {/* Description Input */}
+        <input
+          type="text"
+          placeholder="Enter video description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
 

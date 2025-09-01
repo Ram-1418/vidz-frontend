@@ -1,7 +1,6 @@
-import axios, { Axios, formToJSON } from "axios";
+import axios, { Axios,  } from "axios";
 import { apiBaseUrl } from "../lib/constsants";
-import { string } from "zod";
- 
+
 
 type SignatueType={
   apiKey:string,
@@ -51,8 +50,8 @@ async function  uploadVideoToCloudinary(
     console.log(` error while uploadin on clodniary${error}`)
     return error
   }
-}
- async function uploadVideo(videoFile: File, title: string) {
+} 
+ async function uploadVideo(videoFile: File, title: string,description:string) {
   try {
     const signature = await getVideoUploadSignature();
     if (!signature) throw new Error("Failed to generate signature");
@@ -64,7 +63,8 @@ async function  uploadVideoToCloudinary(
     const response = await axios.post(
       `${apiBaseUrl}/videos`,
       {
-        title, // ✅ send title
+        title,
+        description, // ✅ send title
         videoUrl: uploadedVideo.secure_url,
         publicId: uploadedVideo.public_id,
         duration: uploadedVideo.duration,
