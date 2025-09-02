@@ -6,6 +6,7 @@ const VideoUpload = () => {
   const [title, setTitle] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [description, setDescription] = useState<string>("");
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
 
   const handleUpload = async () => {
     if (!file) {
@@ -20,10 +21,14 @@ const VideoUpload = () => {
       alert("Please enter a description");
       return;
     }
+    if (!thumbnailFile) {
+      alert("Please enter a description");
+      return;
+    }
 
     try {
       setLoading(true);
-      const response = await uploadVideo(file, title, description);
+      const response = await uploadVideo(file, title, description, thumbnailFile);
       console.log("Uploaded Video Response:", response);
       alert("✅ Video uploaded successfully!");
       setTitle("");
@@ -69,7 +74,12 @@ const VideoUpload = () => {
           onChange={(e) => setFile(e.target.files?.[0] || null)}
           className="w-full px-3 py-2 mb-4 text-sm text-gray-600 border border-gray-300 rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setThumbnailFile(e.target.files?.[0] || null)}
+          className="w-full px-3 py-2 mb-4 text-sm text-gray-600 border border-gray-300 rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
         {/* Upload Button */}
         <button
           onClick={handleUpload}

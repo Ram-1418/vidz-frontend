@@ -51,7 +51,7 @@ async function  uploadVideoToCloudinary(
     return error
   }
 } 
- async function uploadVideo(videoFile: File, title: string,description:string) {
+ async function uploadVideo(videoFile: File, title: string,description:string, thumbnail:File) {
   try {
     const signature = await getVideoUploadSignature();
     if (!signature) throw new Error("Failed to generate signature");
@@ -60,15 +60,18 @@ async function  uploadVideoToCloudinary(
     const uploadedVideo = await uploadVideoToCloudinary(videoFile, signature);
 
     // Save video details in backend
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("videoFile", uploadedVideo.secure_url);
+    formData.append("duration", uploadedVideo.duration.toString());
+    if (thumbnail) {
+      formData.append("thumbnail", thumbnail);
+    }
+
     const response = await axios.post(
       `${apiBaseUrl}/videos`,
-      {
-        title,
-        description, // ✅ send title
-        videoUrl: uploadedVideo.secure_url,
-        publicId: uploadedVideo.public_id,
-        duration: uploadedVideo.duration,
-      },
+      formData,
       { withCredentials: true }
     );
 
