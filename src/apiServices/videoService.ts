@@ -82,7 +82,19 @@ async function  uploadVideoToCloudinary(
   }
 }
 
+async function getAllVideo() {
+  try {
+    const response = await axios.get(`${apiBaseUrl}/videos`, {
+      withCredentials: true
+    });
+    console.log('response.data', response.data)
+    return response.data;  
+  } catch (error) {
+    console.log("Error fetching videos:", error);
+    throw error;
+  }
+}
 
   
 
-export {getVideoUploadSignature,uploadVideoToCloudinary,uploadVideo}
+export {getVideoUploadSignature,uploadVideoToCloudinary,uploadVideo,getAllVideo}
