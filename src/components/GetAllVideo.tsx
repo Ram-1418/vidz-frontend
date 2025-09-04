@@ -18,6 +18,7 @@ const GetAllVideo = () => {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
+        console.log('response')
         const response = await getAllVideo();
         const videosData = response.data.docs
         setVideos(videosData)
