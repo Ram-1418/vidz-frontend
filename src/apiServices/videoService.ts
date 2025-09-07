@@ -1,5 +1,7 @@
 import axios, { Axios,  } from "axios";
 import { apiBaseUrl } from "../lib/constsants";
+import { file } from "zod";
+
 
 
 type SignatueType={
@@ -51,27 +53,55 @@ async function  uploadVideoToCloudinary(
     return error
   }
 } 
- async function uploadVideo(videoFile: File, title: string,description:string, thumbnail:File) {
+async function uploadImageToCloudinary(
+  imageFile: File,
+  { apiKey, cloudName, signature, folder, timestamp }: SignatueType
+) {
+  try {
+    const formData = new FormData();
+    formData.append("file", imageFile);
+    formData.append("api_key", apiKey);
+    formData.append("timestamp", timestamp);
+    formData.append("signature", signature);
+
+    if (folder) formData.append("folder", folder);
+
+    const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+
+    const response = await axios.post(cloudinaryUrl, formData);
+    return response.data;
+  } catch (error) {
+    console.error("Error uploading image to Cloudinary", error);
+    throw error;
+  }
+}
+async function uploadVideo(
+  videoFile: File,
+  title: string,
+  description: string,
+  thumbnail: File
+) {
   try {
     const signature = await getVideoUploadSignature();
     if (!signature) throw new Error("Failed to generate signature");
 
-    // Upload to Cloudinary
+    // Upload video
     const uploadedVideo = await uploadVideoToCloudinary(videoFile, signature);
 
-    // Save video details in backend
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("videoFile", uploadedVideo.secure_url);
-    formData.append("duration", uploadedVideo.duration.toString());
-    if (thumbnail) {
-      formData.append("thumbnail", thumbnail);
-    }
+    // Upload thumbnail
+    const uploadedThumbnail = await uploadImageToCloudinary(thumbnail, signature);
 
+    // Save video + thumbnail details in backend
     const response = await axios.post(
       `${apiBaseUrl}/videos`,
-      formData,
+      {
+        title,
+        description,
+        videoUrl: uploadedVideo.secure_url,
+        publicId: uploadedVideo.public_id,
+        duration: uploadedVideo.duration,
+        thumbnail: uploadedThumbnail.secure_url, // ✅ Add thumbnail URL
+      },
       { withCredentials: true }
     );
 
@@ -97,4 +127,4 @@ async function getAllVideo() {
 
   
 
-export {getVideoUploadSignature,uploadVideoToCloudinary,uploadVideo,getAllVideo}
+export {getVideoUploadSignature,uploadVideoToCloudinary,uploadVideo,getAllVideo,uploadImageToCloudinary}
