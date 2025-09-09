@@ -88,22 +88,23 @@ async function uploadVideo(
     // Upload video
     const uploadedVideo = await uploadVideoToCloudinary(videoFile, signature);
 
-    // Upload thumbnail
-    const uploadedThumbnail = await uploadImageToCloudinary(thumbnail, signature);
+   // Create FormData object
+const formData = new FormData();
+formData.append("title", title);
+formData.append("description", description);
+formData.append("videoFile", uploadedVideo.secure_url);
+// formData.append("publicId", uploadedVideo.public_id);
+formData.append("duration", uploadedVideo.duration);
+formData.append("thumbnail", thumbnail); // If thumbnail is a file, pass the file object
 
-    // Save video + thumbnail details in backend
-    const response = await axios.post(
-      `${apiBaseUrl}/videos`,
-      {
-        title,
-        description,
-        videoUrl: uploadedVideo.secure_url,
-        publicId: uploadedVideo.public_id,
-        duration: uploadedVideo.duration,
-        thumbnail: uploadedThumbnail.secure_url, // ✅ Add thumbnail URL
-      },
-      { withCredentials: true }
-    );
+// Send request with form-data
+const response = await axios.post(`${apiBaseUrl}/videos`, formData, {
+  withCredentials: true,
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+});
+
 
     return response.data;
   } catch (error) {

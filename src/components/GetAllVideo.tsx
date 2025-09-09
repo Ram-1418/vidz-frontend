@@ -5,8 +5,8 @@ type VideoType = {
   _id: string;
   title: string;
   description: string;
-  videoUrl: string;
-  thumbnailUrl: string;
+  videoFile: string;
+  thumbnail: string;
   duration: number;
 };
 
@@ -20,7 +20,9 @@ const VideoList = () => {
       try {
         setLoading(true);
         const data = await getAllVideo();
-        setVideos(data);
+        const videos=data?.data.docs
+        console.log('data', data)
+        setVideos(videos);
       } catch (error) {
         console.error("❌ Failed to fetch videos:", error);
       } finally {
@@ -56,7 +58,7 @@ const VideoList = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
-      {videos.map((video) => (
+      {videos?.map((video) => (
         <div
           key={video._id}
           className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition"
@@ -65,7 +67,7 @@ const VideoList = () => {
           <div className="relative w-full h-48 bg-black cursor-pointer">
             {playingVideoId === video._id ? (
               <video
-                src={video.videoUrl}
+                src={video.videoFile}
                 controls
                 autoPlay
                 className="w-full h-full object-cover"
@@ -73,7 +75,7 @@ const VideoList = () => {
             ) : (
               <>
                 <img
-                  src={video.thumbnailUrl}
+                  src={video.thumbnail}
                   alt={video.title}
                   className="w-full h-full object-cover"
                   onClick={() => setPlayingVideoId(video._id)}
