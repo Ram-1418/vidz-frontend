@@ -1,16 +1,8 @@
-import React,{useEffect} from "react"
+import React from 'react'
 
 const RefreshSession = () => {
-
-     useEffect(() => {
-      
-      }, [])
-
   return (
-    <div>
-     
-      
-    </div>
+    <div>RefreshSession</div>
   )
 }
 

@@ -21,6 +21,7 @@ const VideoList = () => {
         setLoading(true);
         const data = await getAllVideo();
         const videos=data?.data.docs
+        console.log(videos)
         console.log('data', data)
         setVideos(videos);
       } catch (error) {
