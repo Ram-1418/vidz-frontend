@@ -15,14 +15,19 @@ const RegisterForm = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  const onsubmit = (data: RegisterType) => {
+ const onSubmit = async (data: RegisterType) => {
+  try {
     console.log("✅ Submitted data:", data);
-    registerUser(data);
-  };
+    await registerUser(data);
+  } catch (err) {
+    console.error("❌ Registration failed:", err);
+  }
+};
+
 
   return (
     <form
-      onSubmit={handleSubmit(onsubmit)}
+      onSubmit={handleSubmit(onSubmit)}
       className="max-w-md mx-auto bg-white dark:bg-neutral-900 p-6 rounded-2xl shadow-md space-y-4 mt-9"
     >
       <h2 className="text-2xl font-semibold text-center mb-4">
@@ -31,6 +36,7 @@ const RegisterForm = () => {
 
       {/* Username */}
       <div>
+        <label htmlFor="username"  className="block text-sm font-medium">Username</label>
         <input
           {...register("username")}
           placeholder="Enter a username"
