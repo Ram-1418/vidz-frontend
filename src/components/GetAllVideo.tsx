@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getAllVideo } from "@/apiServices/videoService";
 
 type VideoType = {
@@ -10,19 +11,16 @@ type VideoType = {
   duration: number;
 };
 
-const VideoList = () => {
+const VideoList: React.FC = () => {
   const [videos, setVideos] = useState<VideoType[]>([]);
   const [loading, setLoading] = useState(true);
-  const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchVideos = async () => {
       try {
         setLoading(true);
         const data = await getAllVideo();
-        const videos=data?.data.docs
-        console.log(videos)
-        console.log('data', data)
+        const videos = data?.data.docs;
         setVideos(videos);
       } catch (error) {
         console.error("❌ Failed to fetch videos:", error);
@@ -59,34 +57,23 @@ const VideoList = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
-      {videos?.map((video) => (
+      {videos.map((video) => (
         <div
           key={video._id}
           className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition"
         >
-          {/* Thumbnail / Video */}
-          <div className="relative w-full h-48 bg-black cursor-pointer">
-            {playingVideoId === video._id ? (
-              <video
-                src={video.videoFile}
-                controls
-                autoPlay
-                className="w-full h-full object-cover"
+          {/* Thumbnail with Link */}
+          <div className="relative w-full h-48 bg-black">
+            <Link to={`/video/${video._id}`}>
+              <img
+                src={video.thumbnail}
+                alt={video.title}
+                className="w-full h-full object-cover cursor-pointer"
               />
-            ) : (
-              <>
-                <img
-                  src={video.thumbnail}
-                  alt={video.title}
-                  className="w-full h-full object-cover"
-                  onClick={() => setPlayingVideoId(video._id)}
-                />
-                {/* Duration */}
-                <span className="absolute bottom-2 right-2 bg-black text-white text-xs px-2 py-1 rounded">
-                  {formatDuration(video.duration)}
-                </span>
-              </>
-            )}
+              <span className="absolute bottom-2 right-2 bg-black text-white text-xs px-2 py-1 rounded">
+                {formatDuration(video.duration)}
+              </span>
+            </Link>
           </div>
 
           {/* Video Info */}
