@@ -63,7 +63,7 @@ const LoginWithUsername = () => {
           <div>
             <input
               {...register("value")}
-              placeholder="Enter username"
+              placeholder="Enter username or email"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                          focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -80,6 +80,7 @@ const LoginWithUsername = () => {
               type="password"
               {...register("password")}
               placeholder="Enter password"
+                autoComplete="current-password"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                          focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
