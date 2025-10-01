@@ -11,7 +11,7 @@ import {
   Bookmark,
   Heart,
   Download,
-  X
+  X,
 } from "lucide-react";
 
 type SidebarProps = {
@@ -31,7 +31,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
     "Sports",
     "Courses",
     "Fashion & Beauty",
-    "Podcasts"
+    "Podcasts",
   ];
 
   return (
@@ -50,39 +50,65 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
       </div>
 
       {/* Explore Section */}
-    
 
       {/* Main Links */}
       <nav className="flex flex-col gap-2 p-4 text-sm font-medium overflow-y-auto">
-        <Link to="/" className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded">
+        <Link
+          to="/"
+          className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded"
+        >
           <Home className="w-5 h-5" /> Home
         </Link>
-        <Link to="/you" className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded">
+        <Link
+          to="/you"
+          className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded"
+        >
           <User className="w-5 h-5" /> You
         </Link>
-        <Link to="/history" className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded">
+        <Link
+          to="/history"
+          className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded"
+        >
           <Clock className="w-5 h-5" /> History
         </Link>
-        <Link to="/playlists" className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded">
+        <Link
+          to="/playlists"
+          className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded"
+        >
           <ListVideo className="w-5 h-5" /> Playlists
         </Link>
-        <Link to="/your-videos" className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded">
+        <Link
+          to="/your-videos"
+          className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded"
+        >
           <Video className="w-5 h-5" /> Your videos
         </Link>
-        <Link to="/courses" className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded">
+        <Link
+          to="/courses"
+          className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded"
+        >
           <BookOpen className="w-5 h-5" /> Your courses
         </Link>
-        <Link to="/watch-later" className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded">
+        <Link
+          to="/watch-later"
+          className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded"
+        >
           <Bookmark className="w-5 h-5" /> Watch later
         </Link>
-        <Link to="/liked" className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded">
+        <Link
+          to="/liked"
+          className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded"
+        >
           <Heart className="w-5 h-5" /> Liked videos
         </Link>
-        <Link to="/downloads" className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded">
+        <Link
+          to="/downloads"
+          className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded"
+        >
           <Download className="w-5 h-5" /> Downloads
         </Link>
       </nav>
-        <nav className="flex flex-col gap-1 p-4 border-b border-gray-200">
+      <nav className="flex flex-col gap-1 p-4 border-b border-gray-200">
         {exploreItems.map((item) => (
           <div
             key={item}
