@@ -15,6 +15,7 @@ import LogoutButton from "./components/LogoutButton.tsx";
 import VideoUpload from "./components/VideoUpload.tsx";
 import GetAllVideo from "./components/GetAllVideo.tsx";
 import RefreshSession from "./components/RefreshSession.tsx";
+import Navbar from "./components/Navbar.tsx";
 
 // ✅ Create router
 const router = createBrowserRouter(
@@ -26,6 +27,7 @@ const router = createBrowserRouter(
       <Route path="fileupload" element={<VideoUpload />} />
       <Route path="videos" element={<GetAllVideo />} />
       <Route path="refresh-session" element={<RefreshSession/>} />
+      <Route  path="navbar"  element={<Navbar/>}></Route>
     </Route>
   )
 );
