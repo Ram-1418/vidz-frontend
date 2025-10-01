@@ -1,7 +1,6 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import React from "react";
-
 import {
   Route,
   RouterProvider,
@@ -15,19 +14,18 @@ import LogoutButton from "./components/LogoutButton.tsx";
 import VideoUpload from "./components/VideoUpload.tsx";
 import GetAllVideo from "./components/GetAllVideo.tsx";
 import RefreshSession from "./components/RefreshSession.tsx";
-import Navbar from "./components/Navbar.tsx";
+import Home from "./components/Home.tsx"; // ✅ Layout page with Navbar + Sidebar
 
 // ✅ Create router
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/">
-      <Route path="" element={<RegisterForm />} />
+    <Route path="/" element={<Home />}>
+      <Route index element={<RegisterForm />} /> {/* default "/" */}
       <Route path="login" element={<LoginWithUsername />} />
       <Route path="logout" element={<LogoutButton />} />
       <Route path="fileupload" element={<VideoUpload />} />
       <Route path="videos" element={<GetAllVideo />} />
-      <Route path="refresh-session" element={<RefreshSession/>} />
-      <Route  path="navbar"  element={<Navbar/>}></Route>
+      <Route path="refresh-session" element={<RefreshSession />} />
     </Route>
   )
 );
