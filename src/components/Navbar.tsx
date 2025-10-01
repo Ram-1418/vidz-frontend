@@ -1,14 +1,18 @@
+// components/Navbar.tsx
 import React from 'react'
 import { Menu, Search, Bell, User, Mic } from "lucide-react"
 
-const Navbar = () => {
+type NavbarProps = {
+  toggleSidebar: () => void;
+};
+
+const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
   return (
     <div className='flex items-center justify-between px-4 py-2 shadow-md bg-white sticky top-0 z-50'>
       {/* Left - Logo */}
       <div className='flex items-center gap-2'>
-        <Menu className='w-6 h-6 cursor-pointer' />
-        <span className='text-xl font-bold text-red-600'>vidz-frontend
-</span>
+        <Menu className='w-6 h-6 cursor-pointer' onClick={toggleSidebar} />
+        <span className='text-xl font-bold text-red-600'>MyTube</span>
       </div>
 
       {/* Middle - Search + Mic */}
