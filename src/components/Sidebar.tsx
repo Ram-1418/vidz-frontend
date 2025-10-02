@@ -54,7 +54,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
       {/* Main Links */}
       <nav className="flex flex-col gap-2 p-4 text-sm font-medium overflow-y-auto">
         <Link
-          to="/"
+          to="/getAllVideo()"
           className="flex items-center gap-3 hover:bg-gray-100 p-2 rounded"
         >
           <Home className="w-5 h-5" /> Home
