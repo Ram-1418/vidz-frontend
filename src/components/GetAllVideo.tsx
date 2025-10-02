@@ -62,9 +62,13 @@ const VideoList: React.FC = () => {
           key={video._id}
           className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition"
         >
-          {/* Thumbnail with Link */}
+          {/* Thumbnail with Link (opens in new tab) */}
           <div className="relative w-full h-48 bg-black">
-            <Link to={`/video/${video._id}`}>
+            <Link
+              to={`/video/${video._id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <img
                 src={video.thumbnail}
                 alt={video.title}
