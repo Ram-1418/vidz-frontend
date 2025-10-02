@@ -15,6 +15,7 @@ import VideoUpload from "./components/VideoUpload.tsx";
 import GetAllVideo from "./components/GetAllVideo.tsx";
 import RefreshSession from "./components/RefreshSession.tsx";
 import Home from "./components/Home.tsx"; // ✅ Layout page with Navbar + Sidebar
+import VideoPage from "./components/Videopage.tsx"; // ✅ Import VideoPage
 
 // ✅ Create router
 const router = createBrowserRouter(
@@ -26,6 +27,9 @@ const router = createBrowserRouter(
       <Route path="fileupload" element={<VideoUpload />} />
       <Route path="videos" element={<GetAllVideo />} />
       <Route path="refresh-session" element={<RefreshSession />} />
+
+      {/* ✅ Video page route */}
+      <Route path="video/:id" element={<VideoPage />} />
     </Route>
   )
 );
