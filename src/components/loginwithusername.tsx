@@ -1,12 +1,12 @@
-
 import { useForm } from "react-hook-form";
-import { email, z } from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginWithUsername, loginWithEmail } from "../apiServices/userAuth";
-
+import { useTransition } from "react";
+import { Button } from "./ui/button";
+import { useNavigate } from "react-router-dom";
 
 // ✅ Zod schema
-
 
 const loginSchema = z.object({
   value: z
@@ -15,7 +15,7 @@ const loginSchema = z.object({
     .refine(
       (val) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(val) || /^[a-zA-Z0-9_]+$/.test(val); 
+        return emailRegex.test(val) || /^[a-zA-Z0-9_]+$/.test(val);
       },
       { message: "Must be a valid username or email" }
     ),
@@ -23,9 +23,6 @@ const loginSchema = z.object({
     .string()
     .min(6, { message: "Password must be at least 6 characters" }),
 });
-
-
-
 
 // ✅ Inferred type
 type LoginType = z.infer<typeof loginSchema>;
@@ -38,15 +35,23 @@ const LoginWithUsername = () => {
   } = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
   });
+  const navigate = useNavigate();
+  const [isPending, startTransition] = useTransition();
+  const onSubmit = async (data: LoginType) => {
+    startTransition(async () => {
+      console.log("Login data:", data);
+      const { success } = z.email().safeParse(data.value);
+      let response;
 
-  const onSubmit = (data: LoginType) => {
-    console.log("Login data:", data);
-    const { success } = z.email().safeParse(data.value)
-    if (success) {
-      loginWithEmail(data.value, data.password);
-      return
-    }
-    loginWithUsername(data.value, data.password);
+      if (success) {
+        response = await loginWithEmail(data.value, data.password);
+      } else {
+        response = await loginWithUsername(data.value, data.password);
+      }
+      if (response.success) {
+        navigate("/videos");
+      }
+    });
   };
 
   return (
@@ -80,7 +85,7 @@ const LoginWithUsername = () => {
               type="password"
               {...register("password")}
               placeholder="Enter password"
-                autoComplete="current-password"
+              autoComplete="current-password"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                          focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -92,13 +97,15 @@ const LoginWithUsername = () => {
           </div>
 
           {/* Submit Button */}
-          <button
+
+          <Button
             type="submit"
-            className="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg 
-                       hover:bg-blue-700 transition"
+            disabled={isPending}
+            className={` w-full bg-blue-600 text-white font-semibold py-2 rounded-lg 
+                       hover:bg-blue-700 transition`}
           >
-            Login
-          </button>
+           { isPending ? "Logging in..." : "Login" }
+          </Button>
         </form>
       </div>
     </div>

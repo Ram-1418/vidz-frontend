@@ -92,6 +92,7 @@ async function loginWithEmail(email: string, password: string) {
       { withCredentials: true }
     );
     console.log("Login Success", response.data);
+    return response.data
   } catch (error) {
     console.error("Login Failed", error);
     throw error;
