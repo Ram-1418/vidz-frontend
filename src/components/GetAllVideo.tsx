@@ -66,7 +66,7 @@ const VideoList: React.FC = () => {
           <div className="relative w-full h-48 bg-black">
             <Link
               to={`/video/${video._id}`}
-              target="_blank"
+              // target="_blank"
               rel="noopener noreferrer"
             >
               <img
