@@ -14,8 +14,8 @@ import LogoutButton from "./components/LogoutButton.tsx";
 import VideoUpload from "./components/VideoUpload.tsx";
 import GetAllVideo from "./components/GetAllVideo.tsx";
 import RefreshSession from "./components/RefreshSession.tsx";
-import Home from "./components/Home.tsx"; // ✅ Layout page with Navbar + Sidebar
-import VideoPage from "./components/Videopage.tsx"; // ✅ Import VideoPage
+import Home from "./components/Home.tsx"
+import VideoPage from "./components/Videopage.tsx"; 
 
 // ✅ Create router
 const router = createBrowserRouter(
