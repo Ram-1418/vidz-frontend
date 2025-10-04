@@ -92,7 +92,7 @@ async function loginWithEmail(email: string, password: string) {
       { withCredentials: true }
     );
     console.log("Login Success", response.data);
-    return response.data
+    return response.data;
   } catch (error) {
     console.error("Login Failed", error);
     throw error;
@@ -110,8 +110,6 @@ async function getCurrentUser() {
   }
 }
 
-
-
 // const apiBaseUrl = "http://localhost:8000/api/v1"; // adjust if needed
 
 async function logoutUser() {
@@ -128,8 +126,11 @@ async function logoutUser() {
   }
 }
 
-
-
-  
-
-export { checkApiHealth, registerUser, loginWithUsername, getCurrentUser ,loginWithEmail,logoutUser};
+export {
+  checkApiHealth,
+  registerUser,
+  loginWithUsername,
+  getCurrentUser,
+  loginWithEmail,
+  logoutUser,
+};
