@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { apiBaseUrl } from "@/lib/constsants";
 
-import hadleError from "@/lib/hadleError";
+import handleError from "@/lib/hadleError";
 
 
 
@@ -16,24 +16,25 @@ export const getVideoComments = async (page = 1, limit = 10) => {
     );
     return response.data;
   } catch (error) {
-    const message=hadleError(error)
+    const message=handleError(error)
   console.error("Error adding comment:", message|| error);
     throw new Error(message || "Failed to add comment");
   }
 };
 
-export const addComment = async (videoId:string, comment:string) => {
+export const addComment = async (videoId: string, comment: string) => {
   try {
-    const respone = await axios.post(`${apiBaseUrl}/${videoId}`,
-        {content:comment}
-    );
-    return respone.data;
+    const response = await axios.post(`${apiBaseUrl}/comments/${videoId}`, {  
+      comment,
+    });
+    return response.data;
   } catch (error) {
-     const message=hadleError(error)
-  console.error("Error adding comment:", message|| error);
+    const message = handleError(error);
+    console.error("Error adding comment:", message || error);
     throw new Error(message || "Failed to add comment");
   }
 };
+
 export const updateComment = async (commentId:string, comment:string) => {
   try {
     const respone = await axios.post(`${apiBaseUrl}/c/commentId${commentId}`,
@@ -41,7 +42,7 @@ export const updateComment = async (commentId:string, comment:string) => {
     );
     return respone.data;
   } catch (error) {
-     const message=hadleError(error)
+     const message=handleError(error)
   console.error("Error adding comment:", message|| error);
     throw new Error(message || "Failed to add comment");
   }
@@ -52,7 +53,7 @@ export const deleteComment = async (commentId:string) => {
     const respone = await axios.delete(`${apiBaseUrl}/c/commentId${commentId}`);
     return respone.data;
   } catch (error) {
-      const message=hadleError(error)
+      const message=handleError(error)
   console.error("Error adding comment:", message|| error);
     throw new Error(message || "Failed to add comment");
   }
