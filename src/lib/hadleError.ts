@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 
-function hadleError(error:unknown){
+function handleError(error:unknown){
     let message=""
    if (error instanceof AxiosError) {
         message=error.message
@@ -13,4 +13,4 @@ function hadleError(error:unknown){
 
 
 
-export default  hadleError
+export default  handleError

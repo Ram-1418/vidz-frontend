@@ -1,13 +1,14 @@
 import axios from "axios";
 import { apiBaseUrl } from "@/lib/constsants";
-import hadleError from "@/lib/hadleError";
+
+import handleError from "@/lib/hadleError";
 
 export const toggleVideoLike = async (videoId:string) => {
   try {
     const respone = await axios.post(`${apiBaseUrl}/v/${videoId}`, {});
     return respone.data;
   } catch (error) {
-    const message=hadleError(error)
+    const message=handleError(error)
   console.error("Error adding comment:", message|| error);
     throw new Error(message || "Failed to add comment");
   }
@@ -27,7 +28,7 @@ export const toggleTweetLike = async (tweetId:string) => {
     const respone = await axios.post(`${apiBaseUrl}/t/${tweetId}`, {});
     return respone.data;
   } catch (error) {
-     const message=hadleError(error)
+     const message=handleError(error)
   console.error("Error adding comment:", message|| error);
     throw new Error(message || "Failed to add comment");
   }
@@ -41,7 +42,7 @@ export const getLikedVideos = async (page = 1, limit = 10) => {
     );
     return response.data;
   } catch (error) {
-     const message=hadleError(error)
+     const message=handleError(error)
   console.error("Error adding comment:", message|| error);
     throw new Error(message || "Failed to add comment");
   }
