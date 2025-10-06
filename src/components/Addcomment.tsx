@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
 import { addComment } from '../apiServices/commentService';
+import { DeleteComment } from './Deletcomment';
+
+interface CommentType {
+  _id: string;
+  content: string;
+  createdAt: string;
+  owner: string;
+  video: string;
+}
 
 interface AddCommentProps {
   videoId: string;
 }
 
-const AddComment: React.FC<AddCommentProps> = ({ videoId }) => {
+const AddComment: React.FC<AddCommentProps> = ({ videoId  }) => {
   const [comment, setComment] = useState('');
   const [status, setStatus] = useState('');
   const [loading, setLoading] = useState(false);
+  const [comments, setcomments] = useState<CommentType[]>([]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,8 +28,11 @@ const AddComment: React.FC<AddCommentProps> = ({ videoId }) => {
     setStatus('');
 
     try {
-      await addComment(videoId, comment);
+      const response = await addComment(videoId, comment);
+      const addedComment = response.data?.comment;
+
       setStatus('Comment added!');
+      setcomments((prev) => [addedComment, ...prev]); 
       setComment('');
     } catch (error) {
       setStatus('Error adding comment.');
@@ -27,6 +40,8 @@ const AddComment: React.FC<AddCommentProps> = ({ videoId }) => {
       setLoading(false);
     }
   };
+
+  const isDisabled = loading || !comment.trim();
 
   return (
     <form onSubmit={handleSubmit} className="mt-6 space-y-4">
@@ -39,9 +54,9 @@ const AddComment: React.FC<AddCommentProps> = ({ videoId }) => {
       />
       <button
         type="submit"
-        disabled={loading || !comment.trim()}
+        disabled={isDisabled}
         className={`px-5 py-2 rounded-md text-white transition duration-200 ${
-          loading || !comment.trim()
+          isDisabled
             ? 'bg-blue-300 cursor-not-allowed'
             : 'bg-blue-600 hover:bg-blue-700'
         }`}
@@ -58,6 +73,21 @@ const AddComment: React.FC<AddCommentProps> = ({ videoId }) => {
           {status}
         </div>
       )}
+
+      
+      <ul className="space-y-2">
+        {comments.map((comment) => (
+          <li
+            key={comment._id}
+            className="p-3 border border-gray-200 rounded-md bg-gray-50"
+          >
+             {comment.content} <DeleteComment commentId={comment._id } />
+            <p className="text-xs text-gray-500">
+              Posted On{ new Date (comment.createdAt).toLocaleString()}
+            </p>
+          </li> 
+        ))}
+      </ul>
     </form>
   );
 };
