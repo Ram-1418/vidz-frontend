@@ -24,9 +24,11 @@ export const getVideoComments = async (page = 1, limit = 10) => {
 
 export const addComment = async (videoId: string, comment: string) => {
   try {
-    const response = await axios.post(`${apiBaseUrl}/comments/${videoId}`, {  
-      comment,
-    });
+    const response = await axios.post(
+      `${apiBaseUrl}/comments/${videoId}`,
+      { comment },
+      { withCredentials: true }
+    );
     return response.data;
   } catch (error) {
     const message = handleError(error);
@@ -35,9 +37,10 @@ export const addComment = async (videoId: string, comment: string) => {
   }
 };
 
+
 export const updateComment = async (commentId:string, comment:string) => {
   try {
-    const respone = await axios.post(`${apiBaseUrl}/c/commentId${commentId}`,
+    const respone = await axios.post(`${apiBaseUrl}/c/${commentId}`,
         {content:comment}
     );
     return respone.data;
@@ -48,13 +51,19 @@ export const updateComment = async (commentId:string, comment:string) => {
   }
 };
 
-export const deleteComment = async (commentId:string) => {
+
+
+export const deleteComment = async (commentId: string) => {
   try {
-    const respone = await axios.delete(`${apiBaseUrl}/c/commentId${commentId}`);
-    return respone.data;
+    const response = await axios.delete(
+      `${apiBaseUrl}/comments/c/${commentId}`,
+      { withCredentials: true }
+    );
+    return response.data;
   } catch (error) {
-      const message=handleError(error)
-  console.error("Error adding comment:", message|| error);
-    throw new Error(message || "Failed to add comment");
+    const message = handleError(error);
+    console.error("Error deleting comment:", message || error);
+    throw new Error(message || "Failed to delete comment");
   }
 };
+
