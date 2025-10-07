@@ -14,7 +14,7 @@ import axios from "axios";
 //    console.log(error)
 // })
 // .finally(function(){
-//    console.log('finally run this')
+//    console.log('finally run this') 
 // })
 // }
 
@@ -126,6 +126,21 @@ async function logoutUser() {
   }
 }
 
+
+async function  refreshToken() {
+  try {
+     const response = await axios.post(
+      `${apiBaseUrl}/users/refresh-token`,
+      {},
+      {withCredentials:true}
+    );
+    return response.data
+    
+  } catch (error) {
+    console.log("error",error)
+  }
+}
+
 export {
   checkApiHealth,
   registerUser,
@@ -133,4 +148,5 @@ export {
   getCurrentUser,
   loginWithEmail,
   logoutUser,
+  refreshToken
 };
