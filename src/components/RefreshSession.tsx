@@ -1,8 +1,21 @@
-import React from 'react'
+import { refreshToken } from '@/apiServices/userAuth'
+import { useEffect } from 'react'
 
 const RefreshSession = () => {
+  useEffect(()=>{
+    refreshToken()
+    .then((data)=>{
+      console.log(data)
+    })
+    .catch((error)=>{
+console.log('error', error)
+    })
+  
+  })
   return (
-    <div>RefreshSession</div>
+    <div>
+     
+    </div>
   )
 }
 
