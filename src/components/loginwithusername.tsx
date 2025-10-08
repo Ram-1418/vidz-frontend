@@ -61,7 +61,6 @@ const LoginWithUsername = () => {
         <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 text-center mb-6">
           Welcome Back 👋
         </h2>
-            
             <p className="text-center text-black-300 mb-10 font-bold text-2xl">
                 Login with your <span className="font-semibold text-blue-400">username</span> or <span className="font-semibold text-blue-400">email</span>
             </p>
@@ -111,8 +110,20 @@ const LoginWithUsername = () => {
                        hover:bg-black-700 transition`}
           >
            { isPending ? "Logging in..." : "Login" }
+
+
           </Button>
         </form>
+
+        <p className="">
+           Don’t have an account?{" "}
+           <span
+           onClick={()=>navigate("/")}
+           className="text-blue-300 hover:underline cursor-pointer"
+           >
+             signup
+           </span>
+        </p>
       </div>
     </div>
   );
