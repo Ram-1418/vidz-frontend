@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { addComment } from "../apiServices/commentService";
 import { DeleteComment } from "./Deletcomment";
 import { toggleVideoLike } from "@/apiServices/likeService";
+import { toggleCommentLike } from "@/apiServices/likeService";
 
 interface CommentType {
   _id: string;
@@ -13,7 +14,9 @@ interface CommentType {
 
 interface AddCommentProps {
   videoId: string;
+    commentId: string
 }
+
 
 const AddComment: React.FC<AddCommentProps> = ({ videoId }) => {
   const [comment, setComment] = useState("");
@@ -21,6 +24,21 @@ const AddComment: React.FC<AddCommentProps> = ({ videoId }) => {
   const [loading, setLoading] = useState(false);
   const [comments, setComments] = useState<CommentType[]>([]);
   const [liked, setLiked] = useState(false);
+  const [commentLike, setcommentLike] = useState(false)
+ 
+
+   const handleCommentLike=async(commentId:String)=>{
+    try {
+      const data= await toggleCommentLike(commentId)
+      console.log("like toggled",data)
+      setcommentLike(data.data.isLiked)
+
+      
+    } catch (error) {
+      console.error("error during like:",error)
+      
+    }
+   }
 
   const handleLike = async () => {
     try {
@@ -120,7 +138,20 @@ const AddComment: React.FC<AddCommentProps> = ({ videoId }) => {
             key={comment._id}
             className="p-3 border border-gray-200 rounded-md bg-gray-50"
           >
+
             {comment.content} <DeleteComment commentId={comment._id} />
+           <button
+          type="button"
+          onClick={handleCommentLike}
+          className={`flex items-center gap-2 px-5 py-2 rounded-lg font-semibold shadow-md transition duration-200
+            ${
+              liked
+                ? "bg-blue-600 hover:bg-blue-700 text-white"
+                : "bg-black hover:bg-gray-700 text-white"
+            }`}
+        >
+          👍 {liked ? "Liked" : "Like"}
+        </button>
             <p className="text-xs text-gray-500">
               Posted on {new Date(comment.createdAt).toLocaleString()}
             </p>
