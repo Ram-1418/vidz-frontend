@@ -5,8 +5,13 @@ import handleError from "@/lib/hadleError";
 
 export const toggleVideoLike = async (videoId:string) => {
   try {
-    const respone = await axios.post(`${apiBaseUrl}/v/${videoId}`, {});
-    return respone.data;
+    const response = await axios.post(
+      `${apiBaseUrl}/likes/toggle/v/${videoId}`,
+       {},
+    { withCredentials: true }
+      
+      );
+    return response.data;
   } catch (error) {
     const message=handleError(error)
   console.error("Error adding comment:", message|| error);
