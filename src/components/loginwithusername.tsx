@@ -56,21 +56,27 @@ const LoginWithUsername = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md bg-white dark:bg-neutral-900 p-6 rounded-2xl shadow-md">
+      <div className="w-full max-w-2xl bg-white/10 backdrop-blur-md  border border-white/20 dark:bg-neutral-900 dark:border-neutral-800 p-10 rounded-3xl shadow-2xl transform hover:scale-[1.01] transition-all duration-300">
         {/* Title */}
         <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 text-center mb-6">
-          Login
+          Welcome Back 👋
         </h2>
-
+            
+            <p className="text-center text-black-300 mb-10 font-bold text-2xl">
+                Login with your <span className="font-semibold text-blue-400">username</span> or <span className="font-semibold text-blue-400">email</span>
+            </p>
         {/* Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <label className="text-gray-700  mb-10 font-bold ">
+             Username or Email
+          </label>
           {/* Username */}
           <div>
             <input
               {...register("value")}
               placeholder="Enter username or email"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg 
-                         focus:outline-none focus:ring-2 focus:ring-blue-500"
+                         "
             />
             {errors.value && (
               <p className="text-red-500 text-sm mt-1">
@@ -87,7 +93,7 @@ const LoginWithUsername = () => {
               placeholder="Enter password"
               autoComplete="current-password"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg 
-                         focus:outline-none focus:ring-2 focus:ring-blue-500"
+                         "
             />
             {errors.password && (
               <p className="text-red-500 text-sm mt-1">
@@ -101,8 +107,8 @@ const LoginWithUsername = () => {
           <Button
             type="submit"
             disabled={isPending}
-            className={` w-full bg-blue-600 text-white font-semibold py-2 rounded-lg 
-                       hover:bg-blue-700 transition`}
+            className={` w-full bg-black text-white font-semibold py-2 rounded-lg 
+                       hover:bg-black-700 transition`}
           >
            { isPending ? "Logging in..." : "Login" }
           </Button>
