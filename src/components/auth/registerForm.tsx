@@ -30,17 +30,17 @@ const RegisterForm = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="max-w-md mx-auto bg-white dark:bg-neutral-900 p-6 rounded-2xl shadow-md space-y-4 mt-9"
     >
-      <h2 className="text-2xl font-semibold text-center mb-4">
+      <h2 className="text-2xl font-bold text-center mb-4">
         Create Account
       </h2>
 
       {/* Username */}
       <div>
-        <label htmlFor="username"  className="block text-sm font-medium">Username</label>
+        <label htmlFor="username"  className="block text-sm  font-bold">Username</label>
         <input
           {...register("username")}
           placeholder="Enter a username"
-          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border rounded-lg "
         />
         {errors.username && (
           <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>
@@ -49,11 +49,12 @@ const RegisterForm = () => {
 
       {/* Email */}
       <div>
+        <label htmlFor="username"  className="block text-sm  font-medium">Email</label>
         <input
           {...register("email")}
           placeholder="Enter your email"
           type="email"
-          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border rounded-lg "
         />
         {errors.email && (
           <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
@@ -62,10 +63,11 @@ const RegisterForm = () => {
 
       {/* Full Name */}
       <div>
+        <label htmlFor="username"  className="block text-sm  font-medium">FullName</label>
         <input
           {...register("fullName")}
           placeholder="Enter your full name"
-          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border rounded-lg "
         />
         {errors.fullName && (
           <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>
@@ -74,6 +76,7 @@ const RegisterForm = () => {
 
       {/* Avatar Upload */}
       <div>
+        <label htmlFor="username"  className="block text-sm  font-medium">File</label>
         <input
           type="file"
           accept="image/*"
@@ -93,11 +96,12 @@ const RegisterForm = () => {
 
       {/* Password */}
       <div>
+        <label htmlFor="username"  className="block text-sm  font-medium">Password</label>
         <input
           type="password"
           {...register("password")}
           placeholder="Enter password"
-          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border rounded-lg "
         />
         {errors.password && (
           <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
