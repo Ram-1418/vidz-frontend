@@ -22,15 +22,18 @@ export const toggleVideoLike = async (videoId:string) => {
 export const toggleCommentLike = async (commentId: string) => {
   try {
     const response = await axios.post(
-      `${apiBaseUrl}/likes/toggle/c/${commentId}`, // ✅ single-line URL
-      {},                                          // ✅ no body needed
+      `${apiBaseUrl}/likes/toggle/c/${commentId}`,
+      {},
       { withCredentials: true }
     );
+    
     return response.data;
   } catch (error: any) {
     console.log("toggleCommentLike error:", error.response?.data || error.message);
+    return null; // ✅ prevent undefined
   }
 };
+
 
 
 export const toggleTweetLike = async (tweetId:string) => {

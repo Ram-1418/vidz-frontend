@@ -25,17 +25,23 @@ const AddComment: React.FC<AddCommentProps> = ({ videoId }) => {
   const [comments, setComments] = useState<CommentType[]>([]);
   const [liked, setLiked] = useState(false);
   const [commentLike, setcommentLike] = useState(false)
- const handleCommentLike = async (commentId: string) => {
+
+
+const handleCommentLike = async (commentId: string) => {
   try {
     const response = await toggleCommentLike(commentId);
-    console.log("like toggled", response);
+    console.log("Comment ID received:", commentId);
+console.log("Comment ID received:", commentId);
 
-    // ✅ Access isLiked directly
-    setcommentLike(response.data.isLiked);
+    if (!response) return; // ✅ avoid crash if error
+
+    console.log("like toggled", response);
+    setcommentLike(response.data.isLiked); // ✅ works if backend returns .data.isLiked
   } catch (error) {
     console.error("error during like:", error);
   }
 };
+
 
 
   const handleLike = async () => {
@@ -140,7 +146,7 @@ const AddComment: React.FC<AddCommentProps> = ({ videoId }) => {
             {comment.content} <DeleteComment commentId={comment._id} />
            <button
           type="button"
-          onClick={handleCommentLike}
+          onClick={()=>{handleCommentLike(comment._id)}}
           className={`flex items-center gap-2 px-5 py-2 rounded-lg font-semibold shadow-md transition duration-200
             ${
               liked
