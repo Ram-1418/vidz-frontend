@@ -25,20 +25,18 @@ const AddComment: React.FC<AddCommentProps> = ({ videoId }) => {
   const [comments, setComments] = useState<CommentType[]>([]);
   const [liked, setLiked] = useState(false);
   const [commentLike, setcommentLike] = useState(false)
- 
+ const handleCommentLike = async (commentId: string) => {
+  try {
+    const response = await toggleCommentLike(commentId);
+    console.log("like toggled", response);
 
-   const handleCommentLike=async(commentId:String)=>{
-    try {
-      const data= await toggleCommentLike(commentId)
-      console.log("like toggled",data)
-      setcommentLike(data.data.isLiked)
+    // ✅ Access isLiked directly
+    setcommentLike(response.data.isLiked);
+  } catch (error) {
+    console.error("error during like:", error);
+  }
+};
 
-      
-    } catch (error) {
-      console.error("error during like:",error)
-      
-    }
-   }
 
   const handleLike = async () => {
     try {
