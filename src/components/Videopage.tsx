@@ -4,7 +4,7 @@ import { getAllVideo } from "@/apiServices/videoService";
 import AddComment from "./Addcomment";
 
 
-// Types
+
 type VideoType = {
   _id: string;
   title: string;
