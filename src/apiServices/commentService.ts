@@ -3,11 +3,6 @@ import { apiBaseUrl } from "@/lib/constsants";
 
 import handleError from "@/lib/hadleError";
 
-
-
-
-
-
 export const getVideoComments = async (page = 1, limit = 10) => {
   try {
     const response = await axios.get(
@@ -16,8 +11,8 @@ export const getVideoComments = async (page = 1, limit = 10) => {
     );
     return response.data;
   } catch (error) {
-    const message=handleError(error)
-  console.error("Error adding comment:", message|| error);
+    const message = handleError(error);
+    console.error("Error adding comment:", message || error);
     throw new Error(message || "Failed to add comment");
   }
 };
@@ -37,21 +32,18 @@ export const addComment = async (videoId: string, comment: string) => {
   }
 };
 
-
-export const updateComment = async (commentId:string, comment:string) => {
+export const updateComment = async (commentId: string, comment: string) => {
   try {
-    const respone = await axios.post(`${apiBaseUrl}/c/${commentId}`,
-        {content:comment}
-    );
+    const respone = await axios.post(`${apiBaseUrl}/c/${commentId}`, {
+      content: comment,
+    });
     return respone.data;
   } catch (error) {
-     const message=handleError(error)
-  console.error("Error adding comment:", message|| error);
+    const message = handleError(error);
+    console.error("Error adding comment:", message || error);
     throw new Error(message || "Failed to add comment");
   }
 };
-
-
 
 export const deleteComment = async (commentId: string) => {
   try {
@@ -66,4 +58,3 @@ export const deleteComment = async (commentId: string) => {
     throw new Error(message || "Failed to delete comment");
   }
 };
-
