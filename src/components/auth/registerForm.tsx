@@ -4,6 +4,7 @@ import { registerSchema } from "../../zod/registerSchems";
 import type { RegisterType } from "../../zod/registerSchems";
 import { registerUser } from "../../apiServices/userAuth";
 import { Button } from "../ui/button";
+import { useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
   const {
@@ -15,13 +16,17 @@ const RegisterForm = () => {
     resolver: zodResolver(registerSchema),
   });
 
+  const navigate = useNavigate();
+
   const onSubmit = async (data: RegisterType) => {
     try {
       console.log("✅ Submitted data:", data);
       await registerUser(data);
+      navigate("/videos");
     } catch (err) {
       console.error("❌ Registration failed:", err);
     }
+   
   };
 
   return (
