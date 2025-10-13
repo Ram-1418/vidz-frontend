@@ -14,23 +14,30 @@ import LogoutButton from "./components/LogoutButton.tsx";
 import VideoUpload from "./components/VideoUpload.tsx";
 import GetAllVideo from "./components/GetAllVideo.tsx";
 import RefreshSession from "./components/RefreshSession.tsx";
-import Home from "./components/Home.tsx"
-import VideoPage from "./components/Videopage.tsx"; 
+import VideoPage from "./components/Videopage.tsx";
+import MainLayout from "./components/MainLayout.tsx";
+import AuthLayout from "./components/AuthLayout.tsx";
 
-// ✅ Create router
+// ✅ Router definition
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Home />}>
-      <Route index element={<RegisterForm />} /> {/* default "/" */}
-      <Route path="login" element={<LoginWithUsername />} />
-      <Route path="logout" element={<LogoutButton />} />
-      <Route path="fileupload" element={<VideoUpload />} />
-      <Route path="videos" element={<GetAllVideo />} />
-      <Route path="refresh-session" element={<RefreshSession />} />
+    <>
+      {/* Routes with Navbar */}
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<GetAllVideo />} /> {/* Default home page */}
+        <Route path="videos" element={<GetAllVideo />} />
+        <Route path="video/:id" element={<VideoPage />} />
+        <Route path="fileupload" element={<VideoUpload />} />
+        <Route path="logout" element={<LogoutButton />} />
+        <Route path="refresh-session" element={<RefreshSession />} />
+      </Route>
 
-      {/* ✅ Video page route */}
-      <Route path="video/:id" element={<VideoPage />} />
-    </Route>
+      {/* Routes WITHOUT Navbar */}
+      <Route element={<AuthLayout />}>
+        <Route path="registration" element={<RegisterForm />} />
+        <Route path="login" element={<LoginWithUsername />} />
+      </Route>
+    </>
   )
 );
 
