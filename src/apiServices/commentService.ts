@@ -1,7 +1,8 @@
-import axios, { AxiosError } from "axios";
-import { apiBaseUrl } from "@/lib/constsants";
 
+import { apiBaseUrl } from "@/lib/constsants";
 import handleError from "@/lib/hadleError";
+
+import axios from "axios";
 
 export const getVideoComments = async (page = 1, limit = 10) => {
   try {
