@@ -67,7 +67,7 @@ const VideoPage: React.FC = () => {
 
       {/* Video Title */}
       <h1 className="text-2xl font-bold mt-4">{video.title}</h1>
-     <AddComment videoId={video._id} />
+     <AddComment />
 
     </div>
   );

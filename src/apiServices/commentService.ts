@@ -1,16 +1,15 @@
 
 import { apiBaseUrl } from "@/lib/constsants";
 import handleError from "@/lib/hadleError";
-
 import axios from "axios";
 
-export const getVideoComments = async (page = 1, limit = 10) => {
+export const getVideoComments = async (videoId:string,page = 1, limit = 10) => {
   try {
     const response = await axios.get(
-      `${apiBaseUrl}/videos?page=${page}&limit=${limit}`,
-      {}
+      `${apiBaseUrl}/comments/${videoId}?page=${page}&limit=${limit}`,
+      {withCredentials:true}
     );
-    return response.data;
+    return response.data?.data;
   } catch (error) {
     const message = handleError(error);
     console.error("Error adding comment:", message || error);
