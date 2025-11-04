@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getAllVideo } from "@/apiServices/videoService";
 import AddComment from "./Addcomment";
+import Comments from "./Comments";
 
 
 
@@ -68,7 +69,7 @@ const VideoPage: React.FC = () => {
       {/* Video Title */}
       <h1 className="text-2xl font-bold mt-4">{video.title}</h1>
      <AddComment />
-
+    <Comments/>
     </div>
   );
 };
