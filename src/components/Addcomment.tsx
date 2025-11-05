@@ -17,8 +17,6 @@ const AddCommentInput: React.FC = () => {
       console.log(response);
       setComment('')
 
-
-
     } catch (error) {
       console.log(error)
 
@@ -64,8 +62,8 @@ const AddCommentInput: React.FC = () => {
               onClick={handleComment}
               disabled={!comment.trim()}
               className={`px-4 py-1 text-sm font-medium rounded-full ${!comment.trim()
-                  ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                  : "bg-blue-600 text-white hover:bg-blue-700"
+                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                : "bg-blue-600 text-white hover:bg-blue-700"
                 }`}
             >
               Comment
