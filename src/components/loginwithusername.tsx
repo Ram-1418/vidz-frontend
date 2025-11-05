@@ -74,7 +74,7 @@ const LoginWithUsername = () => {
     //         <input
     //           {...register("value")}
     //           placeholder="Enter username or email"
-    //           className="w-full px-4 py-2 rounded-md bg-neutral-800 border border-neutral-700 text-gray-200 
+    //           className="w-full px-4 py-2 rounded-md bg-neutral-800 border border-neutral-700 text-gray-200
     //             focus:border-pink-500 focus:ring-1 focus:ring-pink-500 outline-none"
     //         />
     //         {errors.value && (
@@ -91,8 +91,8 @@ const LoginWithUsername = () => {
     //           {...register("password")}
     //           placeholder="Enter password"
     //           autoComplete="current-password"
-    //           className="w-full px-4 py-2 rounded-md bg-neutral-800 border border-neutral-700 text-gray-200 
-    //             focus:border-pink-500 focus:ring-1 focus:ring-pink-500 outline-none 
+    //           className="w-full px-4 py-2 rounded-md bg-neutral-800 border border-neutral-700 text-gray-200
+    //             focus:border-pink-500 focus:ring-1 focus:ring-pink-500 outline-none
     //                      "
     //         />
     //         {errors.password && (
@@ -107,11 +107,10 @@ const LoginWithUsername = () => {
     //       <Button
     //         type="submit"
     //         disabled={isPending}
-    //         className={` w-full bg-black text-white font-semibold py-2 rounded-lg 
+    //         className={` w-full bg-black text-white font-semibold py-2 rounded-lg
     //                    hover:bg-black-700 transition`}
     //       >
     //         {isPending ? "Logging in..." : "Login"}
-
 
     //       </Button>
     //     </form>
@@ -128,18 +127,14 @@ const LoginWithUsername = () => {
     //   </div>
     // </div>
 
-    <div className="h-screen w-screen  mid-h-screen grid grid-cols-1  md:grid-cols-2 bg-neutral-950 text-white border border-red-600">
-    //right hand side  
-   <div>
+    <div className="h-screen w-screen   grid grid-cols-1  md:grid-cols-2  text-white ">
+      <div className="md:flex flex-col justify-center items-center  h-screen bg-gradient-to-br from-pink-600 via-red-500 to-purple-700 p-12">
+        <h1>Rameshwar patil mitr mandakl</h1>
+      </div>
 
-    <h1>Rameshwar patil mitr mandakl</h1>
-   </div>
-
-
-   //left hnd side
-   <div>
-<h2>helo for m chai aur code </h2>
-   </div>
+      <div className="flex justify-center items-center  w-full bg-neutral-900">
+        <h2 className="font-bold text-2xl">helo for m chai aur code </h2>
+      </div>
     </div>
   );
 };
