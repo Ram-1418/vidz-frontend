@@ -5,7 +5,7 @@ import type { RegisterType } from "../../zod/registerSchems";
 import { registerUser } from "../../apiServices/userAuth";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
-import { PlayCircle } from "lucide-react";
+
 
 const RegisterForm = () => {
   const {
