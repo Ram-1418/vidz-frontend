@@ -6,8 +6,7 @@ import { useTransition } from "react";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
 
-// ✅ Zod schema
-
+// ✅ Zod schema validation
 const loginSchema = z.object({
   value: z
     .string()
@@ -24,7 +23,7 @@ const loginSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters" }),
 });
 
-// ✅ Inferred type
+// ✅ Type inference from schema
 type LoginType = z.infer<typeof loginSchema>;
 
 const LoginWithUsername = () => {
@@ -35,8 +34,10 @@ const LoginWithUsername = () => {
   } = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
   });
+
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
+
   const onSubmit = async (data: LoginType) => {
     startTransition(async () => {
       console.log("Login data:", data);
@@ -48,6 +49,7 @@ const LoginWithUsername = () => {
       } else {
         response = await loginWithUsername(data.value, data.password);
       }
+
       if (response.success) {
         navigate("/videos");
       }
@@ -55,85 +57,73 @@ const LoginWithUsername = () => {
   };
 
   return (
-    // <div className="flex min-h-screen items-center justify-center bg-gray-100">
-    //   <div className="w-full max-w-2xl bg-white/10 backdrop-blur-md  border border-white/20 dark:bg-neutral-900 dark:border-neutral-800 p-10 rounded-3xl shadow-2xl transform hover:scale-[1.01] transition-all duration-300">
-    //     {/* Title */}
-    //     <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 text-center mb-6">
-    //       Welcome Back 👋
-    //     </h2>
-    //     <p className="text-center text-black-300 mb-10 font-bold text-2xl">
-    //       Login with your <span className="font-semibold text-blue-400">username</span> or <span className="font-semibold text-blue-400">email</span>
-    //     </p>
-    //     {/* Form */}
-    //     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-    //       <label className="text-gray-700  mb-10 font-bold ">
-    //         Username or Email
-    //       </label>
-    //       {/* Username */}
-    //       <div>
-    //         <input
-    //           {...register("value")}
-    //           placeholder="Enter username or email"
-    //           className="w-full px-4 py-2 rounded-md bg-neutral-800 border border-neutral-700 text-gray-200
-    //             focus:border-pink-500 focus:ring-1 focus:ring-pink-500 outline-none"
-    //         />
-    //         {errors.value && (
-    //           <p className="text-red-500 text-sm mt-1">
-    //             {errors.value.message}
-    //           </p>
-    //         )}
-    //       </div>
-
-    //       {/* Password */}
-    //       <div>
-    //         <input
-    //           type="password"
-    //           {...register("password")}
-    //           placeholder="Enter password"
-    //           autoComplete="current-password"
-    //           className="w-full px-4 py-2 rounded-md bg-neutral-800 border border-neutral-700 text-gray-200
-    //             focus:border-pink-500 focus:ring-1 focus:ring-pink-500 outline-none
-    //                      "
-    //         />
-    //         {errors.password && (
-    //           <p className="text-red-500 text-sm mt-1">
-    //             {errors.password.message}
-    //           </p>
-    //         )}
-    //       </div>
-
-    //       {/* Submit Button */}
-
-    //       <Button
-    //         type="submit"
-    //         disabled={isPending}
-    //         className={` w-full bg-black text-white font-semibold py-2 rounded-lg
-    //                    hover:bg-black-700 transition`}
-    //       >
-    //         {isPending ? "Logging in..." : "Login"}
-
-    //       </Button>
-    //     </form>
-
-    //     <p className="">
-    //       Don’t have an account?{" "}
-    //       <span
-    //         onClick={() => navigate("/")}
-    //         className="text-blue-300 hover:underline cursor-pointer"
-    //       >
-    //         signup
-    //       </span>
-    //     </p>
-    //   </div>
-    // </div>
-
-    <div className="h-screen w-screen   grid grid-cols-1  md:grid-cols-2  text-white ">
-      <div className="md:flex flex-col justify-center items-center  h-screen bg-gradient-to-br from-pink-600 via-red-500 to-purple-700 p-12">
-        <h1>Rameshwar patil mitr mandakl</h1>
+    <div className="h-screen w-screen grid grid-cols-1 md:grid-cols-2 text-white">
+      {/* LEFT SECTION */}
+      <div className="md:flex flex-col justify-center items-center h-screen bg-gradient-to-br from-pink-600 via-red-500 to-purple-700 p-12">
+        <h1 className="text-white font-extrabold text-5xl mb-4">Vidz Frontend</h1>
+        <p className="text-lg opacity-90 leading-relaxed text-white font-bold text-center">
+          Build, upload, and share your creativity with the world. Join us and
+          make your content shine.
+        </p>
       </div>
 
-      <div className="flex justify-center items-center  w-full bg-neutral-900">
-        <h2 className="font-bold text-2xl">helo for m chai aur code </h2>
+      {/* RIGHT SECTION */}
+      <div className="flex flex-col justify-center items-center w-full bg-neutral-950 p-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full max-w-sm">
+          {/* Username / Email */}
+          <div className="text-center">
+            <label className="text-white font-bold">Username or Email</label>
+          </div>
+
+          <div>
+            <input
+              {...register("value")}
+              placeholder="Enter username or email"
+              className="w-full px-4 py-2 rounded-md bg-neutral-800 border border-neutral-700 text-gray-200
+                focus:border-pink-500 focus:ring-1 focus:ring-pink-500 outline-none mt-3"
+            />
+            {errors.value && (
+              <p className="text-red-500 text-sm mt-1">{errors.value.message}</p>
+            )}
+          </div>
+
+          {/* Password */}
+          <div>
+            <input
+              type="password"
+              {...register("password")}
+              placeholder="Enter password"
+              autoComplete="current-password"
+              className="w-full px-4 py-2 rounded-md bg-neutral-800 border border-neutral-700 text-gray-200
+                focus:border-pink-500 focus:ring-1 focus:ring-pink-500 outline-none"
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password.message}
+              </p>
+            )}
+          </div>
+
+          {/* Submit Button */}
+          <Button
+            type="submit"
+            disabled={isPending}
+            className="w-full bg-white text-black font-semibold py-2 rounded-lg hover:bg-neutral-200 transition"
+          >
+            {isPending ? "Logging in..." : "Login"}
+          </Button>
+
+          {/* Signup Text (Now visible ✅) */}
+          <p className="text-white text-center mt-4">
+            Don’t have an account?{" "}
+            <span
+              onClick={() => navigate("/")}
+              className="text-blue-300 hover:underline cursor-pointer"
+            >
+              Signup
+            </span>
+          </p>
+        </form>
       </div>
     </div>
   );
