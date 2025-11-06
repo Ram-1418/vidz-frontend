@@ -37,7 +37,7 @@ const RegisterForm = () => {
           <h1 className="text-5xl font-extrabold mb-4 text-black">
             Vidz Frontend
           </h1>
-          <p className="text-lg opacity-90 leading-relaxed">
+          <p className="text-lg opacity-25 leading-relaxed">
             Build, upload, and share your creativity with the world. Join us and
             make your content shine.
           </p>
