@@ -2,12 +2,14 @@
 import { apiBaseUrl } from "@/lib/constsants";
 import handleError from "@/lib/hadleError";
 import axios from "axios";
-
-export const getVideoComments = async (videoId:string,page = 1, limit = 10) => {
+const axiosInstance = axios.create({
+  baseURL: apiBaseUrl,
+  withCredentials: true,
+})
+export const getVideoComments = async (videoId: string, page = 1, limit = 10) => {
   try {
-    const response = await axios.get(
-      `${apiBaseUrl}/comments/${videoId}?page=${page}&limit=${limit}`,
-      {withCredentials:true}
+    const response = await axiosInstance.get(
+      `/comments/${videoId}?page=${page}&limit=${limit}`,
     );
     return response.data?.data;
   } catch (error) {
@@ -34,9 +36,10 @@ export const addComment = async (videoId: string, comment: string) => {
 
 export const updateComment = async (commentId: string, comment: string) => {
   try {
-    const respone = await axios.post(`${apiBaseUrl}/c/${commentId}`, {
-      content: comment,
-    });
+    const respone = await axios.patch(`${apiBaseUrl}/comments/c/${commentId}`,
+      { comment },
+      { withCredentials: true }
+    );
     return respone.data;
   } catch (error) {
     const message = handleError(error);
