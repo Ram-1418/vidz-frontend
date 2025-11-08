@@ -1,5 +1,9 @@
+import { data } from "react-router-dom";
 import { apiBaseUrl } from "../lib/constsants";
 import axios from "axios";
+import { updateAccountDetails } from "@/apiServices/userService";
+import { AwardIcon } from "lucide-react";
+
 
 // function getData(){
 //    console.log(apiBaseUrl);
@@ -141,6 +145,55 @@ async function  refreshToken() {
   }
 }
 
+const updateAccountDetails = async()=>{
+  try {
+    const respone=await axios.patch(
+      `${apiBaseUrl}/update`,
+      data,
+      {withCredentials:true}
+    )
+    return respone.data
+  } catch (error) {
+    console.log('error', error)
+    throw error
+  }
+}
+
+const updateUserAvatar = async (file:any) => {
+  try {
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    const response = await axios.patch(`${apiBaseUrl}/avatar`, formData, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    console.log("Avatar updated successfully:", response.data);
+    return response.data;
+
+  } catch (error:any) {
+    console.error("Error updating avatar:", error.response?.data || error.message);
+    throw error;
+  }
+};
+const changePassword  =async(data)=>{
+  try {
+    const response=await axios.patch(
+        `${apiBaseUrl}/change-password`,
+        data,
+        {withCredentials:true}
+    )
+    return response.data
+  } catch (error) {
+      console.error("Error changing password:", error.response?.data || error.message);
+    throw error;
+    
+  }
+}
+
 export {
   checkApiHealth,
   registerUser,
@@ -148,5 +201,8 @@ export {
   getCurrentUser,
   loginWithEmail,
   logoutUser,
-  refreshToken
+  refreshToken,
+  updateAccountDetails,
+  updateUserAvatar,
+  changePassword
 };
