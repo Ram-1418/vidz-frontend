@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { deleteComment, getVideoComments } from '@/apiServices/commentService';
 import { useParams } from 'react-router-dom';
+import { toggleCommentLike } from '../apiServices/likeService'
+import {updateComment} from '../apiServices/commentService'
+import { string } from 'zod';
 
 interface Comment {
   id: string;
@@ -15,6 +18,12 @@ const Comments = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [likecomment, setlikecomment] = useState('')
+  const [updatecomment, setupdatecomment] = useState('')
+
+
+
+
 
   useEffect(() => {
     if (!videoId) return;
@@ -57,6 +66,29 @@ const Comments = () => {
     }
   };
 
+
+  const handleLike = async (commentId: string) => {
+    try {
+      const data = await toggleCommentLike(commentId)
+      console.log(data)
+    } catch (error) {
+      console.log('error', error)
+
+    }
+  }
+
+  const handleUpdateComment=async(commentId:string,comment:string)=>{
+    try {
+      const data= await updateComment(commentId,comment)
+      console.log('data', data)
+      console.log("✅ Comment updated successfully:", data);
+
+    } catch (error) {
+      console.log('error', error)
+      
+    }
+  }
+
   if (loading) return <p>Loading comments...</p>;
   if (error) return <p className="text-red-600">{error}</p>;
 
@@ -66,21 +98,44 @@ const Comments = () => {
         <p>No comments yet.</p>
       ) : (
         comments.map((comment) => (
-          <div key={comment.id} className="p-3 bg-gray-100 rounded-lg shadow-sm hover:bg-gray-50">
+          <div
+            key={comment.id}
+            className="p-3 bg-gray-100 rounded-lg shadow-sm hover:bg-gray-50"
+          >
             <p className="text-gray-800">{comment.content}</p>
-            {comment.author && <p className="text-sm text-gray-500 mt-1">– {comment.author}</p>}
+            {comment.author && (
+              <p className="text-sm text-gray-500 mt-1">– {comment.author}</p>
+            )}
+            <p>{new Date(comment.createdAt).toDateString()}</p>
+
             <button
               onClick={() => handleDelete(comment.id)}
               disabled={deleting === comment.id}
               className="text-red-500 hover:text-red-700 text-sm mt-2"
             >
-              {deleting === comment.id ? 'Deleting...' : 'Delete'}
+              {deleting === comment.id ? "Deleting..." : "Delete"}
+            </button>
+
+            <button
+              onClick={() => {
+                handleLike(comment.id);
+                setlikecomment(comment.id);
+              }}
+              className="text-blue-500 hover:text-blue-700 text-sm mt-2 ml-2"
+            >
+              {likecomment === comment.id ? "Liked" : "Like"}
+            </button>
+
+            <button
+            onClick={()=>handleUpdateComment(comment.id,comment.content)}
+            >
+             Update Comment              
             </button>
           </div>
         ))
       )}
     </div>
-  );
-};
 
+  )
+}
 export default Comments;

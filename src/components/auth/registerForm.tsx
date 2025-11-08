@@ -35,7 +35,7 @@ const RegisterForm = () => {
       <div className="hidden md:flex flex-col justify-center items-center bg-gradient-to-br from-pink-600 via-red-500 to-purple-700 p-12">
         <div className="max-w-md text-center">
           <h1 className="text-5xl font-extrabold mb-4 text-black">
-            Vidz Frontend
+            Vidz 
           </h1>
           <p className="text-lg opacity-25 leading-relaxed">
             Build, upload, and share your creativity with the world. Join us and
