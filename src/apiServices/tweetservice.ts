@@ -29,7 +29,7 @@ export const deleteTweet = async (tweetId: string) => {
             message: "Tweet deleted successfully",
         }
 
-    } catch (error:any) {
+    } catch (error: any) {
         console.error("Error during the deleting the tweet", error.response ? data || error)
 
 
@@ -50,38 +50,38 @@ export const getUserTweet = async (userId: string) => {
             { withCredentials: true }
         )
         return {
-           
+
             success: true,
             data: response.data,
             message: "Tweet deleted successfully",
-        
+
         }
 
-    } catch (error:any) {
+    } catch (error: any) {
         console.error(
             "error fecting user tweets",
             error.respone?.data || error
         )
 
-        return{
-               success: false,
-      message:
-        error.response?.data?.message ||
-        "Something went wrong while fetching user tweets"
+        return {
+            success: false,
+            message:
+                error.response?.data?.message ||
+                "Something went wrong while fetching user tweets"
         }
 
     }
 }
 
-export const updateTweet = async (tweetId:string, content:string) => {
+export const updateTweet = async (tweetId: string, content: string) => {
     try {
         const response = await axios.patch(
-             `${apiBaseUrl}/tweets/${tweetId}`,
-             {content},
+            `${apiBaseUrl}/tweets/${tweetId}`,
+            { content },
             { withCredentials: true }
         );
         return response.data;
-    } catch (error:any) {
+    } catch (error: any) {
         console.error("Error updating the tweet", error.response?.data || error);
         throw error;
     }
