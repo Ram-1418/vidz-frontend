@@ -50,11 +50,11 @@ export const getUserTweet = async (userId: string) => {
             { withCredentials: true }
         )
         return {
-            return {
+           
             success: true,
             data: response.data,
             message: "Tweet deleted successfully",
-        }
+        
         }
 
     } catch (error:any) {
