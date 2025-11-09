@@ -1,8 +1,7 @@
 import { data } from "react-router-dom";
 import { apiBaseUrl } from "../lib/constsants";
 import axios from "axios";
-import { updateAccountDetails } from "@/apiServices/userService";
-import { AwardIcon } from "lucide-react";
+
 
 
 // function getData(){
