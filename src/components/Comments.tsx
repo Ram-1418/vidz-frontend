@@ -127,6 +127,8 @@ const Comments = () => {
             </button>
 
             <button
+
+            className='p-4 bg-white text-black '
             onClick={()=>handleUpdateComment(comment.id,comment.content)}
             >
              Update Comment              
