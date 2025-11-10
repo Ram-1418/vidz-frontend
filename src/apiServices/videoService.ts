@@ -1,7 +1,6 @@
-import axios, { Axios } from "axios";
+import axios from "axios";
 import { apiBaseUrl } from "../lib/constsants";
-import { AwardIcon, Video } from "lucide-react";
-import { tr } from "zod/v4/locales";
+
 
 
 type SignatueType = {
@@ -128,7 +127,7 @@ async function deleteVideo(videoId:string) {
     );
 
     return response.data; 
-  } catch (error:string) {
+  } catch (error:any) {
     console.error("Error deleting video:", error.response?.data || error.message);
     throw error.response?.data || error;
   }
@@ -142,29 +141,32 @@ async function togglePublishStatus(videoId:string) {
     );
 
     return response.data; // return the backend response
-  } catch (error) {
+  } catch (error:any) {
     console.error("Error toggling publish status:", error.response?.data || error.message);
     throw error.response?.data || error;
   }
 }
-async function updateVideo (videoId,videoData) {
+async function updateVideo (videoId:string,videoData:any) {
   try {
     const formData=new FormData();
     formData.append("title",videoData.title);
-    formData.append("description",VideoData.description)
+    formData.append("description",videoData.description)
 
 
 
-    if (VideoData.thumbnail instanceof File) {
-      formData.append("thumbnail",VideoData.thumbnail)
+    if (videoData.thumbnail instanceof File) {
+      formData.append("thumbnail",videoData.thumbnail)
     }
     
     const respone = await axios.patch(
       `${apiBaseUrl}/videos/${videoId}`,
       formData,
-      {withCredentials:true}
+      {withCredentials:true},
     )
-  } catch (error) {
+
+      return respone.data
+  
+  } catch (error:any) {
     console.log('Error updating video', error.respone?.data || error.message)
     throw error.respone?.data || error
 
@@ -198,6 +200,7 @@ export {
   uploadImageToCloudinary,
   deleteVideo,
   togglePublishStatus,
-  getCloudinaryApiSignature
+  getCloudinaryApiSignature,
+  updateVideo
 };
 

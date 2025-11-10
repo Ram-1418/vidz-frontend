@@ -1,62 +1,52 @@
-
-
 import { apiBaseUrl } from "@/lib/constsants";
 import axios from "axios";
 import handleError from "@/lib/hadleError";
 
-async function createPlaylist(playlistData) {
+async function createPlaylist(playlistData: string) {
   try {
-    const response = await axios.post(
-      `${apiBaseUrl}/playlists`,
-      playlistData,
-      {
-
-        withCredentials: true,
-      }
-    );
+    const response = await axios.post(`${apiBaseUrl}/playlists`, playlistData, {
+      withCredentials: true,
+    });
     return response.data;
-  } catch (error) {
-      const message = handleError(error);
-    console.error("Error adding comment:", message || error);
-    throw new Error(message || "Failed to add comment");
-  }
-};
-
-async function deletePlaylist(playlistId) {
-  try {
-    const respone = await axios.delete(
-      `${apiBaseUrl}/playlists/${playlistId}`
-            { withCredentials: true }
-    )
-    return respone.data
-  } catch (error) {
-   const message = handleError(error);
-    console.error("Error adding comment:", message || error);
-    throw new Error(message || "Failed to add comment");
-  }
-}
-
-async function getPlaylistById(playlistId:string) {
-  try {
-    const respone = await axios.get(
-      `${apiBaseUrl}/playlists/${playlistId}`,
-      { withCredentials: true }
-    )
-    return respone.data
-
   } catch (error) {
     const message = handleError(error);
     console.error("Error adding comment:", message || error);
     throw new Error(message || "Failed to add comment");
   }
 }
-async function updatePlaylist(playlistId:string, playlistData:string) {
+
+async function deletePlaylist(playlistId: string) {
+  try {
+    const respone = await axios.delete(
+      `${apiBaseUrl}/playlists/${playlistId}`,
+      { withCredentials: true }
+    );
+    return respone.data;
+  } catch (error) {
+    const message = handleError(error);
+    console.error("Error adding comment:", message || error);
+    throw new Error(message || "Failed to add comment");
+  }
+}
+
+async function getPlaylistById(playlistId: string) {
+  try {
+    const respone = await axios.get(`${apiBaseUrl}/playlists/${playlistId}`, {
+      withCredentials: true,
+    });
+    return respone.data;
+  } catch (error) {
+    const message = handleError(error);
+    console.error("Error adding comment:", message || error);
+    throw new Error(message || "Failed to add comment");
+  }
+}
+async function updatePlaylist(playlistId: string, playlistData: string) {
   try {
     const response = await axios.patch(
       `${apiBaseUrl}/playlists/${playlistId}`,
       playlistData,
       {
-
         withCredentials: true,
       }
     );
@@ -66,34 +56,28 @@ async function updatePlaylist(playlistId:string, playlistData:string) {
     console.error("Error adding comment:", message || error);
     throw new Error(message || "Failed to add comment");
   }
-};
-async function removeVideoFromPlaylist(playlistId, videoId) {
+}
+async function removeVideoFromPlaylist(playlistId: string, videoId: string) {
   try {
     const response = await axios.patch(
       `${apiBaseUrl}/playlists/${playlistId}/remove/${videoId}`,
 
-
-      { withCredentials: true },
-     return response.data;
-      )
-  
-    
-
-    
-  }catch (error) {
-  const message = handleError(error);
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (error) {
+    const message = handleError(error);
     console.error("Error adding comment:", message || error);
     throw new Error(message || "Failed to add comment");
-}
+  }
 }
 
-async function addVideoToPlaylist(playlistId:string, videoId:string) {
+async function addVideoToPlaylist(playlistId: string, videoId: string) {
   try {
     const response = await axios.patch(
       `${apiBaseUrl}/playlists/${playlistId}/add/${videoId}`,
 
       {
-
         withCredentials: true,
       }
     );
@@ -104,48 +88,28 @@ async function addVideoToPlaylist(playlistId:string, videoId:string) {
     console.error("Error adding comment:", message || error);
     throw new Error(message || "Failed to add comment");
   }
-};
-async function getUserPlaylists(userId) => {
+}
+async function getUserPlaylists(userId: string) {
   try {
-    const response = await axios.get(`${apiBaseUrl}/playlists/user/${userId}`,
+    const response = await axios.get(
+      `${apiBaseUrl}/playlists/user/${userId}`,
 
-      { withCredentials: true },
-
-    return response.data
+      { withCredentials: true }
     );
-
-
+    return response.data;
   } catch (error) {
-    const message = handleError(error);
-    console.error("Error adding comment:", message || error);
-    throw new Error(message || "Failed to add comment");
-  }
-};
-async function addVideoToPlaylist(playlistId:string, videoId:string) {
-  try {
-    const response = await axios.patch(
-      `${apiBaseUrl}/playlists/${playlistId}/add/${videoId}`,
-
-      { withCredentials: true },
-           return response.data;
-      
-  )}
-
-
-  catch (error) {
     const message = handleError(error);
     console.error("Error adding comment:", message || error);
     throw new Error(message || "Failed to add comment");
   }
 }
 
-
-exports{
-    getPlaylistById,
-      deletePlaylist,
-      removeVideoFromPlaylist,
-      addVideoToPlaylist,
-      getUserPlaylists,
-      addVideoToPlaylist,
-      updatePlaylist
-  }
+export {
+  getPlaylistById,
+  deletePlaylist,
+  removeVideoFromPlaylist,
+  getUserPlaylists,
+  addVideoToPlaylist,
+  updatePlaylist,
+  createPlaylist,
+};
