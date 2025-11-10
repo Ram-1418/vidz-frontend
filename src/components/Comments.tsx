@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { deleteComment, getVideoComments } from '@/apiServices/commentService';
-import { useParams } from 'react-router-dom';
-import { toggleCommentLike } from '../apiServices/likeService'
-import {updateComment} from '../apiServices/commentService'
-import { string } from 'zod';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { deleteComment, getVideoComments, updateComment, } from "@/apiServices/commentService";
+import { toggleCommentLike } from "@/apiServices/likeService";
+import EditComment from "./EditComment";
+
 
 interface Comment {
   id: string;
@@ -18,29 +18,24 @@ const Comments = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
-  const [likecomment, setlikecomment] = useState('')
-  const [updatecomment, setupdatecomment] = useState('')
+  const [likeComment, setLikeComment] = useState<string>("");
 
-
-
-
-
-  useEffect(() => {
+  useEffect(() => { 
     if (!videoId) return;
 
     const fetchComments = async () => {
       try {
         const data = await getVideoComments(videoId, 1);
         const formatted = (data.comments || []).map((c: any) => ({
-          id: c.id || c._id, // ensure consistent id
+          id: c._id || c.id,
           content: c.content,
           author: c.author,
           createdAt: c.createdAt,
         }));
         setComments(formatted);
       } catch (error: any) {
-        console.error('Error fetching comments:', error);
-        setError('Failed to load comments');
+        console.error("Error fetching comments:", error);
+        setError("Failed to load comments");
       } finally {
         setLoading(false);
       }
@@ -50,44 +45,40 @@ const Comments = () => {
   }, [videoId]);
 
   const handleDelete = async (commentId: string) => {
-    if (!window.confirm('Are you sure you want to delete this comment?')) return;
+    if (!window.confirm("Are you sure you want to delete this comment?")) return;
     setDeleting(commentId);
 
     try {
       await deleteComment(commentId);
       setComments((prev) => prev.filter((c) => c.id !== commentId));
-      console.log("Deleting comment ID:", commentId);
-
     } catch (error) {
-      alert('Failed to delete comment');
-      console.error('Deleting error:', error);
+      alert("Failed to delete comment");
+      console.error("Deleting error:", error);
     } finally {
       setDeleting(null);
     }
   };
 
-
   const handleLike = async (commentId: string) => {
     try {
-      const data = await toggleCommentLike(commentId)
-      console.log(data)
+      await toggleCommentLike(commentId);
+      setLikeComment(commentId);
     } catch (error) {
-      console.log('error', error)
-
+      console.log("error", error);
     }
-  }
+  };
 
-  const handleUpdateComment=async(commentId:string,comment:string)=>{
+  const handleUpdateComment = async (commentId: string, newContent: string) => {
     try {
-      const data= await updateComment(commentId,comment)
-      console.log('data', data)
+      const data = await updateComment(commentId, newContent);
+      setComments((prev) =>
+        prev.map((c) => (c.id === commentId ? { ...c, content: newContent } : c))
+      );
       console.log("✅ Comment updated successfully:", data);
-
     } catch (error) {
-      console.log('error', error)
-      
+      console.log("error", error);
     }
-  }
+  };
 
   if (loading) return <p>Loading comments...</p>;
   if (error) return <p className="text-red-600">{error}</p>;
@@ -98,46 +89,28 @@ const Comments = () => {
         <p>No comments yet.</p>
       ) : (
         comments.map((comment) => (
-          <div
-            key={comment.id}
-            className="p-3 bg-gray-100 rounded-lg shadow-sm hover:bg-gray-50"
-          >
-            <p className="text-gray-800">{comment.content}</p>
-            {comment.author && (
-              <p className="text-sm text-gray-500 mt-1">– {comment.author}</p>
-            )}
-            <p>{new Date(comment.createdAt).toDateString()}</p>
+          <div key={comment.id}>
+            <EditComment
+              comment={comment}
+              handleUpdateComment={handleUpdateComment}
+              handleDelete={handleDelete}
+            />
 
             <button
-              onClick={() => handleDelete(comment.id)}
-              disabled={deleting === comment.id}
-              className="text-red-500 hover:text-red-700 text-sm mt-2"
-            >
-              {deleting === comment.id ? "Deleting..." : "Delete"}
-            </button>
-
-            <button
-              onClick={() => {
-                handleLike(comment.id);
-                setlikecomment(comment.id);
-              }}
+              onClick={() => handleLike(comment.id)}
               className="text-blue-500 hover:text-blue-700 text-sm mt-2 ml-2"
             >
-              {likecomment === comment.id ? "Liked" : "Like"}
+              {likeComment === comment.id ? "Liked" : "Like"}
             </button>
 
-            <button
-
-            className='p-4 bg-white text-black '
-            onClick={()=>handleUpdateComment(comment.id,comment.content)}
-            >
-             Update Comment              
-            </button>
+            {deleting === comment.id && (
+              <p className="text-xs text-gray-400 mt-1">Deleting...</p>
+            )}
           </div>
         ))
       )}
     </div>
+  );
+};
 
-  )
-}
 export default Comments;
