@@ -1,6 +1,6 @@
 import { apiBaseUrl } from "@/lib/constsants";
 import axios from "axios";
-import { data } from "react-router-dom";
+;
 
 
 export const createTweet = async (content: string) => {
@@ -12,7 +12,7 @@ export const createTweet = async (content: string) => {
         );
         return response.data
     } catch (error: any) {
-        console.error("Error creating tweet", error.respone ? data || error)
+        console.error("Error creating tweet")
     }
 }
 
@@ -23,22 +23,13 @@ export const deleteTweet = async (tweetId: string) => {
 
             { withCredentials: true }
         );
-        return {
-            success: true,
-            data: response.data,
-            message: "Tweet deleted successfully",
-        }
+
 
     } catch (error: any) {
-        console.error("Error during the deleting the tweet", error.response ? data || error)
+        console.error("Error during the deleting the tweet")
 
 
-        return {
-            success: false,
-            message:
-                error.response?.data?.message ||
-                "Something went wrong while deleting the tweet",
-        }
+
     }
 }
 
@@ -49,13 +40,7 @@ export const getUserTweet = async (userId: string) => {
 
             { withCredentials: true }
         )
-        return {
-
-            success: true,
-            data: response.data,
-            message: "Tweet deleted successfully",
-
-        }
+        return response.data
 
     } catch (error: any) {
         console.error(
@@ -63,12 +48,7 @@ export const getUserTweet = async (userId: string) => {
             error.respone?.data || error
         )
 
-        return {
-            success: false,
-            message:
-                error.response?.data?.message ||
-                "Something went wrong while fetching user tweets"
-        }
+
 
     }
 }
