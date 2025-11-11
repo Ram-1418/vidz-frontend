@@ -83,7 +83,7 @@ async function addVideoToPlaylist(playlistId: string, videoId: string) {
     );
 
     return response.data;
-  } catch (error: any) {
+  } catch (error: unknown) {
     const message = handleError(error);
     console.error("Error adding comment:", message || error);
     throw new Error(message || "Failed to add comment");
