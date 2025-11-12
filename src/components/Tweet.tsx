@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { createTweet, deleteTweet } from "@/apiServices/tweetservice";
+import { createTweet, deleteTweet, } from "@/apiServices/tweetservice";
+import { toggleTweetLike } from "../apiServices/likeService"
+import { useParams } from "react-router-dom";
 
 interface TweetType {
   _id: string;
@@ -10,6 +12,18 @@ interface TweetType {
 const Tweet = () => {
   const [tweet, setTweet] = useState("");
   const [tweets, setTweets] = useState<TweetType[]>([]);
+
+
+
+  const fetchTweets =async (userId:string)=>{
+    try {
+      const data= await getUserTweet(userId)
+      console.log('data', data)
+      
+    } catch (error) {
+      console.error("error during fetcjhing tweets")
+    }
+  }
 
   const handleCreateTweet = async () => {
     if (!tweet.trim()) {
@@ -38,18 +52,31 @@ const Tweet = () => {
       console.log("Error deleting tweet:", error);
     }
   };
-const getUserTweet=async(userId:string)=>{
-  try {
-    const data=await getUserTweet(userId)
-    console.log('data', data)
-  } catch (error) {
-    console.log('error', error)
-    
+  const getUserTweet = async (userId: string) => {
+    try {
+      const data = await getUserTweet(userId)
+      console.log('data', data)
+    } catch (error) {
+      console.log('error', error)
+
+    }
+
+
   }
-}
+  const handleLike = async (tweetId:string) => {
+    try {
+      const data = await toggleTweetLike(tweetId)
+      console.log('data', data)
+
+
+    } catch (error) {
+      console.log('error', error)
+
+    }
+  }
   return (
 
-    
+
     <div className="p-4 max-w-sm mx-auto bg-gray-100 rounded-lg shadow-md">
       <input
         value={tweet}
@@ -78,10 +105,15 @@ const getUserTweet=async(userId:string)=>{
           >
             Delete
           </button>
-
+    
         </div>
-        
+
       ))}
+            <button
+            onClick={()=>fetchTweets(userId)}
+          >
+            Like
+          </button>
     </div>
   );
 };
