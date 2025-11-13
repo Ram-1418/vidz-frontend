@@ -46,3 +46,9 @@ async function getUserChannelSubscribers(channelID: string) {
     }
 
 }
+
+export{
+    getUserChannelSubscribers,
+    getSubscribedChannels,
+    toggleSubscription
+}
