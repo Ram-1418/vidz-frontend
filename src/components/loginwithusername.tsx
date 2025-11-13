@@ -59,12 +59,14 @@ const LoginWithUsername = () => {
   return (
     <div className="h-screen w-screen grid grid-cols-1 md:grid-cols-2 text-white">
       {/* LEFT SECTION */}
-      <div className="md:flex flex-col justify-center items-center h-screen bg-gradient-to-br from-pink-600 via-red-500 to-purple-700 p-12">
-        <h1 className="text-black font-extrabold text-5xl mb-4">Vidz </h1>
+      <div className="md:flex  flex-col justify-center items-center h-screen bg-gradient-to-br from-pink-600 via-red-500 to-purple-700 p-12">
+        <div className="text-center mt-20 ">
+          <h1 className="text-black font-extrabold text-5xl mb-4">Vidz </h1>
         <p className="text-lg opacity-90 leading-relaxed text-white font-bold text-center">
           Build, upload, and share your creativity with the world. Join us and
           make your content shine.
         </p>
+        </div>
       </div>
 
       {/* RIGHT SECTION */}
