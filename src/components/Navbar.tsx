@@ -8,7 +8,7 @@ type NavbarProps = {
 
 const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
-  const [unreadCount, setUnreadCount] = useState(3); // example unread notifications
+  const [unreadCount, setUnreadCount] = useState(3); 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleNotifications = () => {

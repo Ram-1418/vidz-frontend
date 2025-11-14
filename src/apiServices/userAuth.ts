@@ -186,7 +186,7 @@ const changePassword  =async(data)=>{
         {withCredentials:true}
     )
     return response.data
-  } catch (error) {
+  } catch (error:any) {
       console.error("Error changing password:", error.response?.data || error.message);
     throw error;
     
