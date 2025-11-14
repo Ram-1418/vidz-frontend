@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const EditComment = ({ comment, handleUpdateComment, handleDelete }) => {
+const EditComment = ({ comment, handleUpdateComment, handleDelete }:any) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(comment.content);
 

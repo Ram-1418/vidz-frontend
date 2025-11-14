@@ -178,7 +178,7 @@ const updateUserAvatar = async (file:any) => {
     throw error;
   }
 };
-const changePassword  =async(data)=>{
+const changePassword  =async(data:any)=>{
   try {
     const response=await axios.patch(
         `${apiBaseUrl}/change-password`,
