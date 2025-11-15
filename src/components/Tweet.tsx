@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { createTweet, deleteTweet, } from "@/apiServices/tweetservice";
 import { toggleTweetLike } from "../apiServices/likeService"
-import { useParams } from "react-router-dom";
+
 
 interface TweetType {
   _id: string;
@@ -20,7 +20,7 @@ const Tweet = () => {
       const data= await getUserTweet(userId)
       console.log('data', data)
       
-    } catch (error) {
+    } catch (error:any) {
       console.error("error during fetcjhing tweets")
     }
   }

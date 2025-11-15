@@ -56,7 +56,7 @@ const VideoPage: React.FC = () => {
 
   // MAIN YOUTUBE-STYLE UI
   return (
-    <div className="max-w-5xl mx-auto p-4">
+    <div className="max-w-5xl mx-auto p-4 border border-red-700 " >
 
       {/* VIDEO PLAYER */}
       <div className="w-full bg-black rounded-lg overflow-hidden">
