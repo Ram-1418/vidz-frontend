@@ -1,6 +1,8 @@
 // components/Navbar.tsx
 import React, { useState, useEffect, useRef } from "react";
 import { Menu, Search, Bell, User, Mic, PlayCircle } from "lucide-react";
+import Tweet from "./Tweet";
+import { useNavigate } from "react-router-dom";
 
 type NavbarProps = {
   toggleSidebar: () => void;
@@ -8,8 +10,10 @@ type NavbarProps = {
 
 const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
-  const [unreadCount, setUnreadCount] = useState(3); 
+  const [unreadCount, setUnreadCount] = useState(3);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [open, setopen] = useState(false)
+  const usenavgate=useNavigate()
 
   const toggleNotifications = () => {
     setIsNotificationsOpen(!isNotificationsOpen);
@@ -55,6 +59,21 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
         <button className="p-2 bg-gray-100 rounded-full hover:bg-gray-200">
           <Mic className="w-5 h-5" />
         </button>
+      </div>
+
+      <div className="">
+        <button
+          onClick={()=>setopen(true)}
+          className=" font-bold p-3 bg-black text-white rounded-2xl">
+          Create
+        </button>
+        {open &&(
+          <div className="bg-white text-black rounded-xl shadow-xl border border-gray-200 absolute right-0 mt-3 w-48 overflow-hidden p-5">
+            <button className="block w-full text-left px-4 py-3 hover:bg-gray-100">Upload video</button>
+            <button className="block w-full text-left px-4 py-3 hover:bg-gray-100">Go live</button>
+            <button className="">Create Post</button>
+          </div>
+        )}
       </div>
 
       {/* Right - Bell + User */}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllVideo } from "@/apiServices/videoService";
+import Tweetlist from "./Tweetlist";
 
 type VideoType = {
   _id: string;
@@ -53,15 +54,17 @@ const VideoList: React.FC = () => {
     return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
   };
 
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 max-w-7xl mx-auto">
+ return (
+  <div className="p-6 max-w-7xl mx-auto">
+
+    {/* VIDEO GRID */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
       {videos.map((video) => (
         <div
           key={video._id}
           className="cursor-pointer group"
         >
-          {/* Thumbnail container */}
           <Link to={`/video/${video._id}`}>
             <div className="relative w-full h-48 bg-gray-200 rounded-xl overflow-hidden shadow-sm group-hover:shadow-lg transition-all duration-200">
               <img
@@ -70,17 +73,13 @@ const VideoList: React.FC = () => {
                 className="w-full h-full object-cover group-hover:scale-105 transition duration-200"
               />
 
-              {/* Duration badge */}
               <span className="absolute bottom-2 right-2 bg-black bg-opacity-80 text-white text-[11px] px-1.5 py-0.5 rounded">
                 {formatDuration(video.duration)}
               </span>
             </div>
           </Link>
 
-          {/* VIDEO DETAILS */}
           <div className="flex mt-3 gap-3">
-
-            {/* Placeholder channel avatar */}
             <div className="w-10 h-10 rounded-full bg-gray-300"></div>
 
             <div className="flex-1">
@@ -96,12 +95,18 @@ const VideoList: React.FC = () => {
                 Channel Name • {Math.floor(Math.random() * 900) + 100}K views
               </p>
             </div>
-
           </div>
+
         </div>
       ))}
+
     </div>
-  );
+
+    POSTS SECTION BELOW VIDEOS
+   
+  </div>
+);
+
 };
 
 export default VideoList;
