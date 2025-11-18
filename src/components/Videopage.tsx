@@ -53,80 +53,100 @@ const VideoPage: React.FC = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-4">
+    <div className="flex justify-center px-6 py-4 gap-10 bg-white">
 
-      {/* VIDEO PLAYER */}
-      <div className="w-full bg-black rounded-xl shadow-xl overflow-hidden">
-        <video
-          src={video.videoFile}
-          controls
-          autoPlay
-          className="w-full h-[520px] object-contain"
-        />
-      </div>
+      {/* LEFT CONTENT */}
+      <div className="max-w-[900px] w-full">
 
-      {/* TITLE */}
-      <h1 className="text-2xl font-bold mt-4 text-gray-900 leading-tight">
-        {video.title}
-      </h1>
-
-      {/* ACTION BAR */}
-      <div className="flex items-start justify-between mt-4 flex-wrap gap-4">
-
-        {/* LEFT - CHANNEL */}
-        <div className="flex items-center gap-3">
-
-          <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-800 font-semibold text-lg shadow">
-            {video.channelName?.charAt(0) || "C"}
-          </div>
-
-          <div>
-            <p className="font-semibold text-gray-900 text-base">
-              {video.channelName || "Channel Name"}
-            </p>
-            <p className="text-xs text-gray-500">1.2M subscribers</p>
-          </div>
-
-          <button className="ml-3 px-5 py-2 bg-black text-white rounded-full text-sm font-medium hover:bg-gray-900 transition shadow-md">
-            Subscribe
-          </button>
+        {/* VIDEO PLAYER */}
+        <div className="w-full bg-black rounded-xl shadow-lg overflow-hidden">
+          <video
+            src={video.videoFile}
+            controls
+            autoPlay
+            className="w-full h-[520px] object-contain"
+          />
         </div>
 
-        {/* RIGHT - ACTION BUTTONS */}
-        <div className="flex items-center gap-3">
+        {/* TITLE */}
+        <h1 className="text-2xl font-bold mt-4 text-black leading-snug">
+          {video.title}
+        </h1>
 
-          {/* LIKE/UNLIKE */}
-          <div className="flex items-center bg-gray-100 rounded-full overflow-hidden border border-gray-300 shadow-sm">
+        {/* ACTION BAR */}
+        <div className="flex justify-between items-start mt-4">
 
-            <button className="px-4 py-2 hover:bg-gray-200 transition text-sm font-medium flex items-center gap-1">
-              👍 Like
-            </button>
+          {/* CHANNEL INFO */}
+          <div className="flex gap-3 items-start">
+            <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center font-bold text-lg text-gray-800">
+              {video.channelName?.charAt(0) || "C"}
+            </div>
 
-            <div className="w-[1px] bg-gray-300 h-6"></div>
+            <div>
+              <p className="font-semibold text-black text-base">
+                {video.channelName || "Channel Name"}
+              </p>
+              <p className="text-xs text-gray-500">1.2M subscribers</p>
+            </div>
 
-            <button className="px-4 py-2 hover:bg-gray-200 transition text-sm font-medium">
-              👎 Unlike
+            <button className="ml-4 px-5 py-2 bg-black text-white rounded-full text-sm font-semibold hover:bg-gray-900 transition">
+              Subscribe
             </button>
           </div>
 
-          {/* SHARE */}
-          <button className="px-4 py-2 bg-gray-100 rounded-full border border-gray-300 hover:bg-gray-200 transition text-sm shadow-sm">
-            Share
-          </button>
+          {/* ACTIONS */}
+          <div className="flex items-center gap-3">
 
-          {/* MORE */}
-          <button className="p-2 bg-gray-100 rounded-full border border-gray-300 hover:bg-gray-200 transition shadow-sm">
-            ⋮
-          </button>
+            <div className="flex items-center bg-gray-100 rounded-full border shadow-sm overflow-hidden">
+              <button className="px-4 py-2 hover:bg-gray-200 transition text-sm">
+                👍 Like
+              </button>
+              <div className="w-[1px] bg-gray-300 h-6"></div>
+              <button className="px-4 py-2 hover:bg-gray-200 transition text-sm">
+                👎 Dislike
+              </button>
+            </div>
+
+            <button className="px-4 py-2 bg-gray-100 rounded-full border hover:bg-gray-200 text-sm shadow-sm">
+              Share
+            </button>
+
+            <button className="p-2 bg-gray-100 rounded-full border shadow-sm hover:bg-gray-200">
+              ⋮
+            </button>
+          </div>
+        </div>
+
+        {/* DESCRIPTION */}
+        <div className="mt-5 bg-gray-100 rounded-xl p-4 shadow-sm text-sm text-gray-800">
+          <p>{video.description || "No description available."}</p>
+        </div>
+
+        {/* COMMENTS */}
+        <div className="mt-8">
+          <AddComment />
+          <Comments />
         </div>
       </div>
 
-      {/* DIVIDER */}
-      <div className="border-b border-gray-300 my-6"></div>
+      {/* RIGHT SIDEBAR */}
+      <div className="w-[340px] flex flex-col gap-4">
 
-      {/* COMMENTS */}
-      <AddComment />
-      <Comments />
+        {[1, 2, 3, 4, 5, 6].map((n) => (
+          <div key={n} className="flex gap-3 group cursor-pointer">
+            <div className="w-40 h-24 bg-gray-300 rounded-lg group-hover:opacity-80 transition"></div>
+
+            <div className="flex flex-col">
+              <p className="font-semibold text-sm text-black group-hover:underline">
+                Recommended Video Title {n}
+              </p>
+              <p className="text-xs text-gray-600">Channel Name</p>
+              <p className="text-xs text-gray-500">1M views • 2 years ago</p>
+            </div>
+          </div>
+        ))}
+
+      </div>
     </div>
   );
 };
