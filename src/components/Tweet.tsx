@@ -83,7 +83,7 @@ const Tweet = () => {
         </div>
       </div>
 
-      {/* COMMENTS LIST */}
+    
    
 
     </div>

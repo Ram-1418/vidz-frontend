@@ -44,13 +44,13 @@ const VideoPage: React.FC = () => {
     );
   }
 
-  if (!video) {
-    return (
-      <div className="flex justify-center items-center min-h-screen text-lg text-gray-600">
-        Video not found.
-      </div>
-    );
-  }
+  // if (!video) {
+  //   return (
+  //     <div className="flex justify-center items-center min-h-screen text-lg text-gray-600">
+  //       Video not found.
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="max-w-[1100px] mx-auto p-4">
