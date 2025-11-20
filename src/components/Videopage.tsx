@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { getAllVideo } from "@/apiServices/videoService";
 import AddComment from "./Addcomment";
 import Comments from "./Comments";
+import {toggleSubscription}from "@/apiServices/subscritionServic"
+
 
 type VideoType = {
   _id: string;
@@ -11,13 +13,19 @@ type VideoType = {
   videoFile: string;
   thumbnail: string;
   duration: number;
-  channelName?: string;
+ owner: {
+    _id: string;
+    username: string;
+    email: string;
+    avatar: string;
+  };
 };
 
 const VideoPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [video, setVideo] = useState<VideoType | null>(null);
   const [loading, setLoading] = useState(true);
+  const [subscribe, setsubscribe] = useState('')
 
   useEffect(() => {
     const fetchVideo = async () => {
@@ -36,6 +44,10 @@ const VideoPage: React.FC = () => {
     fetchVideo();
   }, [id]);
 
+  useEffect(()=>{
+    console.log("VIDEO LOADED:", video);
+  },[video])
+
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen text-lg text-gray-700">
@@ -50,6 +62,18 @@ const VideoPage: React.FC = () => {
         Video not found.
       </div>
     );
+  }
+
+
+  async function handleSubscribr(channelID: string) {
+    try {
+      const data=await toggleSubscription(channelID)
+      console.log('data', data)
+      
+    } catch (error) {
+      console.log('error', error)
+      
+    }
   }
 
   return (
@@ -89,7 +113,9 @@ const VideoPage: React.FC = () => {
               <p className="text-xs text-gray-500">1.2M subscribers</p>
             </div>
 
-            <button className="ml-4 px-5 py-2 bg-black text-white rounded-full text-sm font-semibold hover:bg-gray-900 transition">
+            <button 
+            onClick={()=>handleSubscribr(video.owner._id)}
+            className="ml-4 px-5 py-2 bg-black text-white rounded-full text-sm font-semibold hover:bg-gray-900 transition">
               Subscribe
             </button>
           </div>

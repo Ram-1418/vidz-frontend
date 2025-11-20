@@ -6,17 +6,18 @@ async function toggleSubscription(channelID: string) {
     try {
         const response = await axios.post(
             `${apiBaseUrl}/subscriptions/c/${channelID}`,
-            { withCredentials: true }
-        )
+         
+            {
+                withCredentials: true,   // send cookies
+            }
+        );
 
-        const data = response.data
-        console.log('data', data)
-        return response
+        console.log("Subscription:", response.data);
+        return response.data;
+
     } catch (error) {
-        console.error('error', error)
-
+        console.error("Subscription error:", error);
     }
-
 }
 
 async function getSubscribedChannels(subscriberId: string) {
