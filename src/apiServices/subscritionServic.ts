@@ -6,9 +6,9 @@ async function toggleSubscription(channelID: string) {
     try {
         const response = await axios.post(
             `${apiBaseUrl}/subscriptions/c/${channelID}`,
-         
+         {},
             {
-                withCredentials: true,   // send cookies
+                withCredentials: true,   
             }
         );
 
