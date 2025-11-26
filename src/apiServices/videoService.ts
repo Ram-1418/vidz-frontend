@@ -3,6 +3,7 @@ import { apiBaseUrl } from "../lib/constsants";
 
 
 
+
 type SignatueType = {
   apiKey: string;
   cloudName: string;
@@ -186,8 +187,24 @@ async function getCloudinaryApiSignature  () {
     
   } catch (error) {
     console.log('error', error)
+    throw error
 
     
+  }
+  
+}
+
+async function getVideoById(videoId:string) {
+  try {
+    const response=await axios.get(
+      `${apiBaseUrl}/videos/${videoId}`,
+      {withCredentials:true}
+    )
+    return response.data
+    
+  } catch (error) {
+    console.log('error', error)
+    throw error
   }
   
 }
@@ -201,6 +218,9 @@ export {
   deleteVideo,
   togglePublishStatus,
   getCloudinaryApiSignature,
-  updateVideo
+  updateVideo,
+  getVideoById
+  
+  
 };
 
