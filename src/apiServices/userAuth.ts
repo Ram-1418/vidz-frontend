@@ -130,26 +130,26 @@ async function logoutUser() {
 }
 
 
-async function  refreshToken() {
+async function refreshToken() {
   try {
-     const response = await axios.post(
+    const response = await axios.post(
       `${apiBaseUrl}/users/refresh-token`,
       {},
-      {withCredentials:true}
+      { withCredentials: true }
     );
     return response.data
-    
+
   } catch (error) {
-    console.log("error",error)
+    console.log("error", error)
   }
 }
 
-const updateAccountDetails = async()=>{
+const updateAccountDetails = async () => {
   try {
-    const respone=await axios.patch(
+    const respone = await axios.patch(
       `${apiBaseUrl}/update`,
       data,
-      {withCredentials:true}
+      { withCredentials: true }
     )
     return respone.data
   } catch (error) {
@@ -158,7 +158,7 @@ const updateAccountDetails = async()=>{
   }
 }
 
-const updateUserAvatar = async (file:any) => {
+const updateUserAvatar = async (file: any) => {
   try {
     const formData = new FormData();
     formData.append("avatar", file);
@@ -173,23 +173,53 @@ const updateUserAvatar = async (file:any) => {
     console.log("Avatar updated successfully:", response.data);
     return response.data;
 
-  } catch (error:any) {
+  } catch (error: any) {
     console.error("Error updating avatar:", error.response?.data || error.message);
     throw error;
   }
 };
-const changePassword  =async(data:any)=>{
+const changePassword = async (data: any) => {
   try {
-    const response=await axios.patch(
-        `${apiBaseUrl}/change-password`,
-        data,
-        {withCredentials:true}
+    const response = await axios.patch(
+      `${apiBaseUrl}/change-password`,
+      data,
+      { withCredentials: true }
     )
     return response.data
-  } catch (error:any) {
-      console.error("Error changing password:", error.response?.data || error.message);
+  } catch (error: any) {
+    console.error("Error changing password:", error.response?.data || error.message);
     throw error;
-    
+
+  }
+}
+
+const getUserChannelProfile = async (username: string) => {
+  try {
+    const response = await axios.get(
+      `${apiBaseUrl}/c/${username}`,
+
+
+      { withCredentials: true }
+    )
+    return response.data
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
+const getUserWatchHistory = async () => {
+  try {
+    const response = await axios.get(
+      `${apiBaseUrl}/watch-history`,
+
+      { withCredentials: true }
+    )
+    return response.data
+
+  } catch (error) {
+    console.log('error', error)
+    throw error
+
   }
 }
 
@@ -203,5 +233,7 @@ export {
   refreshToken,
   updateAccountDetails,
   updateUserAvatar,
-  changePassword
+  changePassword,
+  getUserChannelProfile,
+  getUserWatchHistory
 };
