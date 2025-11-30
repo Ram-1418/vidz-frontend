@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { getAllVideo } from "@/apiServices/videoService";
 import AddComment from "./Addcomment";
 import Comments from "./Comments";
-import {toggleSubscription}from "@/apiServices/subscritionServic"
-
+import { toggleSubscription } from "@/apiServices/subscritionServic";
+import { toggleVideoLike } from "@/apiServices/likeService";
 
 type VideoType = {
   _id: string;
@@ -13,7 +13,10 @@ type VideoType = {
   videoFile: string;
   thumbnail: string;
   duration: number;
- owner: {
+  likes?: number;
+  isLikedByUser?: boolean;
+  isSubscribedToOwner?: boolean;
+  owner: {
     _id: string;
     username: string;
     email: string;
@@ -25,15 +28,28 @@ const VideoPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [video, setVideo] = useState<VideoType | null>(null);
   const [loading, setLoading] = useState(true);
-  const [subscribe, setsubscribe] = useState('')
 
+  // Frontend UI states
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+
+  // Fetch video
   useEffect(() => {
     const fetchVideo = async () => {
       try {
         setLoading(true);
-        const data = await getAllVideo();
-        const foundVideo = data?.data.docs.find((v: VideoType) => v._id === id);
-        setVideo(foundVideo || null);
+        const res = await getAllVideo();
+        const foundVideo = res?.data.docs.find((v: VideoType) => v._id === id);
+
+        if (foundVideo) {
+          setVideo(foundVideo);
+
+          // Initialize UI states
+          setIsSubscribed(foundVideo.isSubscribedToOwner || false);
+          setIsLiked(foundVideo.isLikedByUser || false);
+          setLikeCount(foundVideo.likes || 0);
+        }
       } catch (error) {
         console.error("❌ Failed to fetch video:", error);
       } finally {
@@ -44,9 +60,35 @@ const VideoPage: React.FC = () => {
     fetchVideo();
   }, [id]);
 
-  useEffect(()=>{
-    console.log("VIDEO LOADED:", video);
-  },[video])
+  // Subscribe Handler
+  const handleSubscribr = async (channelID: string) => {
+    try {
+      const response = await toggleSubscription(channelID);
+      setIsSubscribed(!isSubscribed); // toggle UI instantly
+      console.log("Subscription toggled:", response);
+    } catch (error) {
+      console.log("Subscription Error:", error);
+    }
+  };
+
+  // Like Handler
+  const handleLike = async (videoId: string) => {
+    try {
+      const res = await toggleVideoLike(videoId);
+
+      if (isLiked) {
+        setLikeCount(likeCount - 1);
+      } else {
+        setLikeCount(likeCount + 1);
+      }
+
+      setIsLiked(!isLiked);
+
+      console.log("Like toggled:", res);
+    } catch (error) {
+      console.log("Like Error:", error);
+    }
+  };
 
   if (loading) {
     return (
@@ -62,18 +104,6 @@ const VideoPage: React.FC = () => {
         Video not found.
       </div>
     );
-  }
-
-
-  async function handleSubscribr(channelID: string) {
-    try {
-      const data=await toggleSubscription(channelID)
-      console.log('data', data)
-      
-    } catch (error) {
-      console.log('error', error)
-      
-    }
   }
 
   return (
@@ -93,7 +123,7 @@ const VideoPage: React.FC = () => {
         </div>
 
         {/* TITLE */}
-        <h1 className="text-2xl font-bold mt-4 text-black leading-snug">
+        <h1 className="text-2xl font-bold mt-4 text-black">
           {video.title}
         </h1>
 
@@ -102,32 +132,43 @@ const VideoPage: React.FC = () => {
 
           {/* CHANNEL INFO */}
           <div className="flex gap-3 items-start">
-            <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center font-bold text-lg text-gray-800">
-              {video.channelName?.charAt(0) || "C"}
+            <div className="w-12 h-12 rounded-full bg-gray-300 overflow-hidden">
+              <img src={video.owner.avatar} alt="avatar" className="w-full h-full object-cover rounded-full" />
             </div>
 
             <div>
               <p className="font-semibold text-black text-base">
-                {video.channelName || "Channel Name"}
+                {video.owner.username}
               </p>
               <p className="text-xs text-gray-500">1.2M subscribers</p>
             </div>
 
-            <button 
-            onClick={()=>handleSubscribr(video.owner._id)}
-            className="ml-4 px-5 py-2 bg-black text-white rounded-full text-sm font-semibold hover:bg-gray-900 transition">
-              Subscribe
+            {/* SUBSCRIBE BUTTON */}
+            <button
+              onClick={() => handleSubscribr(video.owner._id)}
+              className={`ml-4 px-5 py-2 rounded-full text-sm font-semibold transition
+                ${isSubscribed ? "bg-gray-300 text-black" : "bg-black text-white"}
+              `}
+            >
+              {isSubscribed ? "Subscribed" : "Subscribe"}
             </button>
           </div>
 
-          {/* ACTIONS */}
+          {/* LIKE BUTTON */}
           <div className="flex items-center gap-3">
 
             <div className="flex items-center bg-gray-100 rounded-full border shadow-sm overflow-hidden">
-              <button className="px-4 py-2 hover:bg-gray-200 transition text-sm">
-                👍 Like
+              <button
+                className={`px-4 py-2 transition text-sm ${
+                  isLiked ? "bg-blue-200" : "hover:bg-gray-200"
+                }`}
+                onClick={() => handleLike(video._id)}
+              >
+                👍 {isLiked ? "Liked" : "Like"} {likeCount}
               </button>
+
               <div className="w-[1px] bg-gray-300 h-6"></div>
+
               <button className="px-4 py-2 hover:bg-gray-200 transition text-sm">
                 👎 Dislike
               </button>
@@ -157,7 +198,6 @@ const VideoPage: React.FC = () => {
 
       {/* RIGHT SIDEBAR */}
       <div className="w-[340px] flex flex-col gap-4">
-
         {[1, 2, 3, 4, 5, 6].map((n) => (
           <div key={n} className="flex gap-3 group cursor-pointer">
             <div className="w-40 h-24 bg-gray-300 rounded-lg group-hover:opacity-80 transition"></div>
@@ -171,8 +211,8 @@ const VideoPage: React.FC = () => {
             </div>
           </div>
         ))}
-
       </div>
+
     </div>
   );
 };
