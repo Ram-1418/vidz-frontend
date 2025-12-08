@@ -17,7 +17,7 @@ import RefreshSession from "./components/RefreshSession.tsx";
 import VideoPage from "./components/Videopage.tsx";
 import MainLayout from "./components/MainLayout.tsx";
 import AuthLayout from "./components/AuthLayout.tsx";
-import Tweet from "./components/Tweet.tsx";
+import Tweet from "./components/TweetPage.tsx";
 
 // ✅ Router definition
 const router = createBrowserRouter(
@@ -32,6 +32,7 @@ const router = createBrowserRouter(
         <Route path="logout" element={<LogoutButton />} />
         <Route path="tweet" element={<Tweet/>}/>
         <Route path="refresh-session" element={<RefreshSession />} />
+        <Route path="videopage" element={<VideoPage/>}/>
       </Route>
 
       {/* Routes WITHOUT Navbar */}
