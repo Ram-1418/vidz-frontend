@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
+import Providers from "./providers/providers";
 
 const MainLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -17,10 +18,11 @@ const MainLayout = () => {
       {/* Main Content */}
       <div className="flex-1">
         <Navbar toggleSidebar={toggleSidebar} />
-
-        <main className="p-4">
-          <Outlet />
-        </main>
+        <Providers>
+          <main className="p-4">
+            <Outlet />
+          </main>
+        </Providers>
       </div>
     </div>
   );

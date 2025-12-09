@@ -104,12 +104,17 @@ async function loginWithEmail(email: string, password: string) {
 
 async function getCurrentUser() {
   try {
-    const response = await axios.get(`${apiBaseUrl}/users/current-user`, {
+    const response = await axios.get(`${apiBaseUrl}/users/`, {
       withCredentials: true,
     });
-    console.log("getCurrent users", response.data);
-  } catch (error) {
-    console.log("getCurrent user sucessfuly");
+    const data = response.data
+   if(!data?.success){
+    throw new Error(data.message || "Failed to getCurrent user")
+   }
+   console.log('data', data)
+   return data.data
+  } catch (error:any) {
+    throw new Error(error?.message)
   }
 }
 
