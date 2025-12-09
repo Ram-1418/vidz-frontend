@@ -1,8 +1,6 @@
-import axios from "axios";
+import { axiosInstance } from "@/lib/axios";
 import { apiBaseUrl } from "../lib/constsants";
-
-
-
+import axios from "axios";
 
 type SignatueType = {
   apiKey: string;
@@ -14,7 +12,7 @@ type SignatueType = {
 
 async function getVideoUploadSignature() {
   try {
-    const response = await axios.get(`${apiBaseUrl}/videos/signature`, {
+    const response = await axiosInstance.get(`${apiBaseUrl}/videos/signature`, {
       withCredentials: true,
     });
     const data = response.data.data;
@@ -64,13 +62,14 @@ async function uploadImageToCloudinary(
 
     const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
 
-    const response = await axios.post(cloudinaryUrl, formData);
+    const response = await axiosInstance.post(cloudinaryUrl, formData);
     return response.data;
   } catch (error) {
     console.error("Error uploading image to Cloudinary", error);
     throw error;
   }
 }
+
 async function uploadVideo(
   videoFile: File,
   title: string,
@@ -88,18 +87,13 @@ async function uploadVideo(
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
-    formData.append("videoFile", uploadedVideo.secure_url);
+    formData.append("videoUrl", uploadedVideo.secure_url);
     // formData.append("publicId", uploadedVideo.public_id);
     formData.append("duration", uploadedVideo.duration);
     formData.append("thumbnail", thumbnail); // If thumbnail is a file, pass the file object
 
     // Send request with form-data
-    const response = await axios.post(`${apiBaseUrl}/videos`, formData, {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await axiosInstance.post("/videos/publish/direct", formData);
 
     return response.data;
   } catch (error) {
@@ -110,9 +104,7 @@ async function uploadVideo(
 
 async function getAllVideo() {
   try {
-    const response = await axios.get(`${apiBaseUrl}/videos`, {
-      withCredentials: true,
-    });
+    const response = await axiosInstance.get("/videos");
     console.log("response.data", response.data);
     return response.data;
   } catch (error) {
@@ -120,93 +112,73 @@ async function getAllVideo() {
     throw error;
   }
 }
-async function deleteVideo(videoId:string) {
+async function deleteVideo(videoId: string) {
   try {
-    const response = await axios.delete(
-      `${apiBaseUrl}/videos/${videoId}`,
-      { withCredentials: true } 
-    );
+    const response = await axiosInstance.delete(`/videos/${videoId}`);
 
-    return response.data; 
-  } catch (error:any) {
-    console.error("Error deleting video:", error.response?.data || error.message);
+    return response.data;
+  } catch (error: any) {
+    console.error(
+      "Error deleting video:",
+      error.response?.data || error.message
+    );
     throw error.response?.data || error;
   }
 }
-async function togglePublishStatus(videoId:string) {
+async function togglePublishStatus(videoId: string) {
   try {
-    const response = await axios.patch(
-      `${apiBaseUrl}/videos/${videoId}/toggle-publish`, 
-      
-      { withCredentials: true } 
+    const response = await axiosInstance.patch(
+      `/videos/${videoId}/toggle-publish`
     );
 
     return response.data; // return the backend response
-  } catch (error:any) {
-    console.error("Error toggling publish status:", error.response?.data || error.message);
+  } catch (error: any) {
+    console.error(
+      "Error toggling publish status:",
+      error.response?.data || error.message
+    );
     throw error.response?.data || error;
   }
 }
-async function updateVideo (videoId:string,videoData:any) {
+async function updateVideo(videoId: string, videoData: any) {
   try {
-    const formData=new FormData();
-    formData.append("title",videoData.title);
-    formData.append("description",videoData.description)
-
-
+    const formData = new FormData();
+    formData.append("title", videoData.title);
+    formData.append("description", videoData.description);
 
     if (videoData.thumbnail instanceof File) {
-      formData.append("thumbnail",videoData.thumbnail)
+      formData.append("thumbnail", videoData.thumbnail);
     }
-    
-    const respone = await axios.patch(
-      `${apiBaseUrl}/videos/${videoId}`,
-      formData,
-      {withCredentials:true},
-    )
 
-      return respone.data
-  
-  } catch (error:any) {
-    console.log('Error updating video', error.respone?.data || error.message)
-    throw error.respone?.data || error
+    const respone = await axiosInstance.patch(`/videos/${videoId}`, formData);
 
-    
+    return respone.data;
+  } catch (error: any) {
+    console.log("Error updating video", error.respone?.data || error.message);
+    throw error.respone?.data || error;
   }
-  
 }
 
-async function getCloudinaryApiSignature  () {
-
+async function getCloudinaryApiSignature() {
   try {
-    const respone= await axios.get(
-      `${apiBaseUrl}/videos/signature`,
-      {withCredentials:true}
-    )
-    return respone.data
-    
+    const respone = await axiosInstance.get(`${apiBaseUrl}/videos/signature`, {
+      withCredentials: true,
+    });
+    return respone.data;
   } catch (error) {
-    console.log('error', error)
-    throw error
-
-    
+    console.log("error", error);
+    throw error;
   }
-  
 }
 
-async function getVideoById(videoId:string) {
+async function getVideoById(videoId: string) {
   try {
-    const response=await axios.get(
-      `${apiBaseUrl}/videos/${videoId}`,
-      {withCredentials:true}
-    )
-    return response.data
-    
+    const response = await axiosInstance.get(`/videos/${videoId}`);
+    return response.data;
   } catch (error) {
-    console.log('error', error)
-    throw error
+    console.log("error", error);
+    throw error;
   }
-  
 }
 
 export {
@@ -219,8 +191,5 @@ export {
   togglePublishStatus,
   getCloudinaryApiSignature,
   updateVideo,
-  getVideoById
-  
-  
+  getVideoById,
 };
-
