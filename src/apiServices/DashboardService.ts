@@ -1,12 +1,9 @@
-
-import { apiBaseUrl } from "@/lib/constsants";
-import axios from "axios";
+import { axiosInstance } from "@/lib/axios";
 
 export const getChannelStats = async () => {
   try {
-    const res = await axios.get(`
-        ${apiBaseUrl}/dashboard/stats
-        `);
+    const res = await axiosInstance.get('/dashboard/stats'
+        );
 
     return res.data;
   } catch (error: any) {
@@ -17,7 +14,9 @@ export const getChannelStats = async () => {
 
 export const getChannelVideos = async (page = 1, limit = 10) => {
   try {
-    const res = await axios.get(`/dashboard/videos?page=${page}&limit=${limit}`);
+    const res = await axiosInstance.get(
+      `/dashboard/videos?page=${page}&limit=${limit}`
+    );
     return res.data;
   } catch (error: any) {
     console.error("Error fetching channel videos:", error);

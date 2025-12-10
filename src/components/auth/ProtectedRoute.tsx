@@ -14,7 +14,7 @@ function Protected({
   const authStatus = useAppSelector((state) => state.auth.status);
   useEffect(() => {
     if (authentication && authStatus !== authentication) {
-      navigate("/login");
+      // navigate("/login");
     } else if (authentication && !authStatus) {
       navigate("/");
     }

@@ -16,6 +16,7 @@ import VideoPage from "./components/Videopage.tsx";
 import MainLayout from "./components/MainLayout.tsx";
 import AuthLayout from "./components/AuthLayout.tsx";
 import Protected from "./components/auth/ProtectedRoute.tsx";
+import Dashboard from "./components/Dashboard.tsx";
 
 // ✅ Router definition
 const router = createBrowserRouter(
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
         <Route path="videos" element={<GetAllVideo />} />
         <Route path="video/:id" element={<VideoPage />} />
         <Route path="fileupload" element={<VideoUpload />} />
+            <Route path="dashborad" element={<Dashboard />} />
 
         <Route path="videopage" element={<VideoPage />} />
       </Route>

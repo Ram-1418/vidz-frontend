@@ -169,9 +169,7 @@ const VideoPage: React.FC = () => {
 
               <div className="w-[1px] bg-gray-300 h-6"></div>
 
-              <button className="px-4 py-2 hover:bg-gray-200 transition text-sm">
-                👎 Dislike
-              </button>
+              
             </div>
 
             <button className="px-4 py-2 bg-gray-100 rounded-full border hover:bg-gray-200 text-sm shadow-sm">
