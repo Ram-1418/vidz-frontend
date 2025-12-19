@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import auth from "@/store/authSlice";
+import videos from "@/store/videoSlice";
 export const makeStore = () => {
   return configureStore({
-    reducer: { auth },
+    reducer: { auth, videos },
   });
 };
 
