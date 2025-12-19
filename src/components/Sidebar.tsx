@@ -52,18 +52,53 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
 
       {/* MAIN LINKS */}
       <nav className="flex flex-col py-3 text-sm overflow-y-auto h-full">
-
         {/* SECTION 1 */}
         <div className="px-2">
-          <SidebarItem to="/" icon={<Home className="w-5 h-5" />} label="Home" />
-          <SidebarItem to="/you" icon={<User className="w-5 h-5" />} label="You" />
-          <SidebarItem to="/history" icon={<Clock className="w-5 h-5" />} label="History" />
-          <SidebarItem to="/playlists" icon={<ListVideo className="w-5 h-5" />} label="Playlists" />
-          <SidebarItem to="/your-videos" icon={<Video className="w-5 h-5" />} label="Your videos" />
-          <SidebarItem to="/courses" icon={<BookOpen className="w-5 h-5" />} label="Your courses" />
-          <SidebarItem to="/watch-later" icon={<Bookmark className="w-5 h-5" />} label="Watch later" />
-          <SidebarItem to="/liked" icon={<Heart className="w-5 h-5" />} label="Liked videos" />
-          <SidebarItem to="/downloads" icon={<Download className="w-5 h-5" />} label="Downloads" />
+          <SidebarItem
+            to="/"
+            icon={<Home className="w-5 h-5" />}
+            label="Home"
+          />
+          <SidebarItem
+            to="/you"
+            icon={<User className="w-5 h-5" />}
+            label="You"
+          />
+          <SidebarItem
+            to="/history"
+            icon={<Clock className="w-5 h-5" />}
+            label="History"
+          />
+          <SidebarItem
+            to="/playlists"
+            icon={<ListVideo className="w-5 h-5" />}
+            label="Playlists"
+          />
+          <SidebarItem
+            to="/your-videos"
+            icon={<Video className="w-5 h-5" />}
+            label="Your videos"
+          />
+          <SidebarItem
+            to="/courses"
+            icon={<BookOpen className="w-5 h-5" />}
+            label="Your courses"
+          />
+          <SidebarItem
+            to="/watch-later"
+            icon={<Bookmark className="w-5 h-5" />}
+            label="Watch later"
+          />
+          <SidebarItem
+            to="/liked"
+            icon={<Heart className="w-5 h-5" />}
+            label="Liked videos"
+          />
+          <SidebarItem
+            to="/downloads"
+            icon={<Download className="w-5 h-5" />}
+            label="Downloads"
+          />
         </div>
 
         {/* DIVIDER */}
@@ -84,7 +119,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
             </button>
           ))}
         </div>
-
       </nav>
     </div>
   );

@@ -5,8 +5,6 @@ import RegisterForm from "./components/auth/registerForm";
 import { getCurrentUser, registerUser } from "./apiServices/userAuth";
 import VideoUpload from "./components/VideoUpload";
 
-
-
 const App = () => {
   useEffect(() => {
     handleClick();

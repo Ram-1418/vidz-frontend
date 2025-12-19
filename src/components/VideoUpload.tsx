@@ -22,7 +22,12 @@ const VideoUpload = () => {
       if (!isFile(videoFile) || !isFile(thumbnail)) {
         return;
       }
-      const result = await uploadVideo(videoFile, description, title, thumbnail);
+      const result = await uploadVideo(
+        videoFile,
+        description,
+        title,
+        thumbnail
+      );
       console.log("uploaded", result);
       alert("video upload sucessfuly");
     } catch (error) {
@@ -48,7 +53,6 @@ const VideoUpload = () => {
             className="w-full border p-2 rounded mt-2"
           />
         </div>
-
         <div>
           <label className="block font-medium" htmlFor="">
             title
@@ -85,13 +89,11 @@ const VideoUpload = () => {
             className="w-full border p-2 rounded mt-2"
           />
         </div>
-
         {loader && (
           <div className="flex justify-center py-3">
             <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
           </div>
         )}
-
         <button
           disabled={loader}
           className={`w-full text-white py-2 rounded mt-5 ${
@@ -103,9 +105,7 @@ const VideoUpload = () => {
         {/* <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-accent mt-5">
           Submit
         </button> */}
-        if () {
-          
-        }
+        if () {}
       </form>
     </div>
   );
