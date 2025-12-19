@@ -44,12 +44,13 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
 
   return (
     <div className="flex items-center justify-between px-4 py-2 shadow-md bg-white sticky top-0 z-50">
-      
       {/* Left Section */}
       <div className="flex items-center gap-3">
         <Menu className="w-6 h-6 cursor-pointer" onClick={toggleSidebar} />
         <PlayCircle className="w-8 h-8 text-red-600" />
-        <span className="text-xl font-bold text-red-600">vidz-frontend</span>
+        <button onClick={() => navigate("/videos")}>
+          <span className="text-xl font-bold text-red-600">vidz-frontend</span>
+        </button>
       </div>
 
       {/* Middle Search */}
@@ -72,7 +73,6 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
 
       {/* Right Section */}
       <div className="flex items-center gap-5">
-        
         {/* Create Button */}
         <div className="relative" ref={createRef}>
           <button
@@ -137,15 +137,14 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
         </div>
 
         {/* User Icon */}
-      <div>
+        <div>
           <User className="w-6 h-6 cursor-pointer" />
-      </div>
+        </div>
 
-      <div>
-        <p className="rounded-3xl bg-white text-black font-bold text-xl">R</p>
+        <div>
+          <p className="rounded-3xl bg-white text-black font-bold text-xl">R</p>
+        </div>
       </div>
-      </div>
-     
     </div>
   );
 };

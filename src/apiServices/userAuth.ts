@@ -1,6 +1,7 @@
 import { data } from "react-router-dom";
 import { apiBaseUrl } from "../lib/constsants";
 import axios from "axios";
+import { axiosInstance } from "@/lib/axios";
 
 
 
@@ -104,9 +105,7 @@ async function loginWithEmail(email: string, password: string) {
 
 async function getCurrentUser() {
   try {
-    const response = await axios.get(`${apiBaseUrl}/users/`, {
-      withCredentials: true,
-    });
+    const response = await axiosInstance.get("/users");
     const data = response.data
    if(!data?.success){
     throw new Error(data.message || "Failed to getCurrent user")
