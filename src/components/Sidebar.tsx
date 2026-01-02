@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
   Home,
   User,
@@ -34,97 +34,66 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
   ];
 
   return (
-    <div
-      className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg border-r border-gray-200 
-      transition-transform duration-300 z-50
+    <aside
+      className={`fixed top-0 left-0 h-full w-64 bg-white/90 backdrop-blur-xl
+      border-r border-gray-200 shadow-xl z-50
+      transition-transform duration-300 ease-in-out
       ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
     >
-      {/* TOP BAR (mobile) */}
-      <div className="flex items-center justify-between px-4 py-3 md:hidden border-b border-gray-200">
-        <span className="text-lg font-bold text-red-600">vidz-frontend</span>
-        <X className="w-6 h-6 cursor-pointer" onClick={closeSidebar} />
+      {/* HEADER */}
+      <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-4 border-b bg-white/90">
+        <span className="text-xl font-extrabold text-red-600 tracking-wide">
+          vidz
+        </span>
+        <X
+          className="w-6 h-6 cursor-pointer md:hidden hover:text-red-500"
+          onClick={closeSidebar}
+        />
       </div>
 
-      {/* LOGO (desktop) */}
-      <div className="hidden md:flex items-center px-4 py-4 border-b border-gray-200">
-        <span className="text-xl font-bold text-red-600">vidz-frontend</span>
-      </div>
-
-      {/* MAIN LINKS */}
-      <nav className="flex flex-col py-3 text-sm overflow-y-auto h-full">
-        {/* SECTION 1 */}
-        <div className="px-2">
-          <SidebarItem
-            to="/"
-            icon={<Home className="w-5 h-5" />}
-            label="Home"
-          />
-          <SidebarItem
-            to="/you"
-            icon={<User className="w-5 h-5" />}
-            label="You"
-          />
-          <SidebarItem
-            to="/history"
-            icon={<Clock className="w-5 h-5" />}
-            label="History"
-          />
-          <SidebarItem
-            to="/playlists"
-            icon={<ListVideo className="w-5 h-5" />}
-            label="Playlists"
-          />
-          <SidebarItem
-            to="/your-videos"
-            icon={<Video className="w-5 h-5" />}
-            label="Your videos"
-          />
-          <SidebarItem
-            to="/courses"
-            icon={<BookOpen className="w-5 h-5" />}
-            label="Your courses"
-          />
-          <SidebarItem
-            to="/watch-later"
-            icon={<Bookmark className="w-5 h-5" />}
-            label="Watch later"
-          />
-          <SidebarItem
-            to="/liked"
-            icon={<Heart className="w-5 h-5" />}
-            label="Liked videos"
-          />
-          <SidebarItem
-            to="/downloads"
-            icon={<Download className="w-5 h-5" />}
-            label="Downloads"
-          />
+      {/* NAV */}
+      <nav className="py-4 text-sm overflow-y-auto h-[calc(100%-64px)] scrollbar-thin scrollbar-thumb-gray-300">
+        {/* MAIN */}
+        <div className="px-2 space-y-1">
+          <SidebarItem to="/" icon={<Home />} label="Home" />
+          <SidebarItem to="/you" icon={<User />} label="You" />
+          <SidebarItem to="/history" icon={<Clock />} label="History" />
+          <SidebarItem to="/playlists" icon={<ListVideo />} label="Playlists" />
+          <SidebarItem to="/your-videos" icon={<Video />} label="Your videos" />
+          <SidebarItem to="/courses" icon={<BookOpen />} label="Your courses" />
+          <SidebarItem to="/watch-later" icon={<Bookmark />} label="Watch later" />
+          <SidebarItem to="/liked" icon={<Heart />} label="Liked videos" />
+          <SidebarItem to="/downloads" icon={<Download />} label="Downloads" />
         </div>
 
         {/* DIVIDER */}
-        <div className="my-3 border-t border-gray-200" />
+        <div className="my-4 border-t" />
 
-        {/* EXPLORE SECTION */}
-        <div className="px-4 pb-2 text-xs font-semibold text-gray-500 uppercase">
+        {/* EXPLORE */}
+        <div className="px-4 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
           Explore
         </div>
 
-        <div className="px-2 flex flex-col">
+        <div className="px-2 space-y-1">
           {exploreItems.map((item) => (
             <button
               key={item}
-              className="text-sm text-gray-700 hover:bg-gray-100 p-2 rounded-lg text-left"
+              className="w-full text-left px-3 py-2 rounded-lg
+              text-gray-700 hover:bg-gray-100 hover:translate-x-1
+              transition-all duration-200"
             >
               {item}
             </button>
           ))}
         </div>
       </nav>
-    </div>
+    </aside>
   );
 };
 
 export default Sidebar;
+
+/* -------------------------------- */
 
 const SidebarItem = ({
   to,
@@ -135,12 +104,21 @@ const SidebarItem = ({
   icon: React.ReactNode;
   label: string;
 }) => (
-  <Link
+  <NavLink
     to={to}
-    className="flex items-center gap-4 px-3 py-2 rounded-lg text-gray-700
-      hover:bg-gray-100 transition-all"
+    className={({ isActive }) =>
+      `flex items-center gap-4 px-3 py-2 rounded-lg
+      transition-all duration-200 group
+      ${
+        isActive
+          ? "bg-red-50 text-red-600 font-semibold"
+          : "text-gray-700 hover:bg-gray-100"
+      }`
+    }
   >
-    {icon}
-    {label}
-  </Link>
+    <span className="p-2 rounded-lg bg-gray-100 group-hover:bg-white shadow-sm">
+      {icon}
+    </span>
+    <span>{label}</span>
+  </NavLink>
 );
