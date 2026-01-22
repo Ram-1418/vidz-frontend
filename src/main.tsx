@@ -10,49 +10,23 @@ import {
 import RegisterForm from "./components/auth/registerForm.tsx";
 import Login from "./components/auth/Login.tsx";
 
-import VideoUpload from "./components/VideoUpload.tsx";
-import GetAllVideo from "./components/GetAllVideo.tsx";
-import VideoPage from "./components/Videopage.tsx";
-import MainLayout from "./components/MainLayout.tsx";
-import AuthLayout from "./components/AuthLayout.tsx";
-import Protected from "./components/auth/ProtectedRoute.tsx";
-import Dashboard from "./components/Dashboard.tsx";
-
 // ✅ Router definition
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       {/* Routes with Navbar */}
-      <Route element={<MainLayout />}>
-        <Route
-          path="/"
-          element={
-            <Protected>
-              <GetAllVideo></GetAllVideo>
-            </Protected>
-          }
-        />
-        {/* Default home page */}
-        <Route path="videos" element={<GetAllVideo />} />
-        <Route path="video/:id" element={<VideoPage />} />
-        <Route path="fileupload" element={<VideoUpload />} />
-            <Route path="dashborad" element={<Dashboard />} />
-
-        <Route path="videopage" element={<VideoPage />} />
-      </Route>
 
       {/* Routes WITHOUT Navbar */}
-      <Route element={<AuthLayout />}>
-        <Route path="signup" element={<RegisterForm />} />
-        <Route path="login" element={<Login />} />
-      </Route>
-    </>
-  )
+
+      <Route path="signup" element={<RegisterForm />} />
+      <Route path="/login" element={<Login />} />
+    </>,
+  ),
 );
 
 // ✅ Render app
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>
+  </React.StrictMode>,
 );

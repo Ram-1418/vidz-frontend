@@ -1,7 +1,7 @@
 import axios from "axios";
 import { apiBaseUrl } from "./constsants";
 
-export const axiosInstance = axios.create({
+export const apiClient = axios.create({
     baseURL:apiBaseUrl,
     withCredentials:true
 })
