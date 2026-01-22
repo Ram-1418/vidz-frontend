@@ -1,14 +1,10 @@
+import { apiClient } from "@/lib/apiClient";
 import { data } from "react-router-dom";
-import { apiBaseUrl } from "../lib/constsants";
-import axios from "axios";
-import { axiosInstance } from "@/lib/axios";
-
-
 
 // function getData(){
 //    console.log(apiBaseUrl);
 
-// axios.get(`${apiBaseUrl}/health`)
+// apiClient.get(`${apiBaseUrl}/health`)
 
 // .then(function(response){
 //    console.log(response.data)
@@ -18,7 +14,7 @@ import { axiosInstance } from "@/lib/axios";
 //    console.log(error)
 // })
 // .finally(function(){
-//    console.log('finally run this') 
+//    console.log('finally run this')
 // })
 // }
 
@@ -26,7 +22,7 @@ import { axiosInstance } from "@/lib/axios";
 
 async function checkApiHealth() {
   try {
-    const response = await axios.get(`${apiBaseUrl}/health`);
+    const response = await apiClient.get(`/health`);
     console.log(response.data);
   } catch (error) {
     console.log(error);
@@ -51,15 +47,11 @@ async function registerUser(userData: RegisterType) {
   fromData.append("avatar", userData.avatar);
   try {
     console.log("userData", userData);
-    const response = await axios.post(
-      `${apiBaseUrl}/users/register`,
-      fromData,
-      {
-        // headers: {
-        //    Accept: "application/json",
-        // }
-      }
-    );
+    const response = await apiClient.post(`/users/register`, fromData, {
+      // headers: {
+      //    Accept: "application/json",
+      // }
+    });
     console.log("user registered", response.data);
     return response.data;
   } catch (error) {
@@ -71,14 +63,10 @@ async function registerUser(userData: RegisterType) {
 
 async function loginWithUsername(username: string, password: string) {
   try {
-    const response = await axios.post(
-      `${apiBaseUrl}/users/login`,
-      {
-        username,
-        password,
-      },
-      { withCredentials: true }
-    );
+    const response = await apiClient.post(`/users/login`, {
+      username,
+      password,
+    });
     console.log("Login Success", response.data);
   } catch (error) {
     console.error("Login Failed", error);
@@ -87,14 +75,10 @@ async function loginWithUsername(username: string, password: string) {
 }
 async function loginWithEmail(email: string, password: string) {
   try {
-    const response = await axios.post(
-      `${apiBaseUrl}/users/login`,
-      {
-        email,
-        password,
-      },
-      { withCredentials: true }
-    );
+    const response = await apiClient.post(`/users/login`, {
+      email,
+      password,
+    });
     console.log("Login Success", response.data);
     return response.data;
   } catch (error) {
@@ -105,15 +89,15 @@ async function loginWithEmail(email: string, password: string) {
 
 async function getCurrentUser() {
   try {
-    const response = await axiosInstance.get("/users");
-    const data = response.data
-   if(!data?.success){
-    throw new Error(data.message || "Failed to getCurrent user")
-   }
-   console.log('data', data)
-   return data.data
-  } catch (error:any) {
-    throw new Error(error?.message)
+    const response = await apiClient.get("/users");
+    const data = response.data;
+    if (!data?.success) {
+      throw new Error(data.message || "Failed to getCurrent user");
+    }
+    console.log("data", data);
+    return data.data;
+  } catch (error: any) {
+    throw new Error(error?.message);
   }
 }
 
@@ -121,11 +105,7 @@ async function getCurrentUser() {
 
 async function logoutUser() {
   try {
-    const response = await axios.post(
-      `${apiBaseUrl}/users/logout`,
-      {},
-      { withCredentials: true } // ✅ ensures cookies (accessToken) are sent
-    );
+    const response = await apiClient.post(`/users/logout`, {});
     return response.data;
   } catch (error: any) {
     console.error("Logout failed:", error.response?.data || error.message);
@@ -133,42 +113,31 @@ async function logoutUser() {
   }
 }
 
-
 async function refreshToken() {
   try {
-    const response = await axios.post(
-      `${apiBaseUrl}/users/refresh-token`,
-      {},
-      { withCredentials: true }
-    );
-    return response.data
-
+    const response = await apiClient.post(`/users/refresh-token`, {});
+    return response.data;
   } catch (error) {
-    console.log("error", error)
+    console.log("error", error);
   }
 }
 
 const updateAccountDetails = async () => {
   try {
-    const respone = await axios.patch(
-      `${apiBaseUrl}/update`,
-      data,
-      { withCredentials: true }
-    )
-    return respone.data
+    const respone = await apiClient.patch(`/update`, data);
+    return respone.data;
   } catch (error) {
-    console.log('error', error)
-    throw error
+    console.log("error", error);
+    throw error;
   }
-}
+};
 
 const updateUserAvatar = async (file: any) => {
   try {
     const formData = new FormData();
     formData.append("avatar", file);
 
-    const response = await axios.patch(`${apiBaseUrl}/avatar`, formData, {
-      withCredentials: true,
+    const response = await apiClient.patch(`/avatar`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -176,56 +145,49 @@ const updateUserAvatar = async (file: any) => {
 
     console.log("Avatar updated successfully:", response.data);
     return response.data;
-
   } catch (error: any) {
-    console.error("Error updating avatar:", error.response?.data || error.message);
+    console.error(
+      "Error updating avatar:",
+      error.response?.data || error.message,
+    );
     throw error;
   }
 };
 const changePassword = async (data: any) => {
   try {
-    const response = await axios.patch(
-      `${apiBaseUrl}/change-password`,
-      data,
-      { withCredentials: true }
-    )
-    return response.data
+    const response = await apiClient.patch(`/change-password`, data);
+    return response.data;
   } catch (error: any) {
-    console.error("Error changing password:", error.response?.data || error.message);
+    console.error(
+      "Error changing password:",
+      error.response?.data || error.message,
+    );
     throw error;
-
   }
-}
+};
 
 const getUserChannelProfile = async (username: string) => {
   try {
-    const response = await axios.get(
-      `${apiBaseUrl}/c/${username}`,
-
-
-      { withCredentials: true }
-    )
-    return response.data
+    const response = await apiClient.get(`/c/${username}`);
+    return response.data;
   } catch (error) {
-    console.log('error', error)
+    console.log("error", error);
   }
-}
+};
 
 const getUserWatchHistory = async () => {
   try {
-    const response = await axios.get(
-      `${apiBaseUrl}/watch-history`,
+    const response = await apiClient.get(
+      `/watch-history`,
 
-      { withCredentials: true }
-    )
-    return response.data
-
+      { withCredentials: true },
+    );
+    return response.data;
   } catch (error) {
-    console.log('error', error)
-    throw error
-
+    console.log("error", error);
+    throw error;
   }
-}
+};
 
 export {
   checkApiHealth,
@@ -239,5 +201,5 @@ export {
   updateUserAvatar,
   changePassword,
   getUserChannelProfile,
-  getUserWatchHistory
+  getUserWatchHistory,
 };

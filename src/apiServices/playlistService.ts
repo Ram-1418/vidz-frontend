@@ -1,12 +1,10 @@
-import { apiBaseUrl } from "@/lib/constsants";
-import axios from "axios";
+import { apiClient } from "@/lib/apiClient";
+
 import handleError from "@/lib/hadleError";
 
 async function createPlaylist(playlistData: string) {
   try {
-    const response = await axios.post(`${apiBaseUrl}/playlists`, playlistData, {
-      withCredentials: true,
-    });
+    const response = await apiClient.post(`/playlists`, playlistData, {});
     return response.data;
   } catch (error) {
     const message = handleError(error);
@@ -17,10 +15,7 @@ async function createPlaylist(playlistData: string) {
 
 async function deletePlaylist(playlistId: string) {
   try {
-    const respone = await axios.delete(
-      `${apiBaseUrl}/playlists/${playlistId}`,
-      { withCredentials: true }
-    );
+    const respone = await apiClient.delete(`/playlists/${playlistId}`);
     return respone.data;
   } catch (error) {
     const message = handleError(error);
@@ -31,9 +26,7 @@ async function deletePlaylist(playlistId: string) {
 
 async function getPlaylistById(playlistId: string) {
   try {
-    const respone = await axios.get(`${apiBaseUrl}/playlists/${playlistId}`, {
-      withCredentials: true,
-    });
+    const respone = await apiClient.get(`/playlists/${playlistId}`, {});
     return respone.data;
   } catch (error) {
     const message = handleError(error);
@@ -43,12 +36,9 @@ async function getPlaylistById(playlistId: string) {
 }
 async function updatePlaylist(playlistId: string, playlistData: string) {
   try {
-    const response = await axios.patch(
-      `${apiBaseUrl}/playlists/${playlistId}`,
+    const response = await apiClient.patch(
+      `/playlists/${playlistId}`,
       playlistData,
-      {
-        withCredentials: true,
-      }
     );
     return response.data;
   } catch (error) {
@@ -59,10 +49,8 @@ async function updatePlaylist(playlistId: string, playlistData: string) {
 }
 async function removeVideoFromPlaylist(playlistId: string, videoId: string) {
   try {
-    const response = await axios.patch(
-      `${apiBaseUrl}/playlists/${playlistId}/remove/${videoId}`,
-
-      { withCredentials: true }
+    const response = await apiClient.patch(
+      `/playlists/${playlistId}/remove/${videoId}`,
     );
     return response.data;
   } catch (error) {
@@ -74,12 +62,8 @@ async function removeVideoFromPlaylist(playlistId: string, videoId: string) {
 
 async function addVideoToPlaylist(playlistId: string, videoId: string) {
   try {
-    const response = await axios.patch(
-      `${apiBaseUrl}/playlists/${playlistId}/add/${videoId}`,
-
-      {
-        withCredentials: true,
-      }
+    const response = await apiClient.patch(
+      `/playlists/${playlistId}/add/${videoId}`,
     );
 
     return response.data;
@@ -91,11 +75,7 @@ async function addVideoToPlaylist(playlistId: string, videoId: string) {
 }
 async function getUserPlaylists(userId: string) {
   try {
-    const response = await axios.get(
-      `${apiBaseUrl}/playlists/user/${userId}`,
-
-      { withCredentials: true }
-    );
+    const response = await apiClient.get(`/playlists/user/${userId}`);
     return response.data;
   } catch (error) {
     const message = handleError(error);

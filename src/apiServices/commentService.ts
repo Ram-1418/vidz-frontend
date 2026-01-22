@@ -1,14 +1,13 @@
-
-import { apiBaseUrl } from "@/lib/constsants";
+import { apiClient } from "@/lib/apiClient";
 import handleError from "@/lib/hadleError";
-import axios from "axios";
-const axiosInstance = axios.create({
-  baseURL: apiBaseUrl,
-  withCredentials: true,
-})
-export const getVideoComments = async (videoId: string, page = 1, limit = 10) => {
+
+export const getVideoComments = async (
+  videoId: string,
+  page = 1,
+  limit = 10,
+) => {
   try {
-    const response = await axiosInstance.get(
+    const response = await apiClient.get(
       `/comments/${videoId}?page=${page}&limit=${limit}`,
     );
     return response.data?.data;
@@ -21,11 +20,7 @@ export const getVideoComments = async (videoId: string, page = 1, limit = 10) =>
 
 export const addComment = async (videoId: string, comment: string) => {
   try {
-    const response = await axios.post(
-      `${apiBaseUrl}/comments/${videoId}`,
-      { comment },
-      { withCredentials: true }
-    );
+    const response = await apiClient.post(`/comments/${videoId}`, { comment });
     return response.data;
   } catch (error) {
     const message = handleError(error);
@@ -36,10 +31,9 @@ export const addComment = async (videoId: string, comment: string) => {
 
 export const updateComment = async (commentId: string, comment: string) => {
   try {
-    const respone = await axios.patch(`${apiBaseUrl}/comments/c/${commentId}`,
-      { comment },
-      { withCredentials: true }
-    );
+    const respone = await apiClient.patch(`/comments/c/${commentId}`, {
+      comment,
+    });
     return respone.data;
   } catch (error) {
     const message = handleError(error);
@@ -50,10 +44,7 @@ export const updateComment = async (commentId: string, comment: string) => {
 
 export const deleteComment = async (commentId: string) => {
   try {
-    const response = await axios.delete(
-      `${apiBaseUrl}/comments/c/${commentId}`,
-      { withCredentials: true }
-    );
+    const response = await apiClient.delete(`/comments/c/${commentId}`);
     return response.data;
   } catch (error) {
     const message = handleError(error);
