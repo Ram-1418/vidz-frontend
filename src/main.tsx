@@ -7,26 +7,26 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import RegisterForm from "./components/auth/registerForm.tsx";
-import Login from "./components/auth/Login.tsx";
+import RegisterForm from "./components/auth/registerForm";
+import Login from "./components/auth/Login";
+import App from "./App";
 
-// ✅ Router definition
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      {/* Routes with Navbar */}
+    <Route path="/" element={<App/>} >
+    <Route index element={<h1>This is home page</h1>}>
 
-      {/* Routes WITHOUT Navbar */}
-
+    </Route>
       <Route path="signup" element={<RegisterForm />} />
-      <Route path="/login" element={<Login />} />
-    </>,
-  ),
+      <Route path="login" element={<Login />} />
+    </Route>
+    </>
+  )
 );
 
-// ✅ Render app
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>,
+  </React.StrictMode>
 );

@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
-import RegisterForm from "./components/auth/registerForm";
 
+import { getCurrentUser } from "./apiServices/userAuth";
 
-import { getCurrentUser, registerUser } from "./apiServices/userAuth";
-import VideoUpload from "./components/VideoUpload";
+import { Outlet } from "react-router-dom";
 
 const App = () => {
   useEffect(() => {
@@ -15,8 +14,7 @@ const App = () => {
   }
   return (
     <div className="bg-black text-white min-h-screen">
-      <RegisterForm />
-      <VideoUpload/>
+      <Outlet />
     </div>
   );
 };
