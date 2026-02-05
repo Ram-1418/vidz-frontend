@@ -23,7 +23,8 @@ const RegisterForm = () => {
     try {
       console.log("✅ Submitted data:", data);
       await registerUser(data);
-      navigate("/videos");
+      alert("Register sucess")
+      navigate("/")
     } catch (err) {
       console.error("❌ Registration failed:", err);
     }
