@@ -39,25 +39,22 @@ export type RegisterType = {
 };
 
 async function registerUser(userData: RegisterType) {
-  const fromData = new FormData();
-  fromData.append("username", userData.username);
-  fromData.append("email", userData.email);
-  fromData.append("fullName", userData.fullName);
-  fromData.append("password", userData.password);
-  fromData.append("avatar", userData.avatar);
+  const formData = new FormData();
+
+  formData.append("username", userData.username);
+  formData.append("email", userData.email);
+  formData.append("fullName", userData.fullName);
+  formData.append("password", userData.password);
+
+  if (userData.avatar instanceof File) {
+    formData.append("avatar", userData.avatar);
+  }
+
   try {
-    console.log("userData", userData);
-    const response = await apiClient.post(`/users/register`, fromData, {
-      // headers: {
-      //    Accept: "application/json",
-      // }
-    });
-    console.log("user registered", response.data);
+    const response = await apiClient.post("/users/register", formData);
     return response.data;
-  } catch (error) {
-    console.log(error);
-    console.error("Registration failed", error);
-    throw error;
+  } catch (error: any) {
+    throw error.response?.data || error;
   }
 }
 
@@ -67,6 +64,7 @@ async function loginWithUsername(username: string, password: string) {
       username,
       password,
     });
+    return response.data;
     console.log("Login Success", response.data);
   } catch (error) {
     console.error("Login Failed", error);
@@ -79,8 +77,8 @@ async function loginWithEmail(email: string, password: string) {
       email,
       password,
     });
-    console.log("Login Success", response.data);
     return response.data;
+    console.log("Login Success", response.data);
   } catch (error) {
     console.error("Login Failed", error);
     throw error;
