@@ -3,7 +3,7 @@ import AuthProvider from "./context/AuthContext";
 
 const App = () => {
   return (
-    <div className="bg-black text-white min-h-screen">
+    <div className="">
       <AuthProvider>
         <Outlet />
       </AuthProvider>
