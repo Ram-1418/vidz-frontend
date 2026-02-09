@@ -1,20 +1,12 @@
-import React, { useEffect } from "react";
-
-import { getCurrentUser } from "./apiServices/userAuth";
-
 import { Outlet } from "react-router-dom";
+import AuthProvider from "./context/AuthContext";
 
 const App = () => {
-  useEffect(() => {
-    handleClick();
-  }, []);
-
-  function handleClick() {
-    getCurrentUser();
-  }
   return (
     <div className="bg-black text-white min-h-screen">
-      <Outlet />
+      <AuthProvider>
+        <Outlet />
+      </AuthProvider>
     </div>
   );
 };

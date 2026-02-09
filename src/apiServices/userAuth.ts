@@ -65,7 +65,6 @@ async function loginWithUsername(username: string, password: string) {
       password,
     });
     return response.data;
-    console.log("Login Success", response.data);
   } catch (error) {
     console.error("Login Failed", error);
     throw error;
@@ -78,7 +77,6 @@ async function loginWithEmail(email: string, password: string) {
       password,
     });
     return response.data;
-    console.log("Login Success", response.data);
   } catch (error) {
     console.error("Login Failed", error);
     throw error;
