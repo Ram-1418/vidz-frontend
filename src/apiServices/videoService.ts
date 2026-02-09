@@ -1,25 +1,20 @@
 import { apiClient } from "@/lib/apiClient";
+import { CloudinaryApiSignature } from "@/types/uploader.types";
 
-type SignatueType = {
-  apiKey: string;
-  cloudName: string;
-  signature: string;
-  folder: string;
-  timestamp: string;
-};
-
-async function getVideoUploadSignature() {
+async function getVideoUploadSignature(): Promise<
+  CloudinaryApiSignature | undefined
+> {
   try {
     const response = await apiClient.get(`/videos/signature`, {});
-    const data = response.data.data;
+    const data = response.data.data as CloudinaryApiSignature;
     return data;
   } catch (error) {
-    console.log(error);
+    throw new Error(" Errpr geenerting cloundinary");
   }
 }
 async function uploadVideoToCloudinary(
   videoFile: File,
-  { apiKey, cloudName, signature, folder, timestamp }: SignatueType,
+  { apiKey, cloudName, signature, folder, timestamp }: CloudinaryApiSignature,
 ) {
   try {
     const formData = new FormData();
@@ -45,7 +40,7 @@ async function uploadVideoToCloudinary(
 }
 async function uploadImageToCloudinary(
   imageFile: File,
-  { apiKey, cloudName, signature, folder, timestamp }: SignatueType,
+  { apiKey, cloudName, signature, folder, timestamp }: CloudinaryApiSignature,
 ) {
   try {
     const formData = new FormData();
