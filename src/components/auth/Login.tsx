@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { loginWithEmail, loginWithUsername } from "../../apiServices/userAuth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/zod/loginSchems";
+import { useAuth } from "@/context/AuthContext";
 
 type LoginFormData = {
   value: string;
@@ -11,10 +12,12 @@ type LoginFormData = {
 
 const Login = () => {
   const navigate = useNavigate();
+  const { setUser, isLoggedin } = useAuth();
 
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -28,13 +31,20 @@ const Login = () => {
         ? await loginWithEmail(data.value, data.password)
         : await loginWithUsername(data.value, data.password);
 
-      console.log("Login Success:", response);
-      navigate("/");
+      if (response.success) {
+        const user = response.data.user;
+        setUser(user);
+      }
     } catch (error: any) {
+      setError("root", { message: error.message || "failed to login " });
+      console.error(error);
       console.error("Login failed", error);
     }
   };
-
+  // cdonsole.log("user", user);
+  if (isLoggedin) {
+    navigate("/");
+  }
   return (
     <div className="min-h-screen flex items-center justify-center bg-neutral-950 text-white">
       <form
