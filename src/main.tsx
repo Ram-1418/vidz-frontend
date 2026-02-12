@@ -11,6 +11,7 @@ import RegisterForm from "./components/auth/registerForm";
 import Login from "./components/auth/Login";
 import App from "./App";
 import Home from "./pages/Home";
+import VideoPage from "./pages/videoPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,8 +20,7 @@ const router = createBrowserRouter(
         <Route index element={<Home />} />
         <Route path="signup" element={<RegisterForm />} />
         <Route path="login" element={<Login />} />
-
-        {/* ✅ Correct Route */}
+        <Route path="video" element={<VideoPage />} />
       </Route>
     </>,
   ),

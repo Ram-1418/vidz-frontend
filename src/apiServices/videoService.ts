@@ -91,9 +91,9 @@ async function uploadVideo({
 
 async function getAllVideo() {
   try {
-    const response = await apiClient.get("/videos");
+    const response = await apiClient.get("/videos?limit=100");
     console.log("response.data", response.data);
-    return response.data.data;
+    return response.data.data.docs;
   } catch (error) {
     console.log("Error fetching videos:", error);
     throw error;

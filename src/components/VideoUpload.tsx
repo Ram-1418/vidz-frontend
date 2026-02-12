@@ -14,7 +14,6 @@ type FormValues = {
 };
 
 const VideoUpload = () => {
-  const navigate = useNavigate();
   const { progress, uploader, isUploading } = useUploder();
 
   const {
