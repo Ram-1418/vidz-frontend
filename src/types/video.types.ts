@@ -29,3 +29,11 @@ export type VideoWithOwner = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type VideoUploadParams = {
+  videoUrl: string;
+  title: string;
+  description: string;
+  thumbnail: File;
+  duration: number;
+};

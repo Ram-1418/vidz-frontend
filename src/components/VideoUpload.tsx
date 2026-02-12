@@ -3,132 +3,138 @@ import {
   uploadVideo,
 } from "@/apiServices/videoService";
 import { useUploder } from "@/hooks/useUploder";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
-function isFile(file: unknown): file is File {
-  return file instanceof File;
-}
+type FormValues = {
+  videoFile: FileList;
+  title: string;
+  description: string;
+  thumbnail: FileList;
+};
 
 const VideoUpload = () => {
-  const [videoFile, setvideoFile] = useState<File | null>(null);
-  const [title, settitle] = useState("");
-  const [description, setdescription] = useState("");
-  const [thumbnail, setThumbnail] = useState<File | null>(null);
-
+  const navigate = useNavigate();
   const { progress, uploader, isUploading } = useUploder();
-  const temp = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!videoFile || !title) {
-      alert("plz upload the videfile and the title");
-    }
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
+
+  const onSubmit = async (data: FormValues) => {
     try {
-      if (!isFile(videoFile) || !isFile(thumbnail)) {
+      const videoFile = data.videoFile[0];
+      const thumbnail = data.thumbnail[0];
+
+      if (!videoFile || !thumbnail) {
+        alert("Please upload video and thumbnail");
         return;
       }
-      const result = await uploadVideo(
-        videoFile,
-        description,
-        title,
-        thumbnail,
-      );
-      console.log("uploaded", result);
-      alert("video upload sucessfuly");
-    } catch (error) {
-      console.log("error", error);
-    } finally {
-      // setloader(false);
-    }
-  };
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    e.preventDefault();
-    if (!videoFile || !title) {
-      alert("plz upload the videfile and the title");
-    }
-    try {
-      // setloader(true);
-      if (!isFile(videoFile) || !isFile(thumbnail)) {
-        return;
-      }
+
       const apiSignature = await getVideoUploadSignature();
       if (!apiSignature) {
-        throw new Error("failed to generate apisignature");
+        throw new Error("Failed to generate API signature");
       }
-      await uploader({ videoFile, config: apiSignature });
+
+      const { duration, url } = await uploader({
+        videoFile,
+        config: apiSignature,
+      });
+
+      const result = await uploadVideo({
+        description: data.description,
+        duration,
+        thumbnail,
+        title: data.title,
+        videoUrl: url,
+      });
+
+      console.log("uploadedFile", result);
     } catch (error) {
-      throw Error("failed to upload video");
+      console.error("Failed to upload video", error);
     }
   };
+
   return (
     <div className="flex items-center justify-center mt-12">
       <form
-        onSubmit={handleSubmit}
-        className="max-w-2xl mx-auto p-5 bg-white shadow-md rounded-md space-x-4 "
+        onSubmit={handleSubmit(onSubmit)}
+        className="max-w-2xl mx-auto p-5 bg-white shadow-md rounded-md space-y-4"
       >
         {progress}
+
+        {/* Video File */}
         <div>
-          <label className="block font-medium" htmlFor="">
-            videofile
-          </label>
+          <label className="block font-medium">Video File</label>
           <input
             type="file"
             accept="video/*"
-            onChange={(e) => setvideoFile(e.target.files?.[0] || null)}
+            {...register("videoFile", { required: "Video is required" })}
             className="w-full border p-2 rounded mt-2"
           />
+          {errors.videoFile && (
+            <p className="text-red-500 text-sm">{errors.videoFile.message}</p>
+          )}
         </div>
+
+        {/* Title */}
         <div>
-          <label className="block font-medium" htmlFor="">
-            title
-          </label>
+          <label className="block font-medium">Title</label>
           <input
             type="text"
-            placeholder="Enter the titke of the Video"
-            onChange={(e) => settitle(e.target.value)}
-            value={title}
+            placeholder="Enter video title"
+            {...register("title", { required: "Title is required" })}
             className="w-full border p-2 rounded mt-2"
           />
+          {errors.title && (
+            <p className="text-red-500 text-sm">{errors.title.message}</p>
+          )}
         </div>
+
+        {/* Description */}
         <div>
-          <label className="block font-medium" htmlFor="">
-            description
-          </label>
+          <label className="block font-medium">Description</label>
           <input
             type="text"
-            placeholder="Enter the descrption if the video"
-            onChange={(e) => setdescription(e.target.value)}
-            value={description}
+            placeholder="Enter description"
+            {...register("description")}
             className="w-full border p-2 rounded mt-2"
           />
         </div>
+
+        {/* Thumbnail */}
         <div>
-          <label className="block font-medium" htmlFor="">
-            {" "}
-            Thumbnail
-          </label>
+          <label className="block font-medium">Thumbnail</label>
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => setThumbnail(e.target.files?.[0] || null)}
+            {...register("thumbnail", {
+              required: "Thumbnail is required",
+            })}
             className="w-full border p-2 rounded mt-2"
           />
+          {errors.thumbnail && (
+            <p className="text-red-500 text-sm">{errors.thumbnail.message}</p>
+          )}
         </div>
+
+        {/* Loader */}
         {isUploading && (
           <div className="flex justify-center py-3">
             <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
           </div>
         )}
+
         <button
           disabled={isUploading}
-          className={`w-full text-white py-2 rounded mt-5 ${
+          className={`w-full text-white py-2 rounded ${
             isUploading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
           }`}
         >
-          {isUploading ? "Uploading" : "Submit"}
+          {isUploading ? "Uploading..." : "Submit"}
         </button>
-        {/* <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-accent mt-5">
-          Submit
-        </button> */}
       </form>
     </div>
   );
