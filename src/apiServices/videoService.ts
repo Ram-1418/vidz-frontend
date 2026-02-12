@@ -1,5 +1,6 @@
 import { apiClient } from "@/lib/apiClient";
 import { CloudinaryApiSignature } from "@/types/uploader.types";
+import { VideoUploadParams } from "@/types/video.types";
 
 async function getVideoUploadSignature(): Promise<
   CloudinaryApiSignature | undefined
@@ -61,26 +62,21 @@ async function uploadImageToCloudinary(
   }
 }
 
-async function uploadVideo(
-  videoFile: File,
-  title: string,
-  description: string,
-  thumbnail: File,
-) {
+async function uploadVideo({
+  videoUrl,
+  title,
+  description,
+  thumbnail,
+  duration,
+}: VideoUploadParams) {
   try {
-    const signature = await getVideoUploadSignature();
-    if (!signature) throw new Error("Failed to generate signature");
-
-    // Upload video
-    const uploadedVideo = await uploadVideoToCloudinary(videoFile, signature);
-
     // Create FormData object
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
-    formData.append("videoUrl", uploadedVideo.secure_url);
+    formData.append("videoUrl", videoUrl);
     // formData.append("publicId", uploadedVideo.public_id);
-    formData.append("duration", uploadedVideo.duration);
+    formData.append("duration", duration.toString());
     formData.append("thumbnail", thumbnail); // If thumbnail is a file, pass the file object
 
     // Send request with form-data
@@ -97,7 +93,7 @@ async function getAllVideo() {
   try {
     const response = await apiClient.get("/videos");
     console.log("response.data", response.data);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.log("Error fetching videos:", error);
     throw error;
