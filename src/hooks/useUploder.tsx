@@ -5,10 +5,16 @@ type UploaderParams = {
   videoFile: File;
   config: CloudinaryApiSignature;
 };
+
+type UploadedFile = {
+  url: string;
+  duration: number;
+};
 export const useUploder = () => {
   const [progress, setProgress] = useState(0);
   const [isUploading, setUploading] = useState(false);
-
+  const [uploadedFile, setUploadedfile] = useState<UploadedFile | null>(null);
+  const [iscomplete, setisComplete] = useState(false);
   const uploader = async ({ videoFile, config }: UploaderParams) => {
     try {
       setUploading(true);
@@ -30,16 +36,26 @@ export const useUploder = () => {
         },
       });
       console.log("resp", resp);
+      const { data } = resp;
+      const result = {
+        duration: data.duration,
+        url: data.url,
+      };
+      setUploadedfile(result);
+      setisComplete(true);
+      return result;
     } catch (error) {
       throw new Error("faild to upload");
     } finally {
       setUploading(false);
     }
   };
-
+  console.log("uploadedFile", uploadedFile);
   return {
     progress,
     uploader,
     isUploading,
+    uploadedFile,
+    iscomplete,
   };
 };
