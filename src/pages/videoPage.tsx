@@ -48,10 +48,13 @@ const VideoPage = () => {
             onClick={() => navigate(`/watch/${video._id}`)}
             className="group cursor-pointer"
           >
+          c
             {/* Thumbnail */}
+                   
             <div className="relative overflow-hidden rounded-xl shadow-md">
               <img
-                src={video.thumbnail}
+      
+             src={video.thumbnail}
                 alt={video.title}
                 className="w-full h-52 object-cover transition-transform duration-300 group-hover:scale-105"
               />
