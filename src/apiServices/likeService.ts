@@ -22,7 +22,7 @@ export const toggleCommentLike = async (commentId: string) => {
       "toggleCommentLike error:",
       error.response?.data || error.message,
     );
-    return null; // ✅ prevent undefined
+    return null;
   }
 };
 
