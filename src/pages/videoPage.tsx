@@ -34,39 +34,44 @@ const VideoPage = () => {
     );
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-10">
-      <h1 className="text-3xl font-bold mb-8">Latest Videos</h1>
-
-      {videos?.length === 0 && (
-        <p className="text-gray-500 text-center">No videos available</p>
-      )}
-
-      <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <div className="px-6 pt-6">
+      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {videos?.map((video: Video) => (
           <div
             key={video._id}
             onClick={() => navigate(`/watch/${video._id}`)}
-            className="group cursor-pointer"
+            className="cursor-pointer group"
           >
-          c
             {/* Thumbnail */}
-                   
-            <div className="relative overflow-hidden rounded-xl shadow-md">
+            <div className="relative rounded-xl overflow-hidden">
               <img
-      
-             src={video.thumbnail}
+                src={video.thumbnail?.replace("http://", "https://")}
                 alt={video.title}
-                className="w-full h-52 object-cover transition-transform duration-300 group-hover:scale-105"
+                className="w-full h-44 object-cover group-hover:scale-105 transition duration-300"
               />
 
-              {/* Overlay effect */}
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition duration-300" />
+              {/* Duration Badge */}
+              <span className="absolute bottom-2 right-2 bg-black text-white text-xs px-2 py-0.5 rounded">
+                12:45
+              </span>
             </div>
 
-            {/* Title */}
-            <h2 className="mt-3 text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition">
-              {video.title}
-            </h2>
+            {/* Video Info */}
+            <div className="flex mt-3 gap-3">
+              {/* Channel Avatar */}
+              <div className="w-9 h-9 bg-gray-300 rounded-full"></div>
+
+              {/* Title & Meta */}
+              <div className="flex-1">
+                <h2 className="text-sm font-semibold text-gray-900 line-clamp-2">
+                  {video.title}
+                </h2>
+
+                <p className="text-xs text-gray-600 mt-1">My Channel</p>
+
+                <p className="text-xs text-gray-500">12K views • 2 days ago</p>
+              </div>
+            </div>
           </div>
         ))}
       </div>
