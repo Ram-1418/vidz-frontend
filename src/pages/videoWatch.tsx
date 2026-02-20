@@ -2,15 +2,16 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getVideoById } from "@/apiServices/videoService";
 import { toggleVideoLike } from "@/apiServices/likeService";
-import { toggleSubscription } from "@/apiServices/subscritionServic";
+
 import React, { useState } from "react";
+import { ThumbsUp } from "lucide-react";
+import VideoComments from "@/components/videos/VideoComments";
 
 const VideoWatch = () => {
   const { id } = useParams();
   const [isLiked, setisLiked] = useState(false);
   const [likeCount, setlikeCount] = useState(0);
   const [loading, setloading] = useState(false);
-  const [Subscriptions, setSubscriptions] = useState(false);
 
   const {
     data: video,
@@ -21,32 +22,20 @@ const VideoWatch = () => {
     queryFn: () => getVideoById(id!),
     enabled: !!id,
   });
-
+  // console.log("video", video[0].videoFile);
   const handleLike = async () => {
     try {
       setloading(true);
 
-      await toggleVideoLike(id!);
-      const liked = resizeBy.data.isLiked;
-      setisLiked(liked);
+      const result = await toggleVideoLike(id!);
+      console.log("result", result.isLiked);
+      setisLiked(result.isLiked);
 
-      if (isLiked) {
-        setlikeCount((prev) => prev - 1);
-      } else {
-        setlikeCount((prev) => prev + 1);
-      }
+      setlikeCount((prev) => (result.isLiked ? prev + 1 : prev - 1));
     } catch (error) {
       console.log(error);
     } finally {
       setloading(false);
-    }
-  };
-
-  const handleSubscription = async () => {
-    try {
-      await toggleSubscription();
-    } catch (error) {
-      console.log("error", error);
     }
   };
 
@@ -60,11 +49,7 @@ const VideoWatch = () => {
         {/* Video Player */}
         <div className="w-full aspect-video bg-black rounded-xl overflow-hidden">
           <video controls className="w-full h-full">
-            <source
-              src={video?.videoFile?.replace("http://", "https://")}
-              height={200}
-              type="video/mp4"
-            />
+            <source src={video?.videoFile} height={200} type="video/mp4" />
           </video>
         </div>
 
@@ -81,7 +66,7 @@ const VideoWatch = () => {
               disabled={loading}
               className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm ${isLiked ? "bg-blue-100 text-blue-600" : "bg-gray-100"}`}
             >
-              {loading ? "Loading" : likeCount}
+              <ThumbsUp /> {likeCount} {isLiked ? "Liked" : "Like"}
             </button>
             <button className="bg-gray-100 px-4 py-2 rounded-full hover:bg-gray-200 text-sm">
               🔗 Share
@@ -110,6 +95,9 @@ const VideoWatch = () => {
         {/* Description */}
         <div className="bg-gray-100 p-4 rounded-lg mt-4 text-sm">
           {video?.description}
+        </div>
+        <div>
+          <VideoComments />
         </div>
       </div>
 
