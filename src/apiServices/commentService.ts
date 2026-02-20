@@ -4,7 +4,7 @@ import handleError from "@/lib/hadleError";
 export const getVideoComments = async (
   videoId: string,
   page = 1,
-  limit = 10,
+  limit = 100,
 ) => {
   try {
     const response = await apiClient.get(
@@ -21,7 +21,7 @@ export const getVideoComments = async (
 export const addComment = async (videoId: string, comment: string) => {
   try {
     const response = await apiClient.post(`/comments/${videoId}`, { comment });
-    return response.data;
+    return response.data.data;
   } catch (error) {
     const message = handleError(error);
     console.error("Error adding comment:", message || error);
