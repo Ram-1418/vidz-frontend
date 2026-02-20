@@ -157,7 +157,8 @@ async function getCloudinaryApiSignature() {
 async function getVideoById(videoId: string) {
   try {
     const response = await apiClient.get(`/videos/${videoId}`);
-    return response.data.data;
+    console.log("response", response);
+    return response.data.data?.[0];
   } catch (error) {
     console.log("error", error);
     throw error;

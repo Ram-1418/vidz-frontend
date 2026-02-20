@@ -4,7 +4,7 @@ import { apiClient } from "@/lib/apiClient";
 export const toggleVideoLike = async (videoId: string) => {
   try {
     const response = await apiClient.post(`/likes/toggle/v/${videoId}`, {});
-    return response.data;
+    return response.data.data;
   } catch (error) {
     const message = handleError(error);
     console.error("Error adding comment:", message || error);
