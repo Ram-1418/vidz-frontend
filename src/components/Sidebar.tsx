@@ -19,11 +19,7 @@ const Sidebar = ({ isOpen }: Props) => {
 
         {/* Subscriptions Section */}
         {isOpen && <p className="font-semibold px-2">Subscriptions</p>}
-        <MenuItem icon="👤" label="Neeraj Walia" isOpen={isOpen} />
-        <MenuItem icon="👤" label="Thasanthan" isOpen={isOpen} />
-        <MenuItem icon="👤" label="Piyush Garg" isOpen={isOpen} />
-        <MenuItem icon="👤" label="Chai aur Code" isOpen={isOpen} />
-        <MenuItem icon="👤" label="Apna College" isOpen={isOpen} />
+        
         {isOpen && (
           <p className="text-blue-600 cursor-pointer px-2">Show more</p>
         )}
