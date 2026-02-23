@@ -13,6 +13,7 @@ import App from "./App";
 import Home from "./pages/Home";
 import VideoPage from "./pages/videoPage";
 import VideoWatch from "./pages/videoWatch";
+import UserProfile from "./pages/UserProfile";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,7 +23,8 @@ const router = createBrowserRouter(
         <Route path="signup" element={<RegisterForm />} />
         <Route path="login" element={<Login />} />
         <Route path="video" element={<VideoPage />} />
-        <Route path="/watch/:id" element={<VideoWatch />} />
+        <Route path="watch/:id" element={<VideoWatch />} />
+        <Route path="profile/:username" element={<UserProfile />} />
       </Route>
     </>,
   ),
