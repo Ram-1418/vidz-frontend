@@ -51,7 +51,7 @@ const VideoComments = () => {
   });
 
   return (
-    <div className="mt-6">
+    <div className="mt-6 ml-6">
       <h2 className="font-semibold mb-4">Comments</h2>
 
       <AddCommentData id={id} />
@@ -63,29 +63,33 @@ const VideoComments = () => {
             <img
               src={comment.owner.avatar}
               alt={comment.owner.username}
-              className="w-8 h-8 rounded-full"
+              className="w-8 h-8 rounded-full "
             />
             <p className="font-semibold text-sm">{comment.owner.username}</p>
           </div>
 
-          <p className="text-sm text-gray-700 mt-2">{comment.content}</p>
+          <p className="text-sm text-gray-700 mt-2 font-bold">
+            {comment.content}
+          </p>
 
           {/* 🔥 Delete Button */}
-          <button
-            onClick={() => deleteMutation.mutate(comment._id)}
-            className="text-red-500 text-xs mt-2"
-          >
-            Delete
-          </button>
+          <div className=" flex  justify-between ">
+            <button
+              onClick={() => deleteMutation.mutate(comment._id)}
+              className="rounded-full text-xs mt-2 bg-black text-white p-2 font-bold"
+            >
+              Delete
+            </button>
 
-          <button
-            onClick={() => {
-              toggleLikeMutation.mutate(comment._id);
-            }}
-            className="text-blue-500 text-xs mt-2"
-          >
-            <ThumbsUp />
-          </button>
+            <button
+              onClick={() => {
+                toggleLikeMutation.mutate(comment._id);
+              }}
+              className=" h-[5px]"
+            >
+              <ThumbsUp />
+            </button>
+          </div>
         </div>
       ))}
     </div>
@@ -126,13 +130,13 @@ const AddCommentData = ({ id }: { id?: string }) => {
         value={newComment}
         onChange={(e) => setNewComment(e.target.value)}
         placeholder="Add a comment..."
-        className="flex-1 border px-3 py-2 rounded"
+        className="flex-1  px-3 py-2 rounded-full transform-border bg-white shadow-sm placeholder-gray-400 focus:outline-none  border border-gray-300"
       />
 
       <button
         onClick={handleComment}
         disabled={loading}
-        className="bg-blue-600 text-white px-4 py-2 rounded"
+        className="bg-black text-white px-4 py-2 rounded-full"
       >
         {loading ? "Posting..." : "Post"}
       </button>
