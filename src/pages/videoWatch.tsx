@@ -3,10 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 import { getVideoById } from "@/apiServices/videoService";
 import { toggleVideoLike } from "@/apiServices/likeService";
 import { toggleSubscription } from "@/apiServices/subscritionServic";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ThumbsUp } from "lucide-react";
 import VideoComments from "@/components/videos/VideoComments";
+import { Link } from "react-router-dom";
 
 const VideoWatch = () => {
   const { id } = useParams();
@@ -24,7 +24,13 @@ const VideoWatch = () => {
     queryFn: () => getVideoById(id!),
     enabled: !!id,
   });
-
+  useEffect(() => {
+    if (video) {
+      setisLiked(video.isLiked);
+      setlikeCount(video.likes);
+      setIsSubscribed(video.owner.isSubscribed);
+    }
+  }, [video]);
   const handleLike = async () => {
     try {
       setloading(true);
@@ -32,8 +38,7 @@ const VideoWatch = () => {
       const result = await toggleVideoLike(id!);
       console.log("result", result.isLiked);
       setisLiked(result.isLiked);
-
-      setlikeCount((prev) => (result.isLiked ? prev + 1 : prev - 1));
+      setlikeCount(result.likeCount);
     } catch (error) {
       console.log(error);
     } finally {
@@ -74,32 +79,59 @@ const VideoWatch = () => {
 
         {/* Views + Buttons */}
         <div className="flex justify-between items-center mt-3 flex-wrap gap-3">
-          <p className="text-sm text-gray-600">12K views • 2 days ago</p>
+          <p className="text-sm text-gray-600">{video.views}</p>
 
           <div className="flex gap-3">
             <button
               onClick={handleLike}
               disabled={loading}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm ${isLiked ? "bg-blue-100 text-blue-600" : "bg-gray-100"}`}
+              className={`flex items-center gap-2 py-2 px-4 rounded-full text-sm${
+                isLiked ? "bg-blue-100 text-blue-600" : "bg-gray-100"
+              }`}
             >
-              <ThumbsUp /> {likeCount} {isLiked ? "Liked" : "Like"}
+              <ThumbsUp />
+              {likeCount}
+              {isLiked ? "Liked" : "Like"}
             </button>
           </div>
         </div>
 
         {/* Channel Section */}
-        <div className="flex justify-between items-center mt-6 border-t pt-4">
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
+        <div className="flex justify-between items-center mt-6 border-t pt-6">
+          {/* LEFT SIDE - OWNER INFO */}
+          <div className="flex items-center gap-4 group">
+            {/* Avatar */}
+            <div className="relative">
+              <Link
+                to={`/profile/${video.owner.username}`}
+                className="flex items-center gap-3 hover:bg-gray-50 p-2 rounded-lg transition"
+              >
+                <img
+                  src={video.owner.avatar}
+                  className="w-10 h-10 rounded-full"
+                />
+                <p className="font-semibold">{video.owner.username}</p>
+              </Link>
+            </div>
+
+            {/* Name & Subscribers */}
             <div>
-              <p className="font-semibold">My Channel</p>
+              <p className="font-semibold text-lg flex items-center gap-1">
+                {video.owner.username}
+                <span className="text-blue-500 text-sm">✔</span>
+              </p>
               <p className="text-sm text-gray-500">10K subscribers</p>
             </div>
           </div>
 
+          {/* RIGHT SIDE - SUBSCRIBE BUTTON */}
           <button
             onClick={handleSubscribe}
-            className="bg-red-600 text-white px-4 py-2 rounded-full text-sm hover:bg-red-700"
+            className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+              isSubscribed
+                ? "bg-gray-200 text-black hover:bg-gray-300"
+                : "bg-red-600 text-white hover:bg-red-700"
+            }`}
           >
             {isSubscribed ? "Subscribed" : "Subscribe"}
           </button>
@@ -113,7 +145,7 @@ const VideoWatch = () => {
           <VideoComments />
         </div>
       </div>
-    
+
       {/* RIGHT SIDE - Suggested Videos (Static for now) */}
       {/* <div className="w-80 hidden lg:block">
         <p className="font-semibold mb-4">Up next</p>
