@@ -1,5 +1,4 @@
 import { VideoWithOwner } from "@/types/video.types";
-import React from "react";
 import { useNavigate } from "react-router-dom";
 
 type VideoCardProps = {

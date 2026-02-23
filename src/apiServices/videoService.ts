@@ -158,7 +158,7 @@ async function getVideoById(videoId: string) {
   try {
     const response = await apiClient.get(`/videos/${videoId}`);
     console.log("response", response);
-    return response.data.data?.[0];
+    return response.data.data?.video;
   } catch (error) {
     console.log("error", error);
     throw error;
