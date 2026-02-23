@@ -162,15 +162,6 @@ const changePassword = async (data: any) => {
   }
 };
 
-const getUserChannelProfile = async (username: string) => {
-  try {
-    const response = await apiClient.get(`/c/${username}`);
-    return response.data;
-  } catch (error) {
-    console.log("error", error);
-  }
-};
-
 const getUserWatchHistory = async () => {
   try {
     const response = await apiClient.get(
@@ -181,6 +172,19 @@ const getUserWatchHistory = async () => {
     return response.data;
   } catch (error) {
     console.log("error", error);
+    throw error;
+  }
+};
+
+const getUserChannelProfile = async (username: string) => {
+  try {
+    const response = await apiClient.get(`/users/c/${username}`);
+    return response.data.data;
+  } catch (error: any) {
+    console.error(
+      "Error fetching channel profile",
+      error.response?.data || error,
+    );
     throw error;
   }
 };
