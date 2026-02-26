@@ -164,6 +164,22 @@ async function getVideoById(videoId: string) {
     throw error;
   }
 }
+export async function getAllVideosByUserId(userId: string) {
+  try {
+    console.log("userId sent:", userId);
+    const response = await apiClient.get("/videos", {
+      params: {
+        userId,
+      },
+    });
+
+    console.log("response.data", response.data);
+    return response.data.data.docs;
+  } catch (error) {
+    console.log("Error fetching videos:", error);
+    throw error;
+  }
+}
 
 export {
   getVideoUploadSignature,
