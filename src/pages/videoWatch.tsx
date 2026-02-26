@@ -116,10 +116,10 @@ const VideoWatch = () => {
 
             {/* Name & Subscribers */}
             <div>
-              <p className="font-semibold text-lg flex items-center gap-1">
+              {/* <p className="font-semibold text-lg flex items-center gap-1">
                 {video.owner.username}
                 <span className="text-blue-500 text-sm">✔</span>
-              </p>
+              </p> */}
               <p className="text-sm text-gray-500">10K subscribers</p>
             </div>
           </div>
