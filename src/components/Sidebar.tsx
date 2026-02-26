@@ -1,8 +1,20 @@
+import { useAuth } from "@/context/AuthContext";
+import { getSubscribedChannels } from "@/apiServices/subscritionServic";
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
+
 interface Props {
   isOpen: boolean;
+  userId?: string;
 }
 
 const Sidebar = ({ isOpen }: Props) => {
+  const { data: subscriptions = [], isLoading } = useQuery({
+    queryKey: ["subscription"],
+    queryFn: () => getSubscribedChannels(),
+  });
+  console.log("subscriptions", subscriptions.channels);
+
   return (
     <div
       className={`fixed top-16 left-0 h-screen overflow-y-auto bg-white border-r transition-all duration-300 ${
@@ -11,16 +23,35 @@ const Sidebar = ({ isOpen }: Props) => {
     >
       <div className="p-3 space-y-2 text-sm">
         {/* Main */}
-        <MenuItem icon="🏠" label="Home" isOpen={isOpen} />
-        <MenuItem icon="🎬" label="Shorts" isOpen={isOpen} />
-        <MenuItem icon="📺" label="Subscriptions" isOpen={isOpen} />
+        <MenuItem icon="" label="Home" isOpen={isOpen} />
+        <MenuItem icon="" label="Shorts" isOpen={isOpen} />
+        <MenuItem icon="" label="Subscriptions" isOpen={isOpen} />
 
         <hr className="my-3" />
 
-        {/* Subscriptions Section */}
+        {/* 🔥 Subscriptions Section */}
         {isOpen && <p className="font-semibold px-2">Subscriptions</p>}
-        
-        {isOpen && (
+
+        {isOpen && isLoading && <p className="px-2">Loading...</p>}
+
+        {isOpen &&
+          subscriptions.channels?.map((channel: any) => (
+            <Link
+              key={channel._id}
+              to={`/profile/${channel?.channel?.username}`}
+            >
+              <div className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded cursor-pointer">
+                <img
+                  src={channel.channel.avatar}
+                  alt={channel.username}
+                  className="w-6 h-6 rounded-full"
+                />
+                <span>{channel.channel.username}</span>
+              </div>
+            </Link>
+          ))}
+
+        {isOpen && subscriptions.length > 5 && (
           <p className="text-blue-600 cursor-pointer px-2">Show more</p>
         )}
 
@@ -28,35 +59,12 @@ const Sidebar = ({ isOpen }: Props) => {
 
         {/* You Section */}
         {isOpen && <p className="font-semibold px-2">You</p>}
-        <MenuItem icon="🕒" label="History" isOpen={isOpen} />
-        <MenuItem icon="📂" label="Playlists" isOpen={isOpen} />
-        <MenuItem icon="⏳" label="Watch later" isOpen={isOpen} />
-        <MenuItem icon="👍" label="Liked videos" isOpen={isOpen} />
-        <MenuItem icon="🎥" label="Your videos" isOpen={isOpen} />
-        <MenuItem icon="⬇️" label="Downloads" isOpen={isOpen} />
-        {isOpen && (
-          <p className="text-blue-600 cursor-pointer px-2">Show more</p>
-        )}
-
-        <hr className="my-3" />
-
-        {/* Explore */}
-        {isOpen && <p className="font-semibold px-2">Explore</p>}
-        <MenuItem icon="🛍️" label="Shopping" isOpen={isOpen} />
-        <MenuItem icon="🎵" label="Music" isOpen={isOpen} />
-        <MenuItem icon="🎬" label="Movies" isOpen={isOpen} />
-        {isOpen && (
-          <p className="text-blue-600 cursor-pointer px-2">Show more</p>
-        )}
-
-        <hr className="my-3" />
-
-        {/* More From YouTube */}
-        {isOpen && <p className="font-semibold px-2">More from YouTube</p>}
-        <MenuItem icon="⭐" label="YouTube Premium" isOpen={isOpen} />
-        <MenuItem icon="⚙️" label="YouTube Studio" isOpen={isOpen} />
-        <MenuItem icon="🎵" label="YouTube Music" isOpen={isOpen} />
-        <MenuItem icon="👶" label="YouTube Kids" isOpen={isOpen} />
+        <MenuItem icon="" label="History" isOpen={isOpen} />
+        <MenuItem icon="" label="Playlists" isOpen={isOpen} />
+        <MenuItem icon="" label="Watch later" isOpen={isOpen} />
+        <MenuItem icon="" label="Liked videos" isOpen={isOpen} />
+        <MenuItem icon="" label="Your videos" isOpen={isOpen} />
+        <MenuItem icon="⬇" label="Downloads" isOpen={isOpen} />
       </div>
     </div>
   );
