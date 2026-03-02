@@ -9,9 +9,19 @@ import { toggleCommentLike } from "@/apiServices/likeService";
 import { useParams } from "react-router-dom";
 import { Comment } from "@/types/comments.typs";
 import { useState } from "react";
-import { ThumbsUp } from "lucide-react";
+import { ThumbsUp, Pencil } from "lucide-react";
+import { Link } from "react-router-dom";
 
-const VideoComments = () => {
+interface VideoCommentsProps {
+  video: any;
+}
+
+interface AddCommentProps {
+  id?: string;
+  video: any;
+}
+
+const VideoComments = ({ video }: VideoCommentsProps) => {
   const { id } = useParams();
   const queryClient = useQueryClient();
 
@@ -51,44 +61,63 @@ const VideoComments = () => {
   });
 
   return (
-    <div className="mt-6 ml-6">
-      <h2 className="font-semibold mb-4">Comments</h2>
+    <div className="mt-6 ml-6 max-w-2xl">
+      <h2 className="font-semibold text-lg mb-6">{comments.length} Comments</h2>
 
-      <AddCommentData id={id} />
+      <AddCommentData id={id} video={video} />
+
       {isLoading && <p>Loading comments...</p>}
       {error && <p>Failed to load comments</p>}
+
       {comments.map((comment) => (
-        <div key={comment._id} className="border-b py-3">
-          <div className="flex items-center gap-3">
-            <img
-              src={comment.owner.avatar}
-              alt={comment.owner.username}
-              className="w-8 h-8 rounded-full "
-            />
-            <p className="font-semibold text-sm">{comment.owner.username}</p>
-          </div>
+        <div key={comment._id} className="flex gap-3 py-4 border-b">
+          {/* Avatar */}
+          <img
+            src={comment.owner.avatar}
+            alt={comment.owner.username}
+            className="w-10 h-10 rounded-full"
+          />
 
-          <p className="text-sm text-gray-700 mt-2 font-bold">
-            {comment.content}
-          </p>
+          {/* Comment Content */}
+          <div className="flex-1">
+            <div className="flex items-center gap-2 text-sm">
+              <span className="font-semibold">{comment.owner.username}</span>
+              <span className="text-gray-500 text-xs">Just now</span>
+            </div>
 
-          {/* 🔥 Delete Button */}
-          <div className=" flex  justify-between ">
-            <button
-              onClick={() => deleteMutation.mutate(comment._id)}
-              className="rounded-full text-xs mt-2 bg-black text-white p-2 font-bold"
-            >
-              Delete
-            </button>
+            <p className="text-sm mt-1 text-gray-800">{comment.content}</p>
 
-            <button
-              onClick={() => {
-                toggleLikeMutation.mutate(comment._id);
-              }}
-              className=" h-[5px]"
-            >
-              <ThumbsUp />
-            </button>
+            {/* Actions Row */}
+            <div className="flex items-center gap-6 mt-2 text-gray-600 text-sm">
+              {/* Like Button */}
+              <button
+                onClick={() => toggleLikeMutation.mutate(comment._id)}
+                className="flex items-center gap-1 hover:text-black"
+              >
+                <ThumbsUp size={16} />
+                <span>{comment.likesCount || 0}</span>
+              </button>
+
+              {/* Reply Button */}
+              <button className="hover:text-black">Reply</button>
+
+              {/* 🔥 Edit Button (UI only) */}
+              <button
+                onClick={() => alert("Edit functionality coming soon 😎")}
+                className="flex items-center gap-1 hover:text-blue-600"
+              >
+                <Pencil size={16} />
+                Edit
+              </button>
+
+              {/* Delete Button */}
+              <button
+                onClick={() => deleteMutation.mutate(comment._id)}
+                className="text-red-500 hover:underline text-sm"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       ))}
@@ -97,7 +126,7 @@ const VideoComments = () => {
 };
 
 // 🔥 ADD COMMENT COMPONENT
-const AddCommentData = ({ id }: { id?: string }) => {
+const AddCommentData = ({ id, video }: AddCommentProps) => {
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
@@ -110,7 +139,6 @@ const AddCommentData = ({ id }: { id?: string }) => {
 
       await addComment(id, newComment);
 
-      // 🔥 Refetch Comments
       queryClient.invalidateQueries({
         queryKey: ["comments", id],
       });
@@ -124,22 +152,48 @@ const AddCommentData = ({ id }: { id?: string }) => {
   };
 
   return (
-    <div className="flex gap-2 mb-4">
-      <input
-        type="text"
-        value={newComment}
-        onChange={(e) => setNewComment(e.target.value)}
-        placeholder="Add a comment..."
-        className="flex-1  px-3 py-2 rounded-full transform-border bg-white shadow-sm placeholder-gray-400 focus:outline-none  border border-gray-300"
-      />
+    <div className="flex gap-3 mb-6">
+      <div>
+        {video?.owner && (
+          <Link
+            to={`/profile/${video.owner.username}`}
+            className="flex items-center gap-3"
+          >
+            <img
+              src={video.owner.avatar}
+              alt={video.owner.username}
+              className="w-10 h-10 rounded-full"
+            />
+          </Link>
+        )}
+      </div>
 
-      <button
-        onClick={handleComment}
-        disabled={loading}
-        className="bg-black text-white px-4 py-2 rounded-full"
-      >
-        {loading ? "Posting..." : "Post"}
-      </button>
+      <div className="flex-1">
+        <input
+          type="text"
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+          placeholder="Add a comment..."
+          className="w-full border-b border-gray-300 focus:outline-none focus:border-black py-2"
+        />
+
+        <div className="flex justify-end gap-2 mt-2">
+          <button
+            onClick={() => setNewComment("")}
+            className="px-4 py-1 text-sm"
+          >
+            Cancel
+          </button>
+
+          <button
+            onClick={handleComment}
+            disabled={loading}
+            className="bg-black text-white px-4 py-1 text-sm rounded-full disabled:opacity-50"
+          >
+            {loading ? "Posting..." : "Comment"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
