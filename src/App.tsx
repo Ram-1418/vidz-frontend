@@ -22,7 +22,7 @@ const App = () => {
 
           {/* Page Content */}
           <div
-            className={`flex-1 pt-16 transition-all duration-300 ${
+            className={`flex-1 pt-3 transition-all duration-300 ${
               isOpen ? "ml-60" : "ml-20"
             }`}
           >

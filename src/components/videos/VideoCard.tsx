@@ -7,40 +7,48 @@ type VideoCardProps = {
 
 const VideoCard = ({ video }: VideoCardProps) => {
   const navigate = useNavigate();
+
   return (
     <div
-      key={video._id}
       onClick={() => navigate(`/watch/${video._id}`)}
-      className="cursor-pointer group"
+      className="cursor-pointer group w-full"
     >
       {/* Thumbnail */}
-      <div className="relative rounded-xl overflow-hidden">
+      <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black">
         <img
           src={video.thumbnail}
           alt={video.title}
-          className="w-full h-44 object-cover group-hover:scale-105 transition duration-300"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
 
         {/* Duration Badge */}
-        <span className="absolute bottom-2 right-2 bg-black text-white text-xs px-2 py-0.5 rounded">
+        <span className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-0.5 rounded">
           12:45
         </span>
       </div>
 
-      {/* Video Info */}
+      {/* Info Section */}
       <div className="flex mt-3 gap-3">
         {/* Channel Avatar */}
-        <div className="w-9 h-9 bg-gray-300 rounded-full"></div>
+        <img
+          src={video.owner?.avatar}
+          alt={video.owner?.username}
+          className="w-9 h-9 rounded-full object-cover"
+        />
 
-        {/* Title & Meta */}
+        {/* Title + Meta */}
         <div className="flex-1">
-          <h2 className="text-sm font-semibold text-gray-900 line-clamp-2">
+          <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 leading-snug">
             {video.title}
-          </h2>
+          </h3>
 
-          <p className="text-xs text-gray-600 mt-1">My Channel</p>
+          <p className="text-xs text-gray-600 mt-1 hover:text-gray-900">
+            {video.owner?.username}
+          </p>
 
-          <p className="text-xs text-gray-500">12K views • 2 days ago</p>
+          <p className="text-xs text-gray-500">
+            {video.views} views • 2 days ago
+          </p>
         </div>
       </div>
     </div>
