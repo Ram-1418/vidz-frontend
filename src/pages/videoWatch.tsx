@@ -64,10 +64,10 @@ const VideoWatch = () => {
   if (error) return <p>Video not found</p>;
 
   return (
-    <div className="border border-red-700 flex justify-center">
-      <div className="w-full max-w-6xl flex gap-8">
+    <div className="flex justify-center px-6">
+      <div className=" flex w-full max-w-[1400px] gap-6 mt-6">
         {/* LEFT SIDE */}
-        <div className="flex-1 max-w-4xl">
+        <div className="flex-1 max-w-[900px]">
           {/* Video Player */}
           <div className="w-full aspect-video bg-black rounded-xl overflow-hidden">
             <video controls className="w-full h-full rounded-xl">
