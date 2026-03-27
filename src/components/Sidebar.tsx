@@ -20,30 +20,22 @@ interface Props {
 const Sidebar = ({ isOpen }: Props) => {
   const { data: subscriptions, isLoading } = useQuery({
     queryKey: ["subscription"],
-    queryFn: () => getSubscribedChannels(),
+    queryFn: getSubscribedChannels,
   });
 
-  const channels = subscriptions?.channels || [];
+  // ✅ Safe fallback
+  const channels = subscriptions?.channels ?? [];
 
   return (
     <aside
-      className={`fixed top-16 left-0 h-[calc(100vh-4rem)] bg-white border-r transition-all duration-300 overflow-y-auto ${
-        isOpen ? "w-64" : "w-20"
-      }`}
+      className={`fixed top-16 left-0 h-[calc(100vh-4rem)] bg-white border-r transition-all duration-300 overflow-y-auto ${isOpen ? "w-64" : "w-20"
+        }`}
     >
       <div className="p-3 space-y-2 text-sm">
         {/* Main */}
         <MenuItem icon={<Home size={20} />} label="Home" isOpen={isOpen} />
-        <MenuItem
-          icon={<PlaySquare size={20} />}
-          label="Shorts"
-          isOpen={isOpen}
-        />
-        <MenuItem
-          icon={<Users size={20} />}
-          label="Subscriptions"
-          isOpen={isOpen}
-        />
+        <MenuItem icon={<PlaySquare size={20} />} label="Shorts" isOpen={isOpen} />
+        <MenuItem icon={<Users size={20} />} label="Subscriptions" isOpen={isOpen} />
 
         <hr className="my-3" />
 
@@ -59,21 +51,27 @@ const Sidebar = ({ isOpen }: Props) => {
         )}
 
         {isOpen &&
-          channels.slice(0, 5).map((channel: any) => (
-            <Link
-              key={channel._id}
-              to={`/profile/${channel?.channel?.username}`}
-            >
-              <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-                <img
-                  src={channel.channel.avatar}
-                  alt={channel.channel.username}
-                  className="w-6 h-6 rounded-full"
-                />
-                <span className="truncate">{channel.channel.username}</span>
-              </div>
-            </Link>
-          ))}
+          channels
+            .filter((item: any) => item?.channel) // ✅ remove broken data
+            .slice(0, 5)
+            .map((item: any) => {
+              const channel = item.channel;
+
+              return (
+                <Link key={item._id} to={`/profile/${channel?.username || ""}`}>
+                  <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
+                    <img
+                      src={channel?.avatar || "/default-avatar.png"}
+                      alt={channel?.username || "user"}
+                      className="w-6 h-6 rounded-full object-cover"
+                    />
+                    <span className="truncate">
+                      {channel?.username || "Unknown"}
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
 
         {isOpen && channels.length > 5 && (
           <p className="text-blue-600 cursor-pointer px-2 text-sm hover:underline">
@@ -88,36 +86,12 @@ const Sidebar = ({ isOpen }: Props) => {
           <p className="font-semibold text-gray-700 px-2 text-sm">You</p>
         )}
 
-        <MenuItem
-          icon={<History size={20} />}
-          label="History"
-          isOpen={isOpen}
-        />
-        <MenuItem
-          icon={<ListVideo size={20} />}
-          label="Playlists"
-          isOpen={isOpen}
-        />
-        <MenuItem
-          icon={<Clock size={20} />}
-          label="Watch later"
-          isOpen={isOpen}
-        />
-        <MenuItem
-          icon={<ThumbsUp size={20} />}
-          label="Liked videos"
-          isOpen={isOpen}
-        />
-        <MenuItem
-          icon={<Video size={20} />}
-          label="Your videos"
-          isOpen={isOpen}
-        />
-        <MenuItem
-          icon={<Download size={20} />}
-          label="Downloads"
-          isOpen={isOpen}
-        />
+        <MenuItem icon={<History size={20} />} label="History" isOpen={isOpen} />
+        <MenuItem icon={<ListVideo size={20} />} label="Playlists" isOpen={isOpen} />
+        <MenuItem icon={<Clock size={20} />} label="Watch later" isOpen={isOpen} />
+        <MenuItem icon={<ThumbsUp size={20} />} label="Liked videos" isOpen={isOpen} />
+        <MenuItem icon={<Video size={20} />} label="Your videos" isOpen={isOpen} />
+        <MenuItem icon={<Download size={20} />} label="Downloads" isOpen={isOpen} />
       </div>
     </aside>
   );

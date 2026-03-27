@@ -9,7 +9,7 @@ import { toggleCommentLike } from "@/apiServices/likeService";
 import { useParams } from "react-router-dom";
 import { Comment } from "@/types/comments.typs";
 import { useState } from "react";
-import { ThumbsUp, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface VideoCommentsProps {
@@ -24,6 +24,8 @@ interface AddCommentProps {
 const VideoComments = ({ video }: VideoCommentsProps) => {
   const { id } = useParams();
   const queryClient = useQueryClient();
+
+  const [likedMap, setLikedMap] = useState<Record<string, boolean>>({});
 
   // ✅ Fetch Comments
   const {
@@ -51,9 +53,21 @@ const VideoComments = ({ video }: VideoCommentsProps) => {
     },
   });
 
-  const toggleLikeMutation = useMutation({
+  const likeMutation = useMutation({
     mutationFn: toggleCommentLike,
-    onSuccess: () => {
+
+    onSuccess: (res) => {
+      if (res?.success) {
+        const { commentId, isLiked } = res.data;
+
+        // ✅ update specific comment instantly
+        setLikedMap((prev) => ({
+          ...prev,
+          [commentId]: isLiked,
+        }));
+      }
+
+      // optional refetch
       queryClient.invalidateQueries({
         queryKey: ["comments", id],
       });
@@ -91,11 +105,10 @@ const VideoComments = ({ video }: VideoCommentsProps) => {
             <div className="flex items-center gap-6 mt-2 text-gray-600 text-sm">
               {/* Like Button */}
               <button
-                onClick={() => toggleLikeMutation.mutate(comment._id)}
-                className="flex items-center gap-1 hover:text-black"
+                disabled={likeMutation.isPending}
+                onClick={() => likeMutation.mutate(comment._id)}
               >
-                <ThumbsUp size={16} />
-                <span>{comment.likesCount || 0}</span>
+                {(likedMap[comment._id] ?? comment.isLiked) ? "Liked" : "Like"}
               </button>
 
               {/* Reply Button */}
