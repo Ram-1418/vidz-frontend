@@ -13,7 +13,7 @@ async function toggleSubscription(channelID: string) {
 
 async function getSubscribedChannels() {
   try {
-    const response = await apiClient.get(`/subscriptions/c`);
+    const response = await apiClient.get("/subscriptions/me");
     console.log("data.data", response.data.data);
     return response.data.data;
   } catch (error) {
