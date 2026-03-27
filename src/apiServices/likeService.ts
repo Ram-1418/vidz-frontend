@@ -28,12 +28,13 @@ export const toggleCommentLike = async (commentId: string) => {
 
 export const toggleTweetLike = async (tweetId: string) => {
   try {
-    const respone = await apiClient.post(`/t/${tweetId}`, {});
-    return respone.data;
+    const response = await apiClient.post(
+      `/likes/toggle/t/${tweetId}` // ✅ FIXED
+    );
+    return response.data;
   } catch (error) {
-    const message = handleError(error);
-    console.error("Error adding comment:", message || error);
-    throw new Error(message || "Failed to add comment");
+    console.error("Error toggling like:", error);
+    throw error;
   }
 };
 
