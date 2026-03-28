@@ -11,11 +11,12 @@ const VideoCard = ({ video }: VideoCardProps) => {
   return (
     <div
       onClick={() => navigate(`/watch/${video._id}`)}
-      className="cursor-pointer group w-full max-w-2xl h-[200px]"
+      className="cursor-pointer group w-full "
     >
       {/* Thumbnail */}
       <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black  ">
         <img
+
           src={video.thumbnail}
           alt={video.title}
           className="w-full  object-cover group-hover:scale-105 transition duration-300 h-full"
