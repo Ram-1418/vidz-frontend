@@ -10,14 +10,40 @@ function SubscribedChannelsPage() {
         queryFn: getSubscribedChannels,
     });
 
-    if (isLoading) return <p>Loading...</p>;
+    if (isLoading) {
+        return (
+            <div className="p-6 text-center text-gray-400 animate-pulse">
+                Loading your subscriptions...
+            </div>
+        );
+    }
+
+    const channels = data?.channels || [];
 
     return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold mb-4">Subscribed Channels</h1>
+        <div className="px-6 pt-6">
+            {/* 🔥 Header */}
+            <div className="flex items-center justify-between mb-6">
+                <h1 className="text-2xl font-bold text-white">
+                    Subscribed Channels
+                </h1>
 
-            <div className="grid grid-cols-3 gap-4">
-                {data?.channels?.map((channel) => (
+                <span className="text-sm text-gray-400">
+                    {channels.length} channels
+                </span>
+            </div>
+
+            {/* ❌ Empty State */}
+            {channels.length === 0 && (
+                <div className="text-center mt-20 text-gray-400">
+                    <p className="text-lg">No subscriptions yet 😔</p>
+                    <p className="text-sm">Start subscribing to your favorite creators!</p>
+                </div>
+            )}
+
+            {/* ✅ Grid */}
+            <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                {channels.map((channel: any) => (
                     <ChannelCard key={channel._id} channel={channel} />
                 ))}
             </div>
