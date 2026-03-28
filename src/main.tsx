@@ -16,6 +16,7 @@ import VideoWatch from "./pages/videoWatch";
 import UserProfile from "./pages/UserProfile";
 import TweetsPage from "./pages/TweetPage";
 import SubscribedChannelsPage from "./pages/SubscribedChannelsPage";
+import LikedVideosPage from "./pages/LikedVideoPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,6 +30,7 @@ const router = createBrowserRouter(
         <Route path="profile/:username" element={<UserProfile />} />
         <Route path="/subscriptions" element={<SubscribedChannelsPage />} />
         <Route path="tweet" element={<TweetsPage />} />
+        <Route path="/liked-videos" element={<LikedVideosPage />} />
       </Route>
     </>,
   ),
