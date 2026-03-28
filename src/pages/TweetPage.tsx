@@ -16,7 +16,7 @@ const TweetsPage = () => {
     const tweets = data?.data?.tweets || [];
 
     return (
-        <div className="p-4">
+        <div className="p-4 ml-5">
             <AddTweet />
 
             <div className="space-y-3">
