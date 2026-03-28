@@ -9,6 +9,7 @@ import {
   Video,
   Download,
 } from "lucide-react";
+
 import { getSubscribedChannels } from "@/apiServices/subscritionServic";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
@@ -18,13 +19,12 @@ interface Props {
 }
 
 const Sidebar = ({ isOpen }: Props) => {
-  const { data: subscriptions, isLoading } = useQuery({
-    queryKey: ["subscription"],
+  const { data, isLoading } = useQuery({
+    queryKey: ["subscriptions"],
     queryFn: getSubscribedChannels,
   });
 
-  // ✅ Safe fallback
-  const channels = subscriptions?.channels ?? [];
+  const channels = data?.channels?.filter((item: any) => item?.channel) || [];
 
   return (
     <aside
@@ -32,54 +32,43 @@ const Sidebar = ({ isOpen }: Props) => {
         }`}
     >
       <div className="p-3 space-y-2 text-sm">
-        {/* Main */}
-        <MenuItem icon={<Home size={20} />} label="Home" isOpen={isOpen} />
+        {/* Main Navigation */}
+        <NavItem to="/video" icon={<Home size={20} />} label="Home" isOpen={isOpen} />
         <MenuItem icon={<PlaySquare size={20} />} label="Shorts" isOpen={isOpen} />
-        <MenuItem icon={<Users size={20} />} label="Subscriptions" isOpen={isOpen} />
+        <NavItem to="/subscriptions" icon={<Users size={20} />} label="Subscriptions" isOpen={isOpen} />
 
         <hr className="my-3" />
 
         {/* Subscriptions */}
-        {isOpen && (
-          <p className="font-semibold text-gray-700 px-2 text-sm">
-            Subscriptions
-          </p>
-        )}
-
         {isOpen && isLoading && (
           <p className="px-2 text-gray-500">Loading...</p>
         )}
 
         {isOpen &&
-          channels
-            .filter((item: any) => item?.channel) // ✅ remove broken data
-            .slice(0, 5)
-            .map((item: any) => {
-              const channel = item.channel;
+          channels.slice(0, 5).map((item: any) => {
+            const channel = item.channel;
 
-              return (
-                <Link key={item._id} to={`/profile/${channel?.username || ""}`}>
-                  <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
-                    <img
-                      src={channel?.avatar || "/default-avatar.png"}
-                      alt={channel?.username || "user"}
-                      className="w-6 h-6 rounded-full object-cover"
-                    />
-                    <span className="truncate">
-                      {channel?.username || "Unknown"}
-                    </span>
-                  </div>
-                </Link>
-              );
-            })}
+            return (
+              <Link key={item._id} to={`/profile/${channel?.username || ""}`}>
+                <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
+                  <img
+                    src={channel?.avatar || "/default-avatar.png"}
+                    alt={channel?.username || "user"}
+                    className="w-6 h-6 rounded-full object-cover"
+                  />
+                  <span className="truncate">
+                    {channel?.username || "Unknown"}
+                  </span>
+                </div>
+              </Link>
+            );
+          })}
 
         {isOpen && channels.length > 5 && (
-          <p className="text-blue-600 cursor-pointer px-2 text-sm hover:underline">
+          <button className="text-blue-600 px-2 text-sm hover:underline">
             Show more
-          </p>
+          </button>
         )}
-
-        <hr className="my-3" />
 
         {/* You Section */}
         {isOpen && (
@@ -89,7 +78,7 @@ const Sidebar = ({ isOpen }: Props) => {
         <MenuItem icon={<History size={20} />} label="History" isOpen={isOpen} />
         <MenuItem icon={<ListVideo size={20} />} label="Playlists" isOpen={isOpen} />
         <MenuItem icon={<Clock size={20} />} label="Watch later" isOpen={isOpen} />
-        <MenuItem icon={<ThumbsUp size={20} />} label="Liked videos" isOpen={isOpen} />
+        <NavItem to="/liked-videos" icon={<ThumbsUp size={20} />} label="Liked videos" isOpen={isOpen} />
         <MenuItem icon={<Video size={20} />} label="Your videos" isOpen={isOpen} />
         <MenuItem icon={<Download size={20} />} label="Downloads" isOpen={isOpen} />
       </div>
@@ -97,13 +86,33 @@ const Sidebar = ({ isOpen }: Props) => {
   );
 };
 
-interface ItemProps {
+/* Reusable NavItem (Link + MenuItem) */
+const NavItem = ({
+  to,
+  icon,
+  label,
+  isOpen,
+}: {
+  to: string;
   icon: React.ReactNode;
   label: string;
   isOpen: boolean;
-}
+}) => (
+  <Link to={to}>
+    <MenuItem icon={icon} label={label} isOpen={isOpen} />
+  </Link>
+);
 
-const MenuItem = ({ icon, label, isOpen }: ItemProps) => {
+/* Menu Item */
+const MenuItem = ({
+  icon,
+  label,
+  isOpen,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  isOpen: boolean;
+}) => {
   return (
     <div className="flex items-center gap-4 p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition">
       <div className="text-gray-700">{icon}</div>
