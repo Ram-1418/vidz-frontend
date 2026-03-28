@@ -32,11 +32,21 @@ const VideoPage = () => {
     );
 
   return (
-    <div className="px-6 pt-6">
-      <div className=" grid grid-cols-3 gap-4">
-        {videos?.map((video: VideoWithOwner) => (
-          <VideoCard video={video} key={video._id} />
-        ))}
+    <div className="  p-3 sm: sm:px-4 md:px-6  md:pt-6 flex justify-center">
+      <div className="w-full  ">
+        <div
+          className="
+        grid
+        grid-cols-1
+        sm:grid-cols-2
+        md:grid-cols-3
+        gap-x-4 gap-y-6
+      "
+        >
+          {videos?.map((video: VideoWithOwner) => (
+            <VideoCard video={video} key={video._id} />
+          ))}
+        </div>
       </div>
     </div>
   );
