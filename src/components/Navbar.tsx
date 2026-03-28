@@ -1,4 +1,6 @@
 import { Search, Bell, User } from "lucide-react";
+import { Link } from "react-router-dom";
+import ProfileMenu from "./ProfileMenu";
 
 interface Props {
   toggleSidebar: () => void;
@@ -12,7 +14,9 @@ const Navbar = ({ toggleSidebar }: Props) => {
         <button onClick={toggleSidebar} className="text-2xl font-bold">
           ☰
         </button>
-        <h1 className="text-xl font-bold text-red-600">YouTube</h1>
+        <Link to="/video">
+          <h1 className="text-xl font-bold text-red-600">YouTube</h1>
+        </Link>
       </div>
 
       {/* Middle Section */}
@@ -29,8 +33,11 @@ const Navbar = ({ toggleSidebar }: Props) => {
 
       {/* Right Section */}
       <div className="flex items-center gap-6">
-        <Bell className="cursor-pointer" />
-        <User className="cursor-pointer" />
+        <Link to="/tweet">
+          <Bell className="cursor-pointer" />
+        </Link>
+
+        <ProfileMenu />
       </div>
     </nav>
   );
