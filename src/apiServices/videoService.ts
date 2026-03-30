@@ -9,7 +9,7 @@ async function getVideoUploadSignature(): Promise<
     const response = await apiClient.get(`/videos/signature`, {});
     const data = response.data.data as CloudinaryApiSignature;
     return data;
-  } catch (error) {
+  } catch (error:unknown) {
     throw new Error(" Errpr geenerting cloundinary");
   }
 }
