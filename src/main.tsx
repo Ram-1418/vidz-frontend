@@ -7,9 +7,14 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import RegisterForm from "./components/auth/registerForm";
-import Login from "./components/auth/Login";
+
 import App from "./App";
+
+// Layouts
+
+import MainLayout from "./layout/MainLayout.js";
+import AuthLayout from "./layout/AuthLayout.js";
+
 import Home from "./pages/Home";
 import VideoPage from "./pages/videoPage";
 import VideoWatch from "./pages/videoWatch";
@@ -18,26 +23,37 @@ import TweetsPage from "./pages/TweetPage";
 import SubscribedChannelsPage from "./pages/SubscribedChannelsPage";
 import LikedVideosPage from "./pages/LikedVideoPage";
 
+// Auth
+import RegisterForm from "./components/auth/registerForm";
+import Login from "./components/auth/Login";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <>
-      <Route path="/" element={<App />}>
+    <Route path="/" element={<App />}>
+
+      {/* 🔐 MAIN APP (with navbar + sidebar) */}
+      <Route element={<MainLayout />}>
         <Route index element={<Home />} />
-        <Route path="signup" element={<RegisterForm />} />
-        <Route path="login" element={<Login />} />
         <Route path="video" element={<VideoPage />} />
         <Route path="watch/:id" element={<VideoWatch />} />
         <Route path="profile/:username" element={<UserProfile />} />
-        <Route path="/subscriptions" element={<SubscribedChannelsPage />} />
+        <Route path="subscriptions" element={<SubscribedChannelsPage />} />
         <Route path="tweet" element={<TweetsPage />} />
-        <Route path="/liked-videos" element={<LikedVideosPage />} />
+        <Route path="liked-videos" element={<LikedVideosPage />} />
       </Route>
-    </>,
-  ),
+
+ 
+      <Route element={<AuthLayout />}>
+        <Route path="signup" element={<RegisterForm />} />
+        <Route path="login" element={<Login />} />
+      </Route>
+
+    </Route>
+  )
 );
 
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>,
+  </React.StrictMode>
 );
