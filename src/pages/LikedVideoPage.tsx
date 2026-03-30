@@ -11,11 +11,11 @@ const LikedVideosPage = () => {
     });
     if (isLoading) return <p>Loading...</p>;
     const videos = data?.data.likedVideos.filter((item) => !!item?.video);
-    debugger
+
     return (
 
         <div className="p-4 grid grid-cols-3 gap-4">
-            {videos.map((item: any) => (
+            {videos.map((item) => (
                 <VideoCard key={item.likeId} video={item.video} />
             ))}
         </div>
