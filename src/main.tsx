@@ -22,10 +22,13 @@ import UserProfile from "./pages/UserProfile";
 import TweetsPage from "./pages/TweetPage";
 import SubscribedChannelsPage from "./pages/SubscribedChannelsPage";
 import LikedVideosPage from "./pages/LikedVideoPage";
+import DashboardPage from "./pages/DashboardPage.js";
+
 
 // Auth
 import RegisterForm from "./components/auth/registerForm";
 import Login from "./components/auth/Login";
+import VideoUpload from "./components/VideoUpload.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -40,6 +43,8 @@ const router = createBrowserRouter(
         <Route path="subscriptions" element={<SubscribedChannelsPage />} />
         <Route path="tweet" element={<TweetsPage />} />
         <Route path="liked-videos" element={<LikedVideosPage />} />
+        <Route path="/dashboard"  element={<DashboardPage/>}/>
+        <Route path="/videoUpload"  element={<VideoUpload/>}/>
       </Route>
 
  
