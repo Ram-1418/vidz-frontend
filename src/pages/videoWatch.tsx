@@ -6,6 +6,7 @@ import { toggleSubscription } from "@/apiServices/subscritionServic";
 import { useEffect, useState } from "react";
 import { ThumbsUp, Share2 } from "lucide-react";
 import VideoComments from "@/components/videos/VideoComments";
+import { addToWatchHistory } from "@/apiServices/userAuth";
 
 const VideoWatch = () => {
   const { id } = useParams();
@@ -26,8 +27,19 @@ const VideoWatch = () => {
       setIsLiked(video.isLiked);
       setLikeCount(video.likes);
       setIsSubscribed(video.owner.isSubscribed);
+      addToWatchHistory(video._id)
     }
   }, [video]);
+
+  useEffect(()=>{
+    if (!video?._id) return;
+
+    const timer=setTimeout(()=>{
+      addToWatchHistory(video._id);
+    },5000);
+
+    return ()=>clearTimeout(timer);
+  },[video])
 
   const handleLike = async () => {
     try {
