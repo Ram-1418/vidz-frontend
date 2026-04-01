@@ -164,14 +164,26 @@ const changePassword = async (data: any) => {
 
 const getUserWatchHistory = async () => {
   try {
-    const response = await apiClient.get(
-      `/watch-history`,
+    const { data } = await apiClient.get("/users/watch-history", {
+      withCredentials: true,
+    });
+    return data;
+  } catch (error: any) {
+    console.error("Error fetching watch history:", error?.response?.data || error.message);
+    throw error;
+  }
+};
 
-      { withCredentials: true },
+export const addToWatchHistory = async (videoId: string) => {
+  try {
+    const { data } = await apiClient.post(
+      `/users/watch-history/add/${videoId}`,
+      {},
+      { withCredentials: true }
     );
-    return response.data;
-  } catch (error) {
-    console.log("error", error);
+    return data;
+  } catch (error: any) {
+    console.error("Error adding to history:", error?.response?.data || error.message);
     throw error;
   }
 };
@@ -185,7 +197,7 @@ const getUserChannelProfile = async (username: string) => {
       "Error fetching channel profile",
       error.response?.data || error,
     );
-    throw error;
+    throw error;  
   }
 };
 
