@@ -23,6 +23,7 @@ import TweetsPage from "./pages/TweetPage";
 import SubscribedChannelsPage from "./pages/SubscribedChannelsPage";
 import LikedVideosPage from "./pages/LikedVideoPage";
 import DashboardPage from "./pages/DashboardPage.js";
+import WatchHistoryPage from "./pages/WatchHistoryPage.js";
 
 
 // Auth
@@ -45,6 +46,7 @@ const router = createBrowserRouter(
         <Route path="liked-videos" element={<LikedVideosPage />} />
         <Route path="/dashboard"  element={<DashboardPage/>}/>
         <Route path="/videoUpload"  element={<VideoUpload/>}/>
+          <Route path="/watchhistory"  element={<WatchHistoryPage/>}/>
       </Route>
 
  
