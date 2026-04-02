@@ -1,14 +1,12 @@
-import { AxiosError } from "axios";
-
-function handleError(error: unknown) {
-  let message = "";
-  if (error instanceof AxiosError) {
-    message = error.message;
-  } else if (error instanceof Error) {
-    message = error.message;
+import axios from "axios";
+export const handleError = (error: unknown) => {
+  if (axios.isAxiosError(error)) {
+    return error.response?.data?.message || "API Error";
   }
 
-  return message;
-}
+  if (error instanceof Error) {
+    return error.message;
+  }
 
-export default handleError;
+  return "Something went wrong";
+};

@@ -24,6 +24,7 @@ import SubscribedChannelsPage from "./pages/SubscribedChannelsPage";
 import LikedVideosPage from "./pages/LikedVideoPage";
 import DashboardPage from "./pages/DashboardPage.js";
 import WatchHistoryPage from "./pages/WatchHistoryPage.js";
+import SettingsPage from "./pages/SettingsPage.js";
 
 
 // Auth
@@ -47,6 +48,7 @@ const router = createBrowserRouter(
         <Route path="/dashboard"  element={<DashboardPage/>}/>
         <Route path="/videoUpload"  element={<VideoUpload/>}/>
           <Route path="/watchhistory"  element={<WatchHistoryPage/>}/>
+          <Route path="/settings" element={<SettingsPage />} />
       </Route>
 
  
