@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 const ProfileMenu = () => {
     const [open, setOpen] = useState(false);
 
-    const { data: user, isLoading } = useQuery({
+    const { data: user } = useQuery({
         queryKey: ["currentUser"],
         queryFn: getCurrentUser,
     });
@@ -18,7 +18,8 @@ const ProfileMenu = () => {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
 
-
+     console.log('user', user)
+   
     const logoutMuation = useMutation({
         mutationFn: logoutUser,
 
@@ -40,9 +41,13 @@ const ProfileMenu = () => {
             {/* Avatar */}
             <div
                 onClick={() => setOpen(!open)}
-                className="w-10 h-10 bg-purple-600 text-white flex items-center justify-center rounded-full cursor-pointer"
+                className="w-10 h-10  text-white flex items-center justify-center rounded-full cursor-pointer"
             >
-                {user?.name?.charAt(0) || "U"}
+            <img
+  src={user?.avatar}
+  alt="user avatar"
+  className="w-12 h-12 rounded-full object-cover border-2 border-gray-200 shadow-sm hover:scale-105 transition-transform duration-200"
+/>
             </div>
 
             {/* Dropdown */}
@@ -52,13 +57,19 @@ const ProfileMenu = () => {
                     <p className="text-sm text-gray-400">@{user?.username}</p>
 
                     <div className="mt-3 flex flex-col gap-2">
-                        <button className="hover:bg-gray-800 p-2 rounded text-left">
-                            View your channel
-                        </button>
+                      <p>{user.fullName}</p>
 
-                        <button className="hover:bg-gray-800 p-2 rounded text-left">
-                            Settings
-                        </button>
+                        
+
+                        <button
+  onClick={() => {
+    setOpen(false);
+    navigate("/settings");
+  }}
+  className="hover:bg-gray-800 p-2 rounded text-left"
+>
+  Settings
+</button>   
 
                         <button
                             onClick={() => logoutMuation.mutate()}
