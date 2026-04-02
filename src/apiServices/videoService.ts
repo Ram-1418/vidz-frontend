@@ -1,6 +1,7 @@
 import { apiClient } from "@/lib/apiClient";
 import { CloudinaryApiSignature } from "@/types/uploader.types";
 import { VideoUploadParams } from "@/types/video.types";
+import { handleError } from "@/lib/hadleError";
 
 async function getVideoUploadSignature(): Promise<
   CloudinaryApiSignature | undefined
@@ -10,8 +11,8 @@ async function getVideoUploadSignature(): Promise<
     const data = response.data.data as CloudinaryApiSignature;
     return data;
   } catch (error:unknown) {
-    throw new Error(" Errpr geenerting cloundinary");
-  }
+throw new Error(handleError(error));
+}
 }
 async function uploadVideoToCloudinary(
   videoFile: File,
@@ -34,10 +35,9 @@ async function uploadVideoToCloudinary(
       },
     });
     return response.data;
-  } catch (error) {
-    console.log(` error while uploadin on clodniary${error}`);
-    return error;
-  }
+  } catch (error:unknown) {
+throw new Error(handleError(error));
+}
 }
 async function uploadImageToCloudinary(
   imageFile: File,
@@ -56,10 +56,9 @@ async function uploadImageToCloudinary(
 
     const response = await apiClient.post(cloudinaryUrl, formData);
     return response.data;
-  } catch (error) {
-    console.error("Error uploading image to Cloudinary", error);
-    throw error;
-  }
+  } catch (error:unknown) {
+throw new Error(handleError(error));
+}
 }
 
 async function uploadVideo({
@@ -83,10 +82,9 @@ async function uploadVideo({
     const response = await apiClient.post("/videos/publish/direct", formData);
 
     return response.data;
-  } catch (error) {
-    console.error("Error in uploadVideo:", error);
-    throw error;
-  }
+  } catch (error:unknown) {
+throw new Error(handleError(error));
+}
 }
 
 async function getAllVideo() {
@@ -94,36 +92,27 @@ async function getAllVideo() {
     const response = await apiClient.get("/videos?limit=100");
     console.log("response.data", response.data);
     return response.data.data.docs;
-  } catch (error) {
-    console.log("Error fetching videos:", error);
-    throw error;
-  }
+  } catch (error:unknown) {
+throw new Error(handleError(error));
+}
 }
 async function deleteVideo(videoId: string) {
   try {
     const response = await apiClient.delete(`/videos/${videoId}`);
 
     return response.data;
-  } catch (error: any) {
-    console.error(
-      "Error deleting video:",
-      error.response?.data || error.message,
-    );
-    throw error.response?.data || error;
-  }
+  } catch (error:unknown) {
+throw new Error(handleError(error));
+}
 }
 async function togglePublishStatus(videoId: string) {
   try {
     const response = await apiClient.patch(`/videos/${videoId}/toggle-publish`);
 
     return response.data; // return the backend response
-  } catch (error: any) {
-    console.error(
-      "Error toggling publish status:",
-      error.response?.data || error.message,
-    );
-    throw error.response?.data || error;
-  }
+  } catch (error:unknown) {
+throw new Error(handleError(error));
+}
 }
 async function updateVideo(videoId: string, videoData: any) {
   try {
@@ -138,20 +127,18 @@ async function updateVideo(videoId: string, videoData: any) {
     const respone = await apiClient.patch(`/videos/${videoId}`, formData);
 
     return respone.data;
-  } catch (error: any) {
-    console.log("Error updating video", error.respone?.data || error.message);
-    throw error.respone?.data || error;
-  }
+  } catch (error:unknown) {
+throw new Error(handleError(error));
+}
 }
 
 async function getCloudinaryApiSignature() {
   try {
     const respone = await apiClient.get(`/videos/signature`, {});
     return respone.data;
-  } catch (error) {
-    console.log("error", error);
-    throw error;
-  }
+  }catch (error:unknown) {
+throw new Error(handleError(error));
+}
 }
 
 async function getVideoById(videoId: string) {
@@ -159,10 +146,9 @@ async function getVideoById(videoId: string) {
     const response = await apiClient.get(`/videos/${videoId}`);
     console.log("response", response);
     return response.data.data?.video;
-  } catch (error) {
-    console.log("error", error);
-    throw error;
-  }
+  } catch (error:unknown) {
+throw new Error(handleError(error));
+}
 }
 export async function getAllVideosByUserId(userId: string) {
   try {
@@ -175,10 +161,9 @@ export async function getAllVideosByUserId(userId: string) {
 
     console.log("response.data", response.data);
     return response.data.data.docs;
-  } catch (error) {
-    console.log("Error fetching videos:", error);
-    throw error;
-  }
+  } catch (error:unknown) {
+throw new Error(handleError(error));
+}
 }
 
 export {
