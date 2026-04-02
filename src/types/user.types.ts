@@ -4,5 +4,7 @@ export type User = {
   email: string;
   fullName: string;
   avatar: string;
-  coverImage?: string;
+  coverImage: string;
+  createdAt: string;
+  updatedAt: string;
 };
