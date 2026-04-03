@@ -1,5 +1,5 @@
 import { apiClient } from "@/lib/apiClient";
-import handleError from "@/lib/hadleError";
+import { handleError } from "@/lib/hadleError";
 
 export const getVideoComments = async (
   videoId: string,
@@ -11,22 +11,18 @@ export const getVideoComments = async (
       `/comments/${videoId}?page=${page}&limit=${limit}`,
     );
     return response.data?.data;
-  } catch (error) {
-    const message = handleError(error);
-    console.error("Error adding comment:", message || error);
-    throw new Error(message || "Failed to add comment");
-  }
+  } catch (error:unknown) {
+throw new Error(handleError(error));
+}
 };
 
 export const addComment = async (videoId: string, comment: string) => {
   try {
     const response = await apiClient.post(`/comments/${videoId}`, { comment });
     return response.data.data;
-  } catch (error) {
-    const message = handleError(error);
-    console.error("Error adding comment:", message || error);
-    throw new Error(message || "Failed to add comment");
-  }
+  }catch (error:unknown) {
+throw new Error(handleError(error));
+}
 };
 
 export const updateComment = async (commentId: string, comment: string) => {
@@ -35,20 +31,16 @@ export const updateComment = async (commentId: string, comment: string) => {
       comment,
     });
     return respone.data;
-  } catch (error) {
-    const message = handleError(error);
-    console.error("Error adding comment:", message || error);
-    throw new Error(message || "Failed to add comment");
-  }
+  } catch (error:unknown) {
+throw new Error(handleError(error));
+}
 };
 
 export const deleteComment = async (commentId: string) => {
   try {
     const response = await apiClient.delete(`/comments/c/${commentId}`);
     return response.data;
-  } catch (error) {
-    const message = handleError(error);
-    console.error("Error deleting comment:", message || error);
-    throw new Error(message || "Failed to delete comment");
-  }
+  } catch (error:unknown) {
+throw new Error(handleError(error));
+}
 };
