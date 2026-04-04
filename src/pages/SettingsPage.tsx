@@ -8,18 +8,19 @@ import ChangePassword from "@/components/ChangePassword";
 
 const SettingsPage = () => {
 
-    const {data}=useQuery({
+    const {data:user}=useQuery({
         queryKey:["currentuser"],
         queryFn:getCurrentUser
     });
     
-    const user=data?.data;
-
+    // if(isLoading){
+    //   return <Loader></Loader>
+    // }
   return (  
     <div className="max-w-3xl mx-auto p-4 space-y-6">
         <h1 className="text-2xl fond-bold">Account Setting</h1>
 
-        <AvatarUpload  user={user}/>
+        <AvatarUpload  avatar={user?.avatar}/>
         <ProfileForm user={user}/>
         <ChangePassword/>
     </div>

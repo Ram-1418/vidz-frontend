@@ -75,11 +75,15 @@ const Sidebar = ({ isOpen }: Props) => {
           <p className="font-semibold text-gray-700 px-2 text-sm">You</p>
         )}
 
+       <Link to="/watchhistory">
         <MenuItem icon={<History size={20} />} label="History" isOpen={isOpen} />
+       </Link>
         <MenuItem icon={<ListVideo size={20} />} label="Playlists" isOpen={isOpen} />
         <MenuItem icon={<Clock size={20} />} label="Watch later" isOpen={isOpen} />
         <NavItem to="/liked-videos" icon={<ThumbsUp size={20} />} label="Liked videos" isOpen={isOpen} />
-        <MenuItem icon={<Video size={20} />} label="Your videos" isOpen={isOpen} />
+          <Link to="/dashboard">
+                  <MenuItem   icon={<Video size={20} />} label="Your videos" isOpen={isOpen} />
+          </Link>
         <MenuItem icon={<Download size={20} />} label="Downloads" isOpen={isOpen} />
       </div>
     </aside>
