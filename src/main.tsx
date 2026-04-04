@@ -31,7 +31,7 @@ import SettingsPage from "./pages/SettingsPage.js";
 import RegisterForm from "./components/auth/registerForm";
 import Login from "./components/auth/Login";
 import VideoUpload from "./components/VideoUpload.js";
-import ChannelPage from "./pages/ChannelPage.js";
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -50,7 +50,7 @@ const router = createBrowserRouter(
         <Route path="/videoUpload"  element={<VideoUpload/>}/>
           <Route path="/watchhistory"  element={<WatchHistoryPage/>}/>
           <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/channelPage/:username" element={<ChannelPage />} />
+        
       </Route>
 
  
