@@ -1,20 +1,40 @@
 import { VideoWithOwner } from "@/types/video.types";
 import { useNavigate } from "react-router-dom";
-
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteVideo } from "@/apiServices/videoService";
+import { MoreHorizontal } from "lucide-react";
+import { useState } from "react";
 type VideoCardProps = {
   video: VideoWithOwner;
 };
 
 const VideoCard = ({ video }: VideoCardProps) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [open, setOpen] = useState(false)
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteVideo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["videos"] })
+    }
+  })
+
+  const handleDelte = (videoId: string) => {
+    deleteMutation.mutate(videoId)
+  }
 
   return (
     <div
-      onClick={() => navigate(`/watch/${video._id}`)}
-      className="cursor-pointer group w-full"
+      // onClick={() => navigate(`/watch/${video._id}`)}
+      // className="cursor-pointer group w-full"
     >
       {/* Thumbnail */}
-      <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black">
+      <div 
+       onClick={() => navigate(`/watch/${video._id}`)}
+      className="relative  aspect-video rounded-xl overflow-hidden bg-black cursor-pointer group w-full">
+        
+        
         <img
           src={video.thumbnail}
           alt={video.title}
@@ -50,7 +70,33 @@ const VideoCard = ({ video }: VideoCardProps) => {
             {video.views} views
           </p>
         </div>
+       
       </div>
+
+      <div className="flex ">
+        <div className="relative">
+          <MoreHorizontal
+            onClick={() => setOpen(!open)}
+            e
+            className="w-5 h-5 cursor-pointer"
+          />
+
+          {open && (
+            <div className="absolute right-0 mt-2 w-32 bg-white shadow-lg rounded-md">
+              <button className="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                Edit
+              </button>
+              <button 
+              onClick={()=>handleDelte(video._id)}
+              className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-red-500">
+                
+                Delete
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+       
     </div>
   );
 };

@@ -1,13 +1,9 @@
 import { updateUserAvatar } from "@/apiServices/userAuth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { User } from "@/types/user.types";
 
-type Props = {
-  user: User;
-};
 
-const AvatarUpload = ({ user }: Props) => {
+const AvatarUpload = ({ avatar }: {avatar:string}) => {
   const [file, setFile] = useState<File | null>(null);
   const queryClient = useQueryClient();
 
@@ -28,7 +24,6 @@ const AvatarUpload = ({ user }: Props) => {
     mutation.mutate(formData);
   };
 
-  console.log(user?.avatar);
 
   return (
     <div className=" p-6 rounded-xl shadow-md flex items-center gap-6">
@@ -38,7 +33,7 @@ const AvatarUpload = ({ user }: Props) => {
       <div className="relative">
         
         <img
-          src={ user?.avatar}
+          src={ avatar}
           alt="avatar"
           className="w-24 h-24 rounded-full object-cover border-2 border-gray-700"
         />
