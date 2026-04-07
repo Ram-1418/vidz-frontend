@@ -1,6 +1,6 @@
 
 
-const ChannelCard = ({ channel }: any) => {
+const ChannelCard = ({ channel }) => {
     return (
         <div className='flx items-center gap-3 border p-3 rounded-lg'>
             <img
@@ -15,4 +15,4 @@ const ChannelCard = ({ channel }: any) => {
     )
 }
 
-export default ChannelCard
+export default ChannelCard;
