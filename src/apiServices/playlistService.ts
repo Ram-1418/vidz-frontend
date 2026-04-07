@@ -1,6 +1,6 @@
 import { apiClient } from "@/lib/apiClient";
 
-import handleError from "@/lib/hadleError";
+import { handleError } from "@/lib/hadleError";
 
 async function createPlaylist(playlistData: string) {
   try {

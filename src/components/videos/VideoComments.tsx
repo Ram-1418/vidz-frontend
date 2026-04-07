@@ -27,7 +27,7 @@ const VideoComments = ({ video }: VideoCommentsProps) => {
 
   const [likedMap, setLikedMap] = useState<Record<string, boolean>>({});
 
-  // ✅ Fetch Comments
+
   const {
     data: commentsData,
     isLoading,

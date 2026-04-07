@@ -1,6 +1,6 @@
 import StatsCard from "./StatsCard";
 
-const StatsSection = ({ stats }) => {
+const StatsSection = ({ stats }: any) => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       <StatsCard title="Videos" value={stats.totalVideos} />

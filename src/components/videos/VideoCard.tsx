@@ -26,15 +26,15 @@ const VideoCard = ({ video }: VideoCardProps) => {
 
   return (
     <div
-      // onClick={() => navigate(`/watch/${video._id}`)}
-      // className="cursor-pointer group w-full"
+    // onClick={() => navigate(`/watch/${video._id}`)}
+    // className="cursor-pointer group w-full"
     >
       {/* Thumbnail */}
-      <div 
-       onClick={() => navigate(`/watch/${video._id}`)}
-      className="relative  aspect-video rounded-xl overflow-hidden bg-black cursor-pointer group w-full">
-        
-        
+      <div
+        onClick={() => navigate(`/watch/${video._id}`)}
+        className="relative  aspect-video rounded-xl overflow-hidden bg-black cursor-pointer group w-full">
+
+
         <img
           src={video.thumbnail}
           alt={video.title}
@@ -70,14 +70,14 @@ const VideoCard = ({ video }: VideoCardProps) => {
             {video.views} views
           </p>
         </div>
-       
+
       </div>
 
       <div className="flex ">
         <div className="relative">
           <MoreHorizontal
             onClick={() => setOpen(!open)}
-            e
+
             className="w-5 h-5 cursor-pointer"
           />
 
@@ -86,17 +86,17 @@ const VideoCard = ({ video }: VideoCardProps) => {
               <button className="block w-full text-left px-4 py-2 hover:bg-gray-100">
                 Edit
               </button>
-              <button 
-              onClick={()=>handleDelte(video._id)}
-              className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-red-500">
-                
+              <button
+                onClick={() => handleDelte(video._id)}
+                className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-red-500">
+
                 Delete
               </button>
             </div>
           )}
         </div>
       </div>
-       
+
     </div>
   );
 };

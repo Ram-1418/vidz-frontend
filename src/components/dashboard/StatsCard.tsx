@@ -1,4 +1,4 @@
-const StatsCard = ({ title, value }) => {
+const StatsCard = ({ title, value }: any) => {
   return (
     <div className="bg-white shadow rounded-xl p-4">
       <h3 className="text-gray-500">{title}</h3>

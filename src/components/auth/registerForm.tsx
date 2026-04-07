@@ -36,7 +36,7 @@ const RegisterForm = () => {
       <div className="hidden md:flex flex-col justify-center items-center bg-gradient-to-br from-pink-600 via-red-500 to-purple-700 p-12">
         <div className="max-w-md text-center">
           <h1 className="text-5xl font-extrabold mb-4 text-black">
-            Vidz 
+            Vidz
           </h1>
           <p className="text-lg opacity-25 leading-relaxed">
             Build, upload, and share your creativity with the world. Join us and
@@ -134,7 +134,10 @@ const RegisterForm = () => {
                 accept="image/*"
                 onChange={(e) => {
                   const file = e.target.files?.[0];
-                  setValue("avatar", file, { shouldValidate: true });
+
+                  if (file) {
+                    setValue("avatar", file, { shouldValidate: true });
+                  }
                 }}
                 className="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 
                 file:rounded-md file:border-0 file:font-semibold file:bg-neutral-800 file:text-pink-400 

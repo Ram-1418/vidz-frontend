@@ -5,6 +5,7 @@ export interface CommentOwner {
 }
 
 export interface Comment {
+  isLiked: boolean;
   _id: string;
   content: string;
   createdAt: string;

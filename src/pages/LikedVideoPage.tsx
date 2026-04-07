@@ -10,12 +10,12 @@ const LikedVideosPage = () => {
         queryFn: () => getLikedVideos(1, 10),
     });
     if (isLoading) return <p>Loading...</p>;
-    const videos = data?.data.likedVideos.filter((item) => !!item?.video);
+    const videos = data?.data.likedVideos.filter((item: any) => !!item?.video);
 
     return (
 
         <div className="p-4 grid grid-cols-3 gap-4">
-            {videos.map((item) => (
+            {videos.map((item: any) => (
                 <VideoCard key={item.likeId} video={item.video} />
             ))}
         </div>
